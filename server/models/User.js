@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
 
-// import schema from Book.js
+// import portfolio schema
 const portfolioSchema = require('./Portfolio');
 
 const userSchema = new Schema(
@@ -10,6 +10,14 @@ const userSchema = new Schema(
       type: String,
       required: true,
       unique: true,
+    },
+    firstName: {
+      type: String,
+      required: true,
+    },
+    lastName: {
+      type: String,
+      required: true,
     },
     email: {
       type: String,
@@ -21,7 +29,7 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    portfolios: [Portfolio],
+    portfolios: [portfolioSchema],
   },
   {
     toJSON: {
