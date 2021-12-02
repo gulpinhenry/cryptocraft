@@ -1,8 +1,8 @@
-const { Schema, model } = require('mongoose');
-const bcrypt = require('bcrypt');
+const { Schema, model } = require("mongoose");
+const bcrypt = require("bcrypt");
 
-// import schema from Book.js
-const portfolioSchema = require('./Portfolio');
+// import portfolio schema
+const portfolioSchema = require("./Portfolio");
 
 const userSchema = new Schema(
   {
@@ -11,17 +11,19 @@ const userSchema = new Schema(
       required: true,
       unique: true,
     },
-    email: {
+    firstName: {
       type: String,
       required: true,
-      unique: true,
-      match: [/.+@.+\..+/, 'Must use a valid email address'],
+    },
+    lastName: {
+      type: String,
+      required: true,
     },
     password: {
       type: String,
       required: true,
     },
-    portfolios: [Portfolio],
+    portfolios: [portfolioSchema],
   },
   {
     toJSON: {
@@ -31,8 +33,8 @@ const userSchema = new Schema(
 );
 
 // hash user password
-userSchema.pre('save', async function (next) {
-  if (this.isNew || this.isModified('password')) {
+userSchema.pre("save", async function (next) {
+  if (this.isNew || this.isModified("password")) {
     const saltRounds = 10;
     this.password = await bcrypt.hash(this.password, saltRounds);
   }
@@ -45,11 +47,7 @@ userSchema.methods.isCorrectPassword = async function (password) {
   return bcrypt.compare(password, this.password);
 };
 
-// when we query a user, we'll also get another field called `bookCount` with the number of saved books we have
-userSchema.virtual('bookCount').get(function () {
-  return this.savedBooks.length;
-});
 
-const User = model('User', userSchema);
+const User = model("User", userSchema);
 
 module.exports = User;
