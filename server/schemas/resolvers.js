@@ -1,5 +1,5 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User, Book } = require('../models');
+const { User, Portfolio, Crypto } = require('../models');
 const { signToken } = require('../utils/auth');
 
 const resolvers = {
@@ -34,6 +34,48 @@ const resolvers = {
             
             return { token, user };
         },
+        addPortfolio: async (parent, { name, usdBalance }, context) => {
+            if (context.user) {
+                const portfolio = await Portfolio.create({
+                    name,
+                    usdBalance
+                });
+
+                await User.findOneAndUpdate(
+                    { _id: context.user._id },
+                    { $addToSet: { portfolios: portfolio } },
+                    { new: true, runValidators: true }
+                )
+            }
+            throw new AuthenticationError('You need to be logged in')
+        },
+        removePortfolio: async (parent, { portfolioId }, context) => {
+            if (context.user) {
+                const portfolio = await Portfolio.findOneAndDelete({
+                    _id: portfolioId
+                });
+
+                await User.findOneAndUpdate(
+                    { _id: context.user._id },
+                    { $pull: { portfolios: portfolio._id } }
+                )
+
+                return portfolio;
+            }
+            throw new AuthenticationError('You need to be logged in');
+        },
+        // buyCrypto: async (parent, { portfolioId, ticker }, context) => {
+        //     if (context.user) {
+
+
+        //         return Portfolio.findOneAndUpdate(
+        //             { _id: portfolioId },
+        //             {
+        //                 $addToSet: ''
+        //             }
+        //         )
+        //     }
+        // }
     }
 }
 
