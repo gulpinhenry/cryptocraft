@@ -38,9 +38,10 @@ db.once('open', () => {
 });
 
 // getAllMarkets();
-// getSingleMarketPrice();
+// getSingleMarketPrice("coinbase-pro", "btcusd");
+// getSingleMarketPrice("binance", "btcbusd");
 // getAllMarketPrices();
-// getMarketDetails();
+// getMarketDetails("binance", "btcbusd");
 // getAll24HourSummary();
 // getSingle24HourSummary();
-// getOHLCcandlesticks();
+// getOHLCcandlesticks("binance", "btcbusd");
