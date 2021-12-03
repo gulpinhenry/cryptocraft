@@ -5,12 +5,10 @@ const { signToken } = require('../utils/auth');
 const resolvers = {
     Query: {
         me: async (parent, args, context) => {
-            // if (context.user) {
-                // return User.findOne({ _id: context.user._id });
-                console.log(args.id + "hi");
-                return User.findOne({ _id: args.id });
-            // }
-            // throw new AuthenticationError('You need to be logged in!');
+            if (context.user) {
+                return User.findOne({ _id: context.user._id });
+            }
+            throw new AuthenticationError('You need to be logged in!');
         },
         users: async (parent, args, context) => {
            
