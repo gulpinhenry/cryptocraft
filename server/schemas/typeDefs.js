@@ -13,22 +13,22 @@ const typeDefs = gql`
         _id: ID!
         name: String
         cryptos: [Crypto]
-        usdBalance: Number
-        cryptoBalance: Number
-        historicalBalance: [Number]
-        gain: Number
+        usdBalance: Float
+        cryptoBalance: Float
+        historicalBalance: [Float]
+        gain: Float
     }
 
     type Crypto {
         _id: ID!
         ticker: String!
         name: String!
-        quantity: Number
-        investment: Number
-        currentPrice: Number
-        minutelyPrice: [Number]
-        hourlyPrice: [Number]
-        weeklyPrice: [Number]
+        quantity: Float
+        investment: Float
+        currentPrice: Float
+        minutelyPrice: [Float]
+        hourlyPrice: [Float]
+        weeklyPrice: [Float]
     }
 
     type Auth {
@@ -49,9 +49,10 @@ const typeDefs = gql`
     type Mutation {
         addUser(username: String!, email: String!, password: String!): Auth
         login(email: String!, password: String!): Auth
-        addPortfolio(name: String, usdBalance: Number!): Portfolio
-        buyCrypto(ticker: String!, quantity: Number!, investment: Number!): Portfolio
-        sellCrypto(ticker: String!, quantity: Number!): Portfolio
+        addPortfolio(name: String, usdBalance: Float!): Portfolio
+        removePortfolio(portfolioId: ID!): Portfolio
+        buyCrypto(ticker: String!, quantity: Float!, investment: Float!): Portfolio
+        sellCrypto(ticker: String!, quantity: Float!): Portfolio
     }
 `;
 
