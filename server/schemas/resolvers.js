@@ -64,18 +64,56 @@ const resolvers = {
             }
             throw new AuthenticationError('You need to be logged in');
         },
-        // buyCrypto: async (parent, { portfolioId, ticker }, context) => {
-        //     if (context.user) {
+        buyCrypto: async (parent, { portfolioId, ticker, quantity, investment }, context) => {
+            if (context.user) {
+                const crypto = Portfolio.findOne({
+                    _id: portfolioId,
+                    cryptos: {
+                        $elemMatch: { ticker: ticker }
+                    }
+                });
 
+                // need portfolio id in crypto model??
+                if (!crypto) {
+                    const newCrypto = await Crypto.create({
+                        ticker: ticker,
+                        quantity: quantity,
+                        investment: investment
+                    })
 
-        //         return Portfolio.findOneAndUpdate(
-        //             { _id: portfolioId },
-        //             {
-        //                 $addToSet: ''
-        //             }
-        //         )
-        //     }
-        // }
+                    return Portfolio.findOneAndUpdate(
+                        { _id: portfolioId },
+                        { $addToSet: { cryptos: newCrypto } }
+                    )
+                }
+
+                const updatedCrypto = await Crypto.findOneAndUpdate(
+                    { ticker: ticker },
+                    { quantity: { $sum: this.quantity + quantity } },
+                    { investment: { $sum: this.investment + investment } }
+                );
+
+                return Portfolio.findOneAndUpdate(
+                    { _id: portfolioId },
+                    { $addToSet: { cryptos: updatedCrypto } } // change it to set or update
+                )
+            }
+            throw new AuthenticationError('You need to be logged in');
+        },
+        sellCrypto: async (parent, { portfolioId, ticker, quantity, investment }, context) => {
+            if (context.user) {
+                const updatedCrypto = await Crypto.findOneAndUpdate(
+                    { ticker: ticker },
+                    { quantity: { $sum: this.quantity - quantity } },
+                    { investment: { $sum: this.investment - investment } } // needs to change
+                );
+
+                return Portfolio.findOneAndUpdate(
+                    { _id: portfolioId },
+                    { $addToSet: { cryptos: updatedCrypto } } // change it to set or update
+                );
+            }
+        }
     }
 }
 
