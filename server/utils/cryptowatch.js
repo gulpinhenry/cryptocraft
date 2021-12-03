@@ -1,7 +1,9 @@
 const axios = require("axios");
+const { JsonWebTokenError } = require("jsonwebtoken");
 require('dotenv').config();
 const baseUrl = 'https://api.cryptowat.ch/';
-const apiKey1 = `?apikey=${process.env.API_KEY1}`;  // API credit allowance of 10 per day 
+// const apiKey1 = `?apikey=${process.env.API_KEY1}`;  // API credit allowance of 10 per day 
+const apiKey1 = `?apikey=NHUQDGN12WOLCYB079MA`;
 // const apiKey2 = `?apikey=${process.env.API_KEY2}`; // API credit allowance of 10 per day
 const apiKey2 = ``; // API credit allowance of 10 per day -- CURRENTLY ANON KEY
 
@@ -22,8 +24,13 @@ async function getAllMarkets() { // API credit cost .003
     // let query = `${baseUrl}markets${getRandomAPIkey()}`;
     let query = `${baseUrl}markets${apiKey1}`;
 
-    const response = await axios.get(query);
-    console.log(response.data);
+    const response = await axios.get(query, {
+        parameters: {
+            _limit: 10
+        }
+    }
+    );
+    console.log(response.data.result[0]);
 }
 
 // GET ALL MARKETS-DETAILS
@@ -92,6 +99,29 @@ async function getOHLCcandlesticks(exchange, pair) { // API credit cost 0.015
     const response = await axios.get(query);
     console.log(response.data);
 }
+
+//GET SINGLE OHLC CANDLESTICKS FOR 
+async function getOHLCcandlesticks(exchange, pair) { // API credit cost 0.015
+    // let query = `${baseUrl}markets/${exchange}/${pair}/ohlc${getRandomAPIkey()}`;
+    let query = `${baseUrl}markets/${exchange}/${pair}/ohlc${apiKey1}`;
+
+    const response = await axios.get(query);
+
+    const candleData = response.data.result;
+
+    const minute = candleData[Object.keys(candleData)[0]];
+    const hour = candleData[Object.keys(candleData)[5]];
+    const day = candleData[Object.keys(candleData)[10]];
+    const week = candleData[Object.keys(candleData)[12]];
+    console.log(minute) // 
+    console.log('------------------')
+    // console.log(hour) //one month ago 
+    // console.log('------------------')
+    // console.log(day) //789 two years ago 
+    // console.log('------------------')
+    // console.log(week) //two years ago 
+}
+
 
 
 module.exports = { getAllMarketPrices, getSingleMarketPrice, getAllMarkets, getMarketDetails, getAll24HourSummary, getSingle24HourSummary, getOHLCcandlesticks };
