@@ -2,7 +2,7 @@ const { Schema, model } = require("mongoose");
 const bcrypt = require("bcrypt");
 
 // import portfolio schema
-const portfolioSchema = require("./Portfolio");
+// const portfolioSchema = require("./Portfolio");
 
 const userSchema = new Schema(
   {
@@ -23,7 +23,10 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    portfolios: [portfolioSchema],
+    portfolios: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Portfolio'
+    }],
   },
   {
     toJSON: {

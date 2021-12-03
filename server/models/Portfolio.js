@@ -1,6 +1,6 @@
-const { Schema } = require("mongoose");
+const { Schema, model } = require("mongoose");
 
-const cryptoSchema = require("./Crypto");
+// const cryptoSchema = require("./Crypto");
 
 // This is a subdocument schema, it won't become its own model but we'll use it as the schema for the User's `portfolio` array in User.js
 const portfolioSchema = new Schema(
@@ -14,15 +14,18 @@ const portfolioSchema = new Schema(
     usdBalance: {
       type: Number,
       default: 1000000,
-      required: true,
+      //required: true,
     },
     // used to log the changes in balance from market shifts
     historicalBalance: {
-      type: [Number],
-      required: true,
+      type: Array,
+      default: []
     },
 
-    cryptos: [cryptoSchema],
+    cryptos: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Crypto'
+    }],
   },
   {
     toJSON: {
@@ -42,5 +45,5 @@ portfolioSchema.virtual("cryptoBalance").get(function () {
   return this.cryptos.length; //change this
 });
 
-
-module.exports = portfolioSchema;
+const Portfolio = model("Portfolio", portfolioSchema);
+module.exports = Portfolio;
