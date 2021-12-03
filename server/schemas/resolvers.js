@@ -9,6 +9,10 @@ const resolvers = {
                 return User.findOne({ _id: context.user._id });
             }
             throw new AuthenticationError('You need to be logged in!');
+        },
+        users: async (parent, args, context) => {
+           
+                return User.find({});
         }
     },
     Mutation: {

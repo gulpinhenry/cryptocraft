@@ -1,0 +1,43 @@
+[
+    {
+        "name": "Bitcoin",
+        "ticker": "BTC",
+        "quantity": 0.3,
+        "investment": 15000,
+        "currentPrice": 50000
+    },
+    {
+        "name": "Ethereum",
+        "ticker": "ETH",
+        "quantity": 40,
+        "investment": 156000,
+        "currentPrice": 4500,
+        "minutelyPrice": [4469,4589,4600,4520],
+        "hourlyPrice": [4275,4265,4100,4634],
+        "weeklyPrice": [3900,4200,3100]
+    },
+    {
+        "name": "Bitcoin",
+        "ticker": "BTC",
+        "quantity": 2,
+        "investment": 80000,
+        "currentPrice": 50000
+    },
+    {
+        "name": "Ethereum",
+        "ticker": "ETH",
+        "quantity": 3,
+        "investment": 13500,
+        "currentPrice": 4500,
+        "minutelyPrice": [3504, 4469,4589,4600,4520],
+        "hourlyPrice": [4275,4265,4100,4634],
+        "weeklyPrice": [3900,4200,3100]
+    },
+    {
+        "name": "Polygon",
+        "ticker": "MATIC",
+        "quantity": 7.8,
+        "investment": 17.47,
+        "currentPrice": 2.24 
+    }
+]

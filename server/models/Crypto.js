@@ -1,4 +1,4 @@
-const { Schema } = require("mongoose");
+const { Schema, model } = require("mongoose");
 
 // This is a subdocument schema, it won't become its own model but we'll use it as in the portfolio schema
 const cryptoSchema = new Schema({
@@ -28,16 +28,17 @@ const cryptoSchema = new Schema({
   },
   // price every minute
   minutelyPrice: {
-    type: [Number],
+    type: Array,
   },
   // price per hour
   hourlyPrice: {
-    type: [Number],
+    type: Array,
   },
   // price per hour
   weeklyPrice: {
-    type: [Number],
+    type: Array,
   },
 });
 
-module.exports = cryptoSchema;
+const Crypto = model("Crypto", cryptoSchema);
+module.exports = Crypto;
