@@ -1,0 +1,36 @@
+[
+    {
+        "name": "Random Portfolio 1"
+
+    },
+    {
+        "name": "Random Portfolio 2"
+
+    },
+    {
+        "name": "Random Portfolio 3"
+
+    },
+    {
+        "name": "Random Portfolio 4"
+
+    },
+    {
+        "name": "Random Portfolio 5"
+
+    },
+    {
+        "name": "Random Portfolio 6"
+
+    },
+    {
+        "name": "Random Portfolio 7"
+
+    },
+    {
+        "name": "Random Portfolio 8",
+        "usdBalance": 50000,
+        "historicalBalance": [100000,400000,4000,60000]
+
+    }
+]
