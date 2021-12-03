@@ -8,6 +8,8 @@ db.once('open', async () => {
   await User.deleteMany({});
   await User.create(userSeeds);
 
+
+  // query all users, insert portfolios randomly and cryptos randomly
   console.log('all done!');
   process.exit(0);
 });
