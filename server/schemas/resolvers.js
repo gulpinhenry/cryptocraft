@@ -80,6 +80,7 @@ const resolvers = {
                         quantity: quantity,
                         investment: investment
                     })
+<<<<<<< HEAD
 
                     return Portfolio.findOneAndUpdate(
                         { _id: portfolioId },
@@ -87,6 +88,15 @@ const resolvers = {
                     )
                 }
 
+=======
+
+                    return Portfolio.findOneAndUpdate(
+                        { _id: portfolioId },
+                        { $addToSet: { cryptos: newCrypto } }
+                    )
+                }
+
+>>>>>>> 5dbba01f29fb9cdef3a53459c3dd51bf93e81b6d
                 const updatedCrypto = await Crypto.findOneAndUpdate(
                     { ticker: ticker },
                     { quantity: { $sum: this.quantity + quantity } },
@@ -95,7 +105,11 @@ const resolvers = {
 
                 return Portfolio.findOneAndUpdate(
                     { _id: portfolioId },
+<<<<<<< HEAD
                     { $addToSet: { cryptos: updatedCrypto } }
+=======
+                    { $addToSet: { cryptos: updatedCrypto } } // change it to set or update
+>>>>>>> 5dbba01f29fb9cdef3a53459c3dd51bf93e81b6d
                 )
             }
             throw new AuthenticationError('You need to be logged in');
@@ -104,6 +118,7 @@ const resolvers = {
             if (context.user) {
                 const updatedCrypto = await Crypto.findOneAndUpdate(
                     { ticker: ticker },
+<<<<<<< HEAD
                     { quantity: { $sum: this.quantity + quantity } },
                     { investment: { $sum: this.investment + investment } }
                 )
@@ -112,6 +127,16 @@ const resolvers = {
                     { _id: portfolioId },
                     { $addToSet: { cryptos: updatedCrypto } }
                 )
+=======
+                    { quantity: { $sum: this.quantity - quantity } },
+                    { investment: { $sum: this.investment - investment } } // needs to change
+                );
+
+                return Portfolio.findOneAndUpdate(
+                    { _id: portfolioId },
+                    { $addToSet: { cryptos: updatedCrypto } } // change it to set or update
+                );
+>>>>>>> 5dbba01f29fb9cdef3a53459c3dd51bf93e81b6d
             }
         }
     }
