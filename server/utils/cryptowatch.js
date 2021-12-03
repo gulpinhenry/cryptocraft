@@ -2,21 +2,21 @@ const axios = require("axios");
 const { JsonWebTokenError } = require("jsonwebtoken");
 require('dotenv').config();
 const baseUrl = 'https://api.cryptowat.ch/';
-// const apiKey1 = `?apikey=${process.env.API_KEY1}`;  // API credit allowance of 10 per day 
-const apiKey1 = `?apikey=NHUQDGN12WOLCYB079MA`;
+const apiKey1 = `?apikey=${process.env.API_KEY1}`;  // API credit allowance of 10 per day 
+
 // const apiKey2 = `?apikey=${process.env.API_KEY2}`; // API credit allowance of 10 per day
 const apiKey2 = ``; // API credit allowance of 10 per day -- CURRENTLY ANON KEY
 
 // Chooses a random API key to increase the amount of calls we have.
-function getRandomAPIkey() {
-    let keyNumber = (Math.floor(Math.random() * 2) + 1);
-    console.log(keyNumber);
-    if (keyNumber === 1) {
-        return apiKey1;
-    } else if (keyNumber === 2) {
-        return apiKey2;
-    }
-}
+// function getRandomAPIkey() {
+//     let keyNumber = (Math.floor(Math.random() * 2) + 1);
+//     console.log(keyNumber);
+//     if (keyNumber === 1) {
+//         return apiKey1;
+//     } else if (keyNumber === 2) {
+//         return apiKey2;
+//     }
+// }
 
 
 // GET ALL MARKETS
