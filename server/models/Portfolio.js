@@ -16,7 +16,6 @@ const portfolioSchema = new Schema(
       default: 1000000,
       required: true,
     },
-    
     // used to log the changes in balance from market shifts
     historicalBalance: {
       type: [Number],
