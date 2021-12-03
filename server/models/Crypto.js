@@ -28,15 +28,15 @@ const cryptoSchema = new Schema({
   },
   // price every minute
   minutelyPrice: {
-    type: [Number],
+    type: Array,
   },
   // price per hour
   hourlyPrice: {
-    type: [Number],
+    type: Array,
   },
   // price per hour
   weeklyPrice: {
-    type: [Number],
+    type: Array,
   },
 });
 

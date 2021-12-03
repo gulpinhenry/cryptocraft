@@ -30,7 +30,7 @@ app.use(express.json());
   // res.sendFile(path.join(__dirname, '../client/build/index.html'));
 // });
 
-db.once('open', () => {
+db.then( () => {
   app.listen(PORT, () => {
     console.log(`🌍 Now listening on localhost:${PORT}`);
     // console.log(`Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`)
