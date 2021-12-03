@@ -4,9 +4,6 @@ const baseUrl = 'https://api.cryptowat.ch/';
 const apiKey1 = `?apikey=${process.env.API_KEY1}`;  // API credit allowance of 10 per day 
 // const apiKey2 = `?apikey=${process.env.API_KEY2}`; // API credit allowance of 10 per day
 const apiKey2 = ``; // API credit allowance of 10 per day -- CURRENTLY ANON KEY
-// var exchange = 'bitfinex';
-// var pair = 'btcusd';
-
 
 // Chooses a random API key to increase the amount of calls we have.
 function getRandomAPIkey() {
@@ -37,6 +34,15 @@ async function getMarketDetails(exchange, pair) { // API credit cost .002
     const response = await axios.get(query);
     console.log(response.data);
 }
+// {
+//     id: 99,
+//     exchange: 'kraken',
+//     pair: 'ethgbp',
+//     active: true,
+//     route: 'https://api.cryptowat.ch/markets/kraken/ethgbp'
+//   },
+
+
 
 // GET SINGLE PRICE
 async function getSingleMarketPrice(exchange, pair) { // API credit cost 0.005
@@ -55,6 +61,10 @@ async function getAllMarketPrices() { // API credit cost 0.005
     const response = await axios.get(query);
     console.log(response.data);
 }
+// 'market:poloniex:nftusdt': 0.0000037,
+// 'market:poloniex:nftxusdt': 119.50000003,
+// 'market:poloniex:nmrbtc': 0.00076852,
+
 
 // GET SINGLE 24-HOUR DATA
 async function getSingle24HourSummary(exchange, pair) { // API credit cost 0.005
