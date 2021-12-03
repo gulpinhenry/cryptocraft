@@ -5,8 +5,8 @@ const portfolioSeeds = require("./portfolios.json");
 const userSeeds = require("./users.json");
 
 db.once('open', async () => {
-  await Thought.deleteMany({});
-  await Thought.create(thoughtSeeds);
+  await User.deleteMany({});
+  await User.create(userSeeds);
 
   console.log('all done!');
   process.exit(0);
