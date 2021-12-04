@@ -1,4 +1,4 @@
-var graphData = [
+export var graphData = [
     {
         id: 1,
         data: [
