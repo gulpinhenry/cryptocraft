@@ -8,6 +8,8 @@ import Navbar from './components/Navbar';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/muiDashboard';
+import SignUp from './pages/muiSignup';
+import LogIn from './pages/muiLogin';
 
 const httpLink = createHttpLink({
   uri: '/graphql'
@@ -51,10 +53,10 @@ function App() {
               <Dashboard />
             </Route>
             <Route exact path="/login">
-              <Login />
+              <LogIn />
             </Route>
             <Route exact path="/signup">
-              <Signup />
+              <SignUp />
             </Route>
         </div>
       </Router>
