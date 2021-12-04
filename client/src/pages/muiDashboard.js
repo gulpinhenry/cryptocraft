@@ -23,7 +23,7 @@ import Deposits from '../components/Deposits';
 import Orders from '../components/Orders';
 
 // VVVV Testing Graphs
-import GraphContainer from '../components/GraphContainer'; // Delete later
+import GraphContainer from '../components/PortfolioGraphContainer'; // Delete later
 
 function Copyright(props) {
     return (
@@ -170,7 +170,7 @@ function DashboardContent() {
                                         p: 2,
                                         display: 'flex',
                                         flexDirection: 'column',
-                                        height: 240,
+                                        height: 400,
                                     }}
                                 >
                                     {/* delete below after testing */}
@@ -186,7 +186,7 @@ function DashboardContent() {
                                         p: 2,
                                         display: 'flex',
                                         flexDirection: 'column',
-                                        height: 240,
+                                        height: 400,
                                     }}
                                 >
                                     <Deposits />
