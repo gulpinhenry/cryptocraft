@@ -114,7 +114,7 @@ async function getOHLCcandlesticks(exchange, pair) { // API credit cost 0.015
 
 
 
-module.exports = { getAllMarketPrices, getSingleMarketPrice, getAllMarkets, getMarketDetails, getAll24HourSummary, getSingle24HourSummary, getOHLCcandlesticks };
+module.exports = { getSingleMarketPrice, getAllMarkets, getMarketDetails, getSingle24HourSummary, getOHLCcandlesticks };
 
 
 // function calcGainsOnSell() {
