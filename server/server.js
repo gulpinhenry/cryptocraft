@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 3001;
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  /*context: authMiddleware*/
+  context: authMiddleware
 })
 
 server.applyMiddleware({ app });
@@ -37,7 +37,7 @@ db.then( () => {
   });
 });
 
-getAllMarkets();
+// getAllMarkets();
 // getSingleMarketPrice("coinbase-pro", "btcusd");
 // getSingleMarketPrice("binance", "btcbusd");
 // getAllMarketPrices();
