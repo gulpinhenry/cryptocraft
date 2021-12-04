@@ -1,8 +1,7 @@
 import React from 'react';
 // import './graph.css';
-import graphData from '../../somthing';
+import graphData from '../../../server/utils/cryptowatch';
 import { Line } from 'react-chartjs-2';
-
 
 
 export default function IndividualGraph(props) {
