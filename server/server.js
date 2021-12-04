@@ -5,7 +5,9 @@ const db = require('./config/connection');
 const { ApolloServer } = require('apollo-server-express');
 const { typeDefs, resolvers } = require('./schemas');
 const { authMiddleware } = require('./utils/auth');
-const { getAllMarketPrices, getSingleMarketPrice, getAllMarkets, getMarketDetails, getAll24HourSummary, getSingle24HourSummary, getOHLCcandlesticks } = require('./utils/cryptowatch');
+
+const { getCandlesData, getAllMarketPrices, coinbaseCurrentPrice, getSingleMarketPrice, getAllMarkets, getMarketDetails, getSingle24HourSummary, getOHLCcandlesticks } = require('./utils/cryptowatch');
+
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -27,16 +29,18 @@ app.use(express.json());
 
 // app.use(routes);
 // app.get('*', (req, res) => {
-  // res.sendFile(path.join(__dirname, '../client/build/index.html'));
+// res.sendFile(path.join(__dirname, '../client/build/index.html'));
 // });
 
-db.then( () => {
+db.then(() => {
   app.listen(PORT, () => {
     console.log(`🌍 Now listening on localhost:${PORT}`);
     // console.log(`Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`)
   });
 });
 
+// getAllMarketPrices();
+// coinbaseCurrentPrice();
 // getAllMarkets();
 // getSingleMarketPrice("coinbase-pro", "btcusd");
 // getSingleMarketPrice("binance", "btcbusd");
@@ -44,4 +48,6 @@ db.then( () => {
 // getMarketDetails("binance", "btcbusd");
 // getAll24HourSummary();
 // getSingle24HourSummary();
-// getOHLCcandlesticks("binance", "btcbusd");
+// getOHLCcandlesticks("binance", "btcbusd", [], []);
+getCandlesData('btcusd');
+

@@ -18,7 +18,7 @@ export const mainListItems = (
             </ListItemIcon>
             <ListItemText primary="Dashboard" />
         </ListItem>
-        <ListItem button>
+        {/* <ListItem button>
             <ListItemIcon>
                 <ShoppingCartIcon />
             </ListItemIcon>
@@ -29,32 +29,33 @@ export const mainListItems = (
                 <PeopleIcon />
             </ListItemIcon>
             <ListItemText primary="Customers" />
-        </ListItem>
+        </ListItem> */}
         <ListItem button>
             <ListItemIcon>
                 <BarChartIcon />
             </ListItemIcon>
-            <ListItemText primary="Reports" />
+            <ListItemText primary="Leaderboard" />
         </ListItem>
-        <ListItem button>
+        {/* <ListItem button>
             <ListItemIcon>
                 <LayersIcon />
             </ListItemIcon>
             <ListItemText primary="Integrations" />
-        </ListItem>
+        </ListItem> */}
     </div>
 );
 
+// map portfolios here
 export const secondaryListItems = (
     <div>
-        <ListSubheader inset>Saved reports</ListSubheader>
+        <ListSubheader inset>Portfolios</ListSubheader>
         <ListItem button>
             <ListItemIcon>
                 <AssignmentIcon />
             </ListItemIcon>
-            <ListItemText primary="Current month" />
+            <ListItemText primary="Portfolio 1" />
         </ListItem>
-        <ListItem button>
+        {/* <ListItem button>
             <ListItemIcon>
                 <AssignmentIcon />
             </ListItemIcon>
@@ -65,6 +66,6 @@ export const secondaryListItems = (
                 <AssignmentIcon />
             </ListItemIcon>
             <ListItemText primary="Year-end sale" />
-        </ListItem>
+        </ListItem> */}
     </div>
 );

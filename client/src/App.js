@@ -9,6 +9,8 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import Error from './pages/Error';
+import SignUp from './pages/muiSignup';
+import LogIn from './pages/muiLogin';
 
 const httpLink = createHttpLink({
   uri: '/graphql'
@@ -53,10 +55,10 @@ function App() {
               <Login />
             </Route>
             <Route exact path="/login">
-              <Login />
+              <LogIn />
             </Route>
             <Route exact path="/signup">
-              <Signup />
+              <SignUp />
             </Route>
             <Route exact path="/me">
               <Dashboard />

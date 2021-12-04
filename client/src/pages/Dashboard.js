@@ -20,7 +20,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems, secondaryListItems } from '../components/listItems';
 import Chart from '../components/Chart';
 import Deposits from '../components/Deposits';
-import Orders from '../components/Orders';
+import Browse from '../components/BrowseCryptos';
 import '../styles/dashboard.css';
 
 function Copyright(props) {
@@ -85,7 +85,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const mdTheme = createTheme();
 
 function DashboardContent() {
-    const [open, setOpen] = React.useState(true);
+    const [open, setOpen] = React.useState(false);
     const toggleDrawer = () => {
         setOpen(!open);
     };
@@ -189,8 +189,8 @@ function DashboardContent() {
                             </Grid>
                             {/* Recent Orders */}
                             <Grid item xs={12}>
-                                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                                    <Orders />
+                                <Paper id = "dashboard-table-container" sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                                    <Browse />
                                 </Paper>
                             </Grid>
                         </Grid>
