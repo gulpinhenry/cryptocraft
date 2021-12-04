@@ -49,5 +49,5 @@ db.then(() => {
 // getAll24HourSummary();
 // getSingle24HourSummary();
 // getOHLCcandlesticks("binance", "btcbusd", [], []);
-getCandlesData('btcusd');
+// getCandlesData('btcusd');
 

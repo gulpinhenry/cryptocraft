@@ -16,6 +16,7 @@ import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+
 import LogoutIcon from '@mui/icons-material/Logout';
 import { mainListItems, secondaryListItems } from '../components/listItems';
 import Chart from '../components/Chart';
@@ -23,11 +24,15 @@ import Deposits from '../components/Deposits';
 import Browse from '../components/BrowseCryptos';
 import '../styles/dashboard.css';
 import Auth from '../utils/auth';
+// VVVV Testing Graphs
+import GraphContainer from '../components/PortfolioGraphContainer'; // Delete later
+
 
 function Copyright(props) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
             {'Copyright © '}
+
             <Link color="inherit" target = "_blank" href="https://github.com/gulpinhenry/cryptocraft">
                 cryptocraft
             </Link>{' '}
@@ -176,10 +181,13 @@ function DashboardContent() {
                                         p: 2,
                                         display: 'flex',
                                         flexDirection: 'column',
-                                        height: 240,
+                                        height: 400,
                                     }}
                                 >
-                                    <Chart />
+                                    {/* delete below after testing */}
+                                    <GraphContainer />
+                                    {/* the below chart is from rechart */}
+                                    {/* <Chart /> */}
                                 </Paper>
                             </Grid>
                             {/* Recent Deposits */}
@@ -189,7 +197,8 @@ function DashboardContent() {
                                         p: 2,
                                         display: 'flex',
                                         flexDirection: 'column',
-                                        height: 240,
+                                        height: 400,
+
                                     }}
                                 >
                                     <Deposits />

@@ -20,6 +20,7 @@
     "graphql": "^15.5.1",
     "graphql-tag": "^2.12.6",
     "jwt-decode": "^2.2.0",
+    "moment": "^2.29.1",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
     "react-chartjs-2": "^4.0.0",
