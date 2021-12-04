@@ -21,13 +21,14 @@ import { mainListItems, secondaryListItems } from '../components/listItems';
 import Chart from '../components/Chart';
 import Deposits from '../components/Deposits';
 import Orders from '../components/Orders';
+import '../styles/dashboard.css';
 
 function Copyright(props) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
             {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
-                Your Website
+            <Link color="inherit" target = "_blank" href="https://github.com/gulpinhenry/cryptocraft">
+                cryptocraft
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
