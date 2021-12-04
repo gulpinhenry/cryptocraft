@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 // import './graph.css';
 import graphData from '../../../server/utils/cryptowatch';
 import { Line } from 'react-chartjs-2';
 
 
 export default function IndividualGraph(props) {
-    let coinName = { props.crypto.name };
+    let coinName = props.name;
+    let coinTicker = props.ticker;
+    let coinPrice = props
+
+
     return (
         <div className="col-lg-4">
             <div className="shadow card-style card">

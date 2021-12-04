@@ -3,21 +3,20 @@ import React from 'react';
 import IndividualGraph from './Graph.js';
 import { graphData } from '../../GraphData.js';
 
-export default function Projects() {
+const GraphContainer = () => {
     return (
-        // add a vh-100 here when fixing mobile view
-        <div className="page-bg">
-            <div className="container">
-                <div className="row mb-3">
-                    <section className="portfolio">
-                        <div className="row project-row">
-                            {IndividualGraph.map((graph) => (
-                                <ProjectList key={graph.id} graph={graph} />
-                            ))}
-                        </div>
-                    </section>
-                </div>
+        <div className="container">
+            <div className="row mb-3">
+                <section className="portfolio">
+                    <div className="row project-row">
+                        {graphData.map((graph) => (
+                            <IndividualGraph key={graph.ticker} graph={graph} />
+                        ))}
+                    </div>
+                </section>
             </div>
-        </div >
+        </div>
     );
 }
+
+export default GraphContainer;

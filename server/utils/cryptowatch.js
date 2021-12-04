@@ -116,9 +116,21 @@ async function coinbaseCurrentPrice() {
     };
 }
 
+async function coinbaseCandlesMinute(pair) {
+    let candles = await getOHLCcandlesticks("coinbase-pro", pair);
+    console.log(candles);
+
+    // for (var i = 0; i < filtered.length; i++) {
+    //     let cwPair = filtered[i].pair
+    //     console.log(cwPair);
+    //     getSingleMarketPrice("coinbase-pro", cwPair);
+    //     // keyedCoins.push({ 'name': cwPair, "currentPrice": singlePrice })
+    // };
+}
 
 
-module.exports = { coinbaseCurrentPrice, getSingleMarketPrice, getAllMarketPrices, getAllMarkets, getMarketDetails, getSingle24HourSummary, getOHLCcandlesticks };
+
+module.exports = { coinbaseCandlesMinute, coinbaseCurrentPrice, getSingleMarketPrice, getAllMarketPrices, getAllMarkets, getMarketDetails, getSingle24HourSummary, getOHLCcandlesticks };
 
 
 // function calcGainsOnSell() {
