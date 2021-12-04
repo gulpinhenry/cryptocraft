@@ -34,9 +34,8 @@ export const ADD_USER = gql`
 // `;
 
 export const ADD_PORTFOLIO = gql`
-    mutation addPortfolio($id: ID!, $name: String, $usdBalance: Float!) {
-        addPortfolio(id: $id, name: $name, usdBalance: $usdBalance) {
-            id
+    mutation addPortfolio($name: String, $usdBalance: Float!) {
+        addPortfolio(name: $name, usdBalance: $usdBalance) {
             name
             usdBalance
         }
