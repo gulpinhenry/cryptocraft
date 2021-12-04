@@ -18,9 +18,12 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems, secondaryListItems } from '../components/listItems';
-import Chart from '../components/Chart';
+// import Chart from '../components/Chart';
 import Deposits from '../components/Deposits';
 import Orders from '../components/Orders';
+
+// VVVV Testing Graphs
+import GraphContainer from '../components/GraphContainer'; // Delete later
 
 function Copyright(props) {
     return (
@@ -170,7 +173,10 @@ function DashboardContent() {
                                         height: 240,
                                     }}
                                 >
-                                    <Chart />
+                                    {/* delete below after testing */}
+                                    <GraphContainer />
+                                    {/* the below chart is from rechart */}
+                                    {/* <Chart /> */}
                                 </Paper>
                             </Grid>
                             {/* Recent Deposits */}

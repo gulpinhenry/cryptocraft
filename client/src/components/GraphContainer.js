@@ -1,7 +1,7 @@
 import React from 'react';
 // import './GraphContainer.css';
 import IndividualGraph from './Graph.js';
-import { graphData } from '../../GraphData.js';
+import { graphData } from '../assets/graphData.js';
 
 const GraphContainer = () => {
     return (
@@ -10,7 +10,7 @@ const GraphContainer = () => {
                 <section className="portfolio">
                     <div className="row project-row">
                         {graphData.map((graph) => (
-                            <IndividualGraph key={graph.ticker} graph={graph} />
+                            <IndividualGraph key={graph.id} graph={graph} />
                         ))}
                     </div>
                 </section>
