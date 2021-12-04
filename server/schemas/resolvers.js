@@ -6,13 +6,19 @@ const resolvers = {
     Query: {
         me: async (parent, args, context) => {
             if (context.user) {
-                return User.findOne({ _id: context.user._id });
+                return User.findOne({ _id: context.user._id }).populate('portfolios').populate({
+                    path: 'portfolios',
+                    populate: 'cryptos'
+                  });
             }
             throw new AuthenticationError('You need to be logged in!');
         },
         users: async (parent, args, context) => {
            
-                return User.find({});
+                return User.find({}).populate('portfolios').populate({
+                    path: 'portfolios',
+                    populate: 'cryptos'
+                  });
         }
     },
     Mutation: {
