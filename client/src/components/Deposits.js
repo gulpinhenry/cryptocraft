@@ -8,18 +8,21 @@ function preventDefault(event) {
 }
 
 export default function Deposits() {
+    // get our user data here or maybe portfolio
     return (
         <React.Fragment>
-            <Title>Recent Deposits</Title>
+            <Title>My Portfolios</Title>
             <Typography component="p" variant="h4">
-                $3,024.00
+                Add more crypto data here
+                for portfolio this would be a pie chart
             </Typography>
+            {/* add a chart pie chart hereinstead of the value */}
             <Typography color="text.secondary" sx={{ flex: 1 }}>
-                on 15 March, 2019
+                on {new Date().toDateString()}
             </Typography>
             <div>
                 <Link color="primary" href="#" onClick={preventDefault}>
-                    View balance
+                    View More Data (in portfolios this would portfolio allocation)
                 </Link>
             </div>
         </React.Fragment>

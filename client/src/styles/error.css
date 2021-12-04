@@ -1,0 +1,12 @@
+#error-container {
+    background-color: #95c2de;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+#mc-error{
+    position: absolute;
+    left: 26%;
+    top: 40%;
+    max-width: 50%;
+}

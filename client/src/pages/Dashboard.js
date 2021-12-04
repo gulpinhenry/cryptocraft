@@ -16,21 +16,25 @@ import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import { mainListItems, secondaryListItems } from '../components/listItems';
-// import Chart from '../components/Chart';
-import Deposits from '../components/Deposits';
-import Orders from '../components/Orders';
 
+import LogoutIcon from '@mui/icons-material/Logout';
+import { mainListItems, secondaryListItems } from '../components/listItems';
+import Chart from '../components/Chart';
+import Deposits from '../components/Deposits';
+import Browse from '../components/BrowseCryptos';
+import '../styles/dashboard.css';
+import Auth from '../utils/auth';
 // VVVV Testing Graphs
 import GraphContainer from '../components/PortfolioGraphContainer'; // Delete later
+
 
 function Copyright(props) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
             {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
-                Your Website
+
+            <Link color="inherit" target = "_blank" href="https://github.com/gulpinhenry/cryptocraft">
+                cryptocraft
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
@@ -87,10 +91,16 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const mdTheme = createTheme();
 
 function DashboardContent() {
-    const [open, setOpen] = React.useState(true);
+    const [open, setOpen] = React.useState(false);
     const toggleDrawer = () => {
         setOpen(!open);
     };
+
+    const logout = (event) => {
+        event.preventDefault();
+        console.log("logout");
+        Auth.logout();
+      }
 
     return (
         <ThemeProvider theme={mdTheme}>
@@ -124,8 +134,9 @@ function DashboardContent() {
                             Dashboard
                         </Typography>
                         <IconButton color="inherit">
-                            <Badge badgeContent={4} color="secondary">
-                                <NotificationsIcon />
+                            <Badge color="secondary" onClick={logout}>
+                                <LogoutIcon />
+                                {/* logout here */}
                             </Badge>
                         </IconButton>
                     </Toolbar>
@@ -187,6 +198,7 @@ function DashboardContent() {
                                         display: 'flex',
                                         flexDirection: 'column',
                                         height: 400,
+
                                     }}
                                 >
                                     <Deposits />
@@ -194,8 +206,8 @@ function DashboardContent() {
                             </Grid>
                             {/* Recent Orders */}
                             <Grid item xs={12}>
-                                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                                    <Orders />
+                                <Paper id = "dashboard-table-container" sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                                    <Browse />
                                 </Paper>
                             </Grid>
                         </Grid>
