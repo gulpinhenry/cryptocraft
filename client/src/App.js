@@ -2,15 +2,11 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
-import Home from './pages/Home';
 import Portfolios from './pages/Portfolio';
-import Navbar from './components/Navbar';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import Error from './pages/Error';
-import SignUp from './pages/muiSignup';
-import LogIn from './pages/muiLogin';
+import SignUp from './pages/Signup';
+import LogIn from './pages/Login';
 
 const httpLink = createHttpLink({
   uri: '/graphql'
@@ -52,7 +48,10 @@ function App() {
           {/* <Navbar /> */}
           <Switch>
             <Route exact path="/">
-              <LogIn />
+              {/* check to see if user is logged in 
+              if user is logged, direct them to /me
+              if not, direct them to login*/}
+              <Dashboard />
             </Route>
             <Route exact path="/login">
               <LogIn />
