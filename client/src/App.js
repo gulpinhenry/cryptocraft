@@ -52,7 +52,7 @@ function App() {
           {/* <Navbar /> */}
           <Switch>
             <Route exact path="/">
-              <Login />
+              <LogIn />
             </Route>
             <Route exact path="/login">
               <LogIn />

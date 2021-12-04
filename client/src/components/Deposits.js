@@ -13,7 +13,8 @@ export default function Deposits() {
         <React.Fragment>
             <Title>My Portfolios</Title>
             <Typography component="p" variant="h4">
-                Some chart here?
+                Add more crypto data here
+                for portfolio this would be a pie chart
             </Typography>
             {/* add a chart pie chart hereinstead of the value */}
             <Typography color="text.secondary" sx={{ flex: 1 }}>
@@ -21,7 +22,7 @@ export default function Deposits() {
             </Typography>
             <div>
                 <Link color="primary" href="#" onClick={preventDefault}>
-                    View Portfolio Allocations
+                    View More Data (in portfolios this would portfolio allocation)
                 </Link>
             </div>
         </React.Fragment>
