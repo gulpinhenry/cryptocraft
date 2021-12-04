@@ -5,7 +5,7 @@ const db = require('./config/connection');
 const { ApolloServer } = require('apollo-server-express');
 const { typeDefs, resolvers } = require('./schemas');
 const { authMiddleware } = require('./utils/auth');
-// const { getAllMarketPrices, getSingleMarketPrice, getAllMarkets, getMarketDetails, getAll24HourSummary, getSingle24HourSummary, getOHLCcandlesticks } = require('./utils/cryptowatch');
+const { getAllMarketPrices, getSingleMarketPrice, getAllMarkets, getMarketDetails, getAll24HourSummary, getSingle24HourSummary, getOHLCcandlesticks } = require('./utils/cryptowatch');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -37,7 +37,7 @@ db.then( () => {
   });
 });
 
-// getAllMarkets();
+getAllMarkets();
 // getSingleMarketPrice("coinbase-pro", "btcusd");
 // getSingleMarketPrice("binance", "btcbusd");
 // getAllMarketPrices();

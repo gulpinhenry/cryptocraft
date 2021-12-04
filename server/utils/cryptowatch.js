@@ -24,13 +24,23 @@ async function getAllMarkets() { // API credit cost .003
     // let query = `${baseUrl}markets${getRandomAPIkey()}`;
     let query = `${baseUrl}markets${apiKey1}`;
 
-    const response = await axios.get(query, {
-        parameters: {
-            _limit: 10
-        }
+    const response = await axios.get(query);
+    
+    crypto_data = response.data.result;
+
+    var filter = [];
+
+
+    for(let i = 0; i < crypto_data.length; i ++ ) {
+            if (crypto_data[i].active === true 
+                && crypto_data[i].pair.slice(-3) == 'usd'
+                && crypto_data[i].exchange == 'coinbase-pro') {
+                filter.push(crypto_data[i]);
+            }
     }
-    );
-    console.log(response.data.result[0]);
+    console.log(filter);
+    return filter;
+
 }
 
 // GET ALL MARKETS-DETAILS
@@ -60,18 +70,6 @@ async function getSingleMarketPrice(exchange, pair) { // API credit cost 0.005
     console.log(response.data);
 }
 
-// GET ALL PRICES
-async function getAllMarketPrices() { // API credit cost 0.005
-    // let query = `${baseUrl}markets/prices${getRandomAPIkey()}`;
-    let query = `${baseUrl}markets/prices${apiKey1}`;
-
-    const response = await axios.get(query);
-    console.log(response.data);
-}
-// 'market:poloniex:nftusdt': 0.0000037,
-// 'market:poloniex:nftxusdt': 119.50000003,
-// 'market:poloniex:nmrbtc': 0.00076852,
-
 
 // GET SINGLE 24-HOUR DATA
 async function getSingle24HourSummary(exchange, pair) { // API credit cost 0.005
@@ -82,14 +80,6 @@ async function getSingle24HourSummary(exchange, pair) { // API credit cost 0.005
     console.log(response.data);
 }
 
-// GET ALL 24-HOUR DATA
-async function getAll24HourSummary() { // API credit cost 0.015
-    // let query = `${baseUrl}markets/summaries${getRandomAPIkey()}`;
-    let query = `${baseUrl}markets/summaries${apiKey1}`;
-
-    const response = await axios.get(query);
-    console.log(response.data);
-}
 
 // GET SINGLE OHLC CANDLESTICKS
 async function getOHLCcandlesticks(exchange, pair) { // API credit cost 0.015
