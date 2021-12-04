@@ -46,6 +46,7 @@ const resolvers = {
             return { token, user };
         },
         addPortfolio: async (parent, { name, usdBalance }, context) => {
+//             addPortfolio: async (parent, { id, name, usdBalance }) => {
             if (context.user) {
                 const portfolio = await Portfolio.create({
                     name,
@@ -54,6 +55,7 @@ const resolvers = {
 
                 await User.findOneAndUpdate(
                     { _id: context.user._id },
+//                     { _id: id },
                     { $addToSet: { portfolios: portfolio } },
                     { new: true, runValidators: true }
                 )

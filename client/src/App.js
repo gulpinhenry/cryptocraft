@@ -7,6 +7,7 @@ import Portfolios from './pages/Portfolio';
 import Navbar from './components/Navbar';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import Dashboard from './pages/muiDashboard';
 
 const httpLink = createHttpLink({
   uri: '/graphql'
@@ -43,11 +44,11 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <Router>
-        <div className="flex-column justify-flex-start min-100-vh">
-          <Navbar />
-          <div className="container">
+        {/* <div className="flex-column justify-flex-start min-100-vh"> */}
+        <div>
+          {/* <Navbar /> */}
             <Route exact path="/">
-              <Login />
+              <Dashboard />
             </Route>
             <Route exact path="/login">
               <Login />
@@ -55,7 +56,6 @@ function App() {
             <Route exact path="/signup">
               <Signup />
             </Route>
-          </div>
         </div>
       </Router>
     </ApolloProvider>

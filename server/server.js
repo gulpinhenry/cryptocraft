@@ -5,7 +5,9 @@ const db = require('./config/connection');
 const { ApolloServer } = require('apollo-server-express');
 const { typeDefs, resolvers } = require('./schemas');
 const { authMiddleware } = require('./utils/auth');
-const { coinbaseCandlesMinute, getAllMarketPrices, coinbaseCurrentPrice, getSingleMarketPrice, getAllMarkets, getMarketDetails, getSingle24HourSummary, getOHLCcandlesticks } = require('./utils/cryptowatch');
+
+const { getCandlesData, getAllMarketPrices, coinbaseCurrentPrice, getSingleMarketPrice, getAllMarkets, getMarketDetails, getSingle24HourSummary, getOHLCcandlesticks } = require('./utils/cryptowatch');
+
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -46,5 +48,6 @@ db.then(() => {
 // getMarketDetails("binance", "btcbusd");
 // getAll24HourSummary();
 // getSingle24HourSummary();
-// getOHLCcandlesticks("binance", "btcbusd");
-coinbaseCandlesMinute("btcusd");
+// getOHLCcandlesticks("binance", "btcbusd", [], []);
+getCandlesData('btcusd');
+
