@@ -85,24 +85,50 @@ async function getOHLCcandlesticks(exchange, pair) { // API credit cost 0.015
 }
 
 //GET SINGLE OHLC CANDLESTICKS FOR 
-async function getOHLCcandlesticks(exchange, pair) { // API credit cost 0.015
+async function getOHLCcandlesticks(exchange, pair, one, six) { // API credit cost 0.015
     let query = `${baseUrl}markets/${exchange}/${pair}/ohlc${apiKey1}`;
 
     const response = await axios.get(query);
 
     const candleData = response.data.result;
 
-    const minute = candleData[Object.keys(candleData)[0]];
+    // const minute = candleData[Object.keys(candleData)[0]];
     const hour = candleData[Object.keys(candleData)[5]];
-    const day = candleData[Object.keys(candleData)[10]];
-    const week = candleData[Object.keys(candleData)[12]];
-    console.log(minute) // 
+    const six_hr = candleData[Object.keys(candleData)[9]];
+    // const day = candleData[Object.keys(candleData)[10]];
+
+
+    //returns the last 24, to signify the last 24 hours 
+    one = hour.slice(-24);
+
+    //returns the last 28, to signify the last week 
+    six = six_hr.slice(-28);
+
+    //setting empty arrays for the values of each coin at their respective time 
+    var last_day = [];
+    var last_week = [];
+
+    for (let i = 0; i < one.length; i++) {
+        last_day.push(one[i][4]);
+    }
+
+    for (let i = 0; i < six.length; i++) {
+        last_week.push(six[i][4]);
+    }
+
+    // console.log(last_day);
+    // console.log(last_week);
+
+    // console.log(listA) // 24 entry points for the last day 
+    // console.log(listB) // 6hr inteveral for the last week  
     console.log('------------------')
     // console.log(hour) //one month ago 
     // console.log('------------------')
     // console.log(day) //789 two years ago 
     // console.log('------------------')
     // console.log(week) //two years ago 
+
+    return { last_day, last_week};
 }
 
 
@@ -116,9 +142,20 @@ async function coinbaseCurrentPrice() {
     };
 }
 
+// //RETURNS A OBJECT OF CANDLE DATA 
+async function getCandlesData(pair) {
+    var sixHr = [];  
+    var hour = [];
+    const exchange = 'coinbase';
+
+    const candles = await getOHLCcandlesticks(exchange, pair, sixHr, hour);
+    console.log(candles);
+    return candles;
+}
 
 
-module.exports = { coinbaseCurrentPrice, getSingleMarketPrice, getAllMarketPrices, getAllMarkets, getMarketDetails, getSingle24HourSummary, getOHLCcandlesticks };
+
+module.exports = { getCandlesData, coinbaseCurrentPrice, getSingleMarketPrice, getAllMarketPrices, getAllMarkets, getMarketDetails, getSingle24HourSummary, getOHLCcandlesticks };
 
 
 // function calcGainsOnSell() {
