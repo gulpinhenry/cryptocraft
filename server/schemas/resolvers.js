@@ -45,22 +45,22 @@ const resolvers = {
             
             return { token, user };
         },
-        // addPortfolio: async (parent, { name, usdBalance }, context) => {
-            addPortfolio: async (parent, { id, name, usdBalance }) => {
-            // if (context.user) {
+        addPortfolio: async (parent, { name, usdBalance }, context) => {
+//             addPortfolio: async (parent, { id, name, usdBalance }) => {
+            if (context.user) {
                 const portfolio = await Portfolio.create({
                     name,
                     usdBalance
                 });
 
                 await User.findOneAndUpdate(
-                    // { _id: context.user._id },
-                    { _id: id },
+                    { _id: context.user._id },
+//                     { _id: id },
                     { $addToSet: { portfolios: portfolio } },
                     { new: true, runValidators: true }
                 )
-            // }
-            // throw new AuthenticationError('You need to be logged in')
+            }
+            throw new AuthenticationError('You need to be logged in')
         },
         removePortfolio: async (parent, { portfolioId }, context) => {
             if (context.user) {
