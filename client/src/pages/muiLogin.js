@@ -17,6 +17,7 @@ import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../utils/mutations';
 import Auth from '../utils/auth';
+import { withRouter } from 'react-router';
 
 function Copyright(props) {
     return (
@@ -75,6 +76,13 @@ const LogIn = (props) => {
         })
     };
 
+    const divStyle = {
+        backgroundColor: 'rgb(202, 102, 122)',
+        borderRadius: '3px',
+        color: 'white',
+        textAlign: 'center'
+    }
+
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
@@ -131,6 +139,11 @@ const LogIn = (props) => {
                                 </Link>
                             </Grid>
                         </Grid>
+                        {error && (
+                            <div className="my-3 p-1" style={divStyle}>
+                                {error.message}
+                            </div>
+                        )}
                     </Box>
                 </Box>
                 <Copyright sx={{ mt: 8, mb: 4 }} />

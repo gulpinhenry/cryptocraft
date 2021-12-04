@@ -77,6 +77,13 @@ export default function SignUp() {
         }
     };
 
+    const divStyle = {
+        backgroundColor: 'rgb(202, 102, 122)',
+        borderRadius: '3px',
+        color: 'white',
+        textAlign: 'center'
+    }
+
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
@@ -159,6 +166,11 @@ export default function SignUp() {
                                 </Link>
                             </Grid>
                         </Grid>
+                        {error && (
+                            <div className="my-3 p-1" style={divStyle}>
+                                {'Try another password; must be at least 8 characters'}
+                            </div>
+                        )}
                     </Box>
                 </Box>
                 <Copyright sx={{ mt: 5 }} />
