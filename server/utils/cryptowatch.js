@@ -142,6 +142,7 @@ async function coinbaseCurrentPrice() {
     };
 }
 
+
 // //RETURNS A OBJECT OF CANDLE DATA 
 async function getCandlesData(pair) {
     var sixHr = [];  
@@ -155,7 +156,9 @@ async function getCandlesData(pair) {
 
 
 
+
 module.exports = { getCandlesData, coinbaseCurrentPrice, getSingleMarketPrice, getAllMarketPrices, getAllMarkets, getMarketDetails, getSingle24HourSummary, getOHLCcandlesticks };
+
 
 
 // function calcGainsOnSell() {
