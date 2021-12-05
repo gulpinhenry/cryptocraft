@@ -1,8 +1,10 @@
 const { AuthenticationError } = require('apollo-server-express');
 const { User, Portfolio, Crypto } = require('../models');
 const { signToken } = require('../utils/auth');
+const GraphQLJSON = require('graphql-type-json');
 
 const resolvers = {
+    JSON: GraphQLJSON,
     Query: {
         me: async (parent, args, context) => {
             if (context.user) {
@@ -21,7 +23,7 @@ const resolvers = {
             });
         },
         cryptoData: async(parent, args, context) => {
-            return "hi"
+            return {cryptoInfo: { x: 5 }};
         }
     },
     Mutation: {
