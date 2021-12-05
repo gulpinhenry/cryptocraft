@@ -107,10 +107,10 @@ export default function SecondaryListItems() {
                 <ListItemIcon>
                     <AssignmentIcon />
                 </ListItemIcon>
-                <ListItemText primary="Portfolio 1" />
+                <ListItemText primary="Portfolio" />
             </ListItem>
 
-            <ListItem button onClick={handleClickOpen}>
+            {/* <ListItem button onClick={handleClickOpen}>
                 <ListItemIcon>
                     <AssignmentIcon />
                 </ListItemIcon>
@@ -129,7 +129,7 @@ export default function SecondaryListItems() {
                     <AssignmentIcon />
                 </ListItemIcon>
                 <ListItemText primary="Portfolio 4" />
-            </ListItem>
+            </ListItem> */}
 
             <Dialog open={open} onClose={handleCancel}>
                 <DialogTitle>Add a new Portfolio</DialogTitle>

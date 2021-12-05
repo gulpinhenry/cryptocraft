@@ -71,7 +71,6 @@ export default function SignUp() {
             const { data } = await addUser({
                 variables: { ...formState }
             })
-            console.log('here')
             Auth.login(data.addUser.token);
         } catch (e) {
             console.log(e)
@@ -169,7 +168,7 @@ export default function SignUp() {
                         </Grid>
                         {error && (
                             <div className="my-3 p-1" style={divStyle}>
-                                {'Try another password; must be at least 8 characters'}
+                                {'Try another username and/or password (password must be at least 8 characters)'}
                             </div>
                         )}
                     </Box>
