@@ -26,7 +26,6 @@ async function getAllMarkets() { // API credit cost .003
     }
     // console.log(filter);
     return filter;
-
 }
 
 // GET ALL MARKETS-DETAILS
@@ -36,15 +35,6 @@ async function getMarketDetails(exchange, pair) { // API credit cost .002
     const response = await axios.get(query);
     console.log(response.data);
 }
-// {
-//     id: 99,
-//     exchange: 'kraken',
-//     pair: 'ethgbp',
-//     active: true,
-//     route: 'https://api.cryptowat.ch/markets/kraken/ethgbp'
-//   },
-
-
 
 // GET SINGLE PRICE - Alex Custom
 async function getSingleMarketPrice(exchange, pair) { // API credit cost 0.005
@@ -118,16 +108,6 @@ async function getOHLCcandlesticks(exchange, pair, one, six) { // API credit cos
 
     // console.log(last_day);
     // console.log(last_week);
-
-    // console.log(listA) // 24 entry points for the last day 
-    // console.log(listB) // 6hr inteveral for the last week  
-    console.log('------------------')
-    // console.log(hour) //one month ago 
-    // console.log('------------------')
-    // console.log(day) //789 two years ago 
-    // console.log('------------------')
-    // console.log(week) //two years ago 
-
     return { last_day, last_week};
 }
 
@@ -143,7 +123,7 @@ async function coinbaseCurrentPrice() {
 }
 
 
-// //RETURNS A OBJECT OF CANDLE DATA 
+//RETURNS A OBJECT OF CANDLE DATA 
 async function getCandlesData(pair) {
     var sixHr = [];  
     var hour = [];
@@ -153,6 +133,11 @@ async function getCandlesData(pair) {
     console.log(candles);
     return candles;
 }
+
+// //Return ticker and name
+// async function getNameandTicker() {
+
+// }
 
 
 
