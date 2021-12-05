@@ -28,7 +28,6 @@ import Auth from '../utils/auth';
 import GraphContainer from '../components/GraphContainer';
 
 import CryptoGrid from '../components/CryptoGrid';
-import GraphContainer from '../components/PortfolioGraphContainer'; // Delete later
 
 function Copyright(props) {
     return (
