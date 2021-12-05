@@ -20,10 +20,11 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { mainListItems, secondaryListItems } from '../components/listItems';
 import Chart from '../components/Chart';
-import Deposits from '../components/Deposits';
-import Browse from '../components/BrowseCryptos';
+import InfoTab from '../components/InfoTab';
+// import Browse from '../components/BrowseCryptos';
 import '../styles/dashboard.css';
 import Auth from '../utils/auth';
+import CryptoGrid from '../components/CryptoGrid';
 // VVVV Testing Graphs
 import GraphContainer from '../components/PortfolioGraphContainer'; // Delete later
 
@@ -200,16 +201,17 @@ function DashboardContent() {
 
                                     }}
                                 >
-                                    <Deposits />
+                                    <InfoTab />
                                 </Paper>
                             </Grid>
                             {/* Recent Orders */}
                             <Grid item xs={12}>
                                 <Paper id = "dashboard-table-container" sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                                    <Browse />
+                                    <CryptoGrid />
                                 </Paper>
                             </Grid>
                         </Grid>
+                        
                         <Copyright sx={{ pt: 4 }} />
                     </Container>
                 </Box>

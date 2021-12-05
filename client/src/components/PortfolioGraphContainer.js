@@ -13,7 +13,7 @@ const GraphContainer = () => {
     // });
 
     return (
-        <div className="container">
+        <div className="dashboard-graph-container">
             {graphData.map((graph) => (
                 <IndividualGraph key={graph.id} graph={graph} />
             ))}

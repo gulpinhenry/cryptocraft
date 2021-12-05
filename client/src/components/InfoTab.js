@@ -7,7 +7,7 @@ function preventDefault(event) {
     event.preventDefault();
 }
 
-export default function Deposits() {
+export default function InfoTab() {
     // get our user data here or maybe portfolio
     return (
         <React.Fragment>
