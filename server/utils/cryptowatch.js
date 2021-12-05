@@ -79,9 +79,9 @@ async function getOHLCcandlesticks(exchange, pair, one, six) { // API credit cos
     const candleData = response.data.result;
 
     // const minute = candleData[Object.keys(candleData)[0]];
-    const hour = candleData[Object.keys(candleData)[5]];
-    const six_hr = candleData[Object.keys(candleData)[9]];
-    // const day = candleData[Object.keys(candleData)[10]];
+    var hour = candleData[Object.keys(candleData)[5]];
+    var six_hr = candleData[Object.keys(candleData)[9]];
+    var week = candleData[Object.keys(candleData)[12]];
 
 
     //returns the last 24, to signify the last 24 hours 
@@ -90,9 +90,13 @@ async function getOHLCcandlesticks(exchange, pair, one, six) { // API credit cos
     //returns the last 28, to signify the last week 
     six = six_hr.slice(-28);
 
+    //returns the last 52, to signify the last year 
+    week = week.slice(-52);
+
     //setting empty arrays for the values of each coin at their respective time 
     var last_day = [];
     var last_week = [];
+    var last_year = [];
 
     for (let i = 0; i < one.length; i++) {
         last_day.push(one[i][4]);
@@ -101,7 +105,12 @@ async function getOHLCcandlesticks(exchange, pair, one, six) { // API credit cos
     for (let i = 0; i < six.length; i++) {
         last_week.push(six[i][4]);
     }
-    return { last_day, last_week};
+
+    for (let i = 0; i < week.length; i++) {
+        last_year.push(week[i][4]);
+    }
+
+    return { last_day, last_week, last_year};
 }
 
 //RETURNS A OBJECT OF CANDLE DATA 
@@ -111,7 +120,6 @@ async function getCandlesData(pair) {
     const exchange = 'coinbase';
 
     const candles = await getOHLCcandlesticks(exchange, pair, sixHr, hour);
-    console.log(candles);
     return candles;
 }
 
@@ -145,7 +153,36 @@ async function cryptoInfo() {
     return array;
 }
 
+//Return percentage change for an individual crypto with the ticker 
+async function cryptoDetails(ticker) {
+    const pair = ticker + 'usd';
+    var candles = await getCandlesData(pair);
+
+
+    const lastDay = candles.last_day;
+    const lastWeek = candles.last_week;
+    const lastYear =  candles.last_year;
+
+    const percentDay = (((lastDay[23] - lastDay[0]) / lastDay[0]) * 100).toFixed(2)
+    const percentWeek = (((lastWeek[27] - lastWeek[0]) / lastWeek[0]) * 100).toFixed(2)
+    const percentYear = (((lastYear[51] - lastYear[0]) / lastYear[0]) * 100).toFixed(2)
+
+    const high = Math.max(...lastYear)
+    const low = Math.min(...lastYear)
+
+    let cryptoData = {
+        dailyChange: percentDay,
+        weeklyChange: percentWeek, 
+        yearlyChange: percentYear, 
+        yearly_high: high,
+        yearly_low: low
+    }
+
+    console.log(cryptoData)
+    return cryptoData;
+}
 
 
 
-module.exports = { cryptoInfo, getNameandTicker, getCandlesData, getAllMarketPrices, getAllMarkets, getMarketDetails, getSingle24HourSummary, getOHLCcandlesticks };
+
+module.exports = { cryptoDetails, cryptoInfo, getNameandTicker, getCandlesData, getAllMarketPrices, getAllMarkets, getMarketDetails, getSingle24HourSummary, getOHLCcandlesticks };
