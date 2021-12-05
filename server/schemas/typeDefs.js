@@ -1,4 +1,5 @@
-const { gql } = require('apollo-server-express');
+const { ApolloServer, gql } = require('apollo-server');
+
 
 const typeDefs = gql`
     type User {
@@ -36,6 +37,10 @@ const typeDefs = gql`
         token: ID!
         user: User
     }
+    
+    type MyObject {
+        myField: JSON
+    }
 
     type Query {
         me: User
@@ -45,6 +50,7 @@ const typeDefs = gql`
         portfolio(username: String, portfolioId: ID!): Portfolio
         cryptos(portfolioId: ID!): [Crypto]
         crypto(portfolioId: ID!, ticker: String!): Crypto
+        objects: [MyObject]
     }
 
     type Mutation {

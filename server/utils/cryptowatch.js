@@ -47,16 +47,16 @@ async function getAllMarketPrices() { // API credit cost 0.005
 
     var marketPrices = Object.keys(arr).filter(function (k) {
         return k.indexOf(phrase) == 0;
-    }).reduce(function(newData, k) {
+    }).reduce(function (newData, k) {
         newData[k] = arr[k];
         return newData;
     }, {});
     const entries = Object.entries(marketPrices);
     var final = [];
-    for (let i = 0;  i < entries.length; i++ ) {
-        if(entries[i][0].slice(-3) === 'usd') {
+    for (let i = 0; i < entries.length; i++) {
+        if (entries[i][0].slice(-3) === 'usd') {
             final.push([entries[i][0].slice(0, -3).substring(20), entries[i][1]]);
-    }
+        }
     }
     return final;
 }
@@ -110,12 +110,12 @@ async function getOHLCcandlesticks(exchange, pair, one, six) { // API credit cos
         last_year.push(week[i][4]);
     }
 
-    return { last_day, last_week, last_year};
+    return { last_day, last_week, last_year };
 }
 
 //RETURNS A OBJECT OF CANDLE DATA 
 async function getCandlesData(pair) {
-    var sixHr = [];  
+    var sixHr = [];
     var hour = [];
     const exchange = 'coinbase';
 
@@ -126,16 +126,16 @@ async function getCandlesData(pair) {
 // GETS THE ALL ASSETs TICKER AND NAME 
 async function getNameandTicker() {
     let query = `${baseUrl}assets${apiKey1}`;
-    const response = await axios.get(query); 
+    const response = await axios.get(query);
     const objects = response.data.result; //objects of all cryptos with name and ticker 
 
     const ticker_arr = await getAllMarkets(); //array of all crypto tickers 
-    const final_arr =[];
+    const final_arr = [];
     var result = objects.filter(item => ticker_arr.includes(item.symbol));
 
     for (let i = 0; i < result.length; i++) {
         const object = result[i];
-        const new_object = (({ name, symbol}) => ({name , symbol}))(object);
+        const new_object = (({ name, symbol }) => ({ name, symbol }))(object);
         final_arr.push(new_object);
     }
     return final_arr;
@@ -145,8 +145,8 @@ async function getNameandTicker() {
 async function cryptoInfo() {
     var object = await getNameandTicker();
     var array = await getAllMarketPrices();
-    
-    for(let i = 0; i < array.length; i++) {
+
+    for (let i = 0; i < array.length; i++) {
         array[i].unshift(object[i].name)
     }
     console.log(array);
@@ -161,7 +161,7 @@ async function cryptoDetails(ticker) {
 
     const lastDay = candles.last_day;
     const lastWeek = candles.last_week;
-    const lastYear =  candles.last_year;
+    const lastYear = candles.last_year;
 
     const percentDay = (((lastDay[23] - lastDay[0]) / lastDay[0]) * 100).toFixed(2)
     const percentWeek = (((lastWeek[27] - lastWeek[0]) / lastWeek[0]) * 100).toFixed(2)
@@ -172,8 +172,8 @@ async function cryptoDetails(ticker) {
 
     let cryptoData = {
         dailyChange: percentDay,
-        weeklyChange: percentWeek, 
-        yearlyChange: percentYear, 
+        weeklyChange: percentWeek,
+        yearlyChange: percentYear,
         yearly_high: high,
         yearly_low: low
     }
@@ -184,5 +184,32 @@ async function cryptoDetails(ticker) {
 
 
 
+//Returns a list of tickers
+function getAllMarketsFetch() { // API credit cost .003
+    let query = `${baseUrl}markets${apiKey1}`;
 
-module.exports = { cryptoDetails, cryptoInfo, getNameandTicker, getCandlesData, getAllMarketPrices, getAllMarkets, getMarketDetails, getSingle24HourSummary, getOHLCcandlesticks };
+    fetch(query)
+        .then((response) => {
+            console.log(response);
+
+        })
+
+    // const response = await axios.get(query);
+
+    crypto_data = response.data.result;
+
+    var ticker_arr = [];
+
+    for (let i = 0; i < crypto_data.length; i++) {
+        if (crypto_data[i].active === true
+            && crypto_data[i].pair.slice(-3) == 'usd'
+            && crypto_data[i].exchange == 'coinbase-pro') {
+            var ticker = crypto_data[i].pair.slice(0, -3)
+            ticker_arr.push(ticker);
+        }
+    }
+    return ticker_arr;
+}
+
+
+module.exports = { getAllMarketsFetch, cryptoDetails, cryptoInfo, getNameandTicker, getCandlesData, getAllMarketPrices, getAllMarkets, getMarketDetails, getSingle24HourSummary, getOHLCcandlesticks };

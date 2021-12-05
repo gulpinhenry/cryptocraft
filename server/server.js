@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const db = require('./config/connection');
+const cors = require('cors')
 // const routes = require('./routes');
 const { ApolloServer } = require('apollo-server-express');
 const { typeDefs, resolvers } = require('./schemas');
@@ -19,6 +20,7 @@ const server = new ApolloServer({
 
 server.applyMiddleware({ app });
 
+app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -31,6 +33,11 @@ app.use(express.json());
 // app.get('*', (req, res) => {
 // res.sendFile(path.join(__dirname, '../client/build/index.html'));
 // });
+
+app.get('*', (req, res) => {
+  res.json({ msg: 'This is CORS-enabled for all origins!' })
+})
+
 
 db.then(() => {
   app.listen(PORT, () => {
@@ -52,5 +59,7 @@ db.then(() => {
 // getCandlesData('btcusd');
 // getNameandTicker();
 // cryptoInfo();
-cryptoDetails('btc');
+// cryptoDetails('btc');
+
+
 

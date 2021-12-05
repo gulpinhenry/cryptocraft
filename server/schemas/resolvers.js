@@ -1,8 +1,10 @@
 const { AuthenticationError } = require('apollo-server-express');
 const { User, Portfolio, Crypto } = require('../models');
 const { signToken } = require('../utils/auth');
+const GraphQLJSON = require('graphql-type-json');
 
 const resolvers = {
+    JSON: GraphQLJSON,
     Query: {
         me: async (parent, args, context) => {
             if (context.user) {
@@ -19,7 +21,40 @@ const resolvers = {
                 path: 'portfolios',
                 populate: 'cryptos'
             });
-        }
+        },
+        objects: async (parent, args) => {
+            let crytoInfo = {
+                "name": "server",
+                "version": "1.0.0",
+                "description": "",
+                "main": "server.js",
+                "scripts": {
+                    "start": "node server.js",
+                    "watch": "nodemon server.js",
+                    "seed": "node seeds/seed.js"
+                },
+                "keywords": [],
+                "author": "",
+                "license": "ISC",
+                "dependencies": {
+                    "apollo-server-express": "^2.12.0",
+                    "axios": "^0.24.0",
+                    "bcrypt": "^5.0.1",
+                    "cors": "^2.8.5",
+                    "dotenv": "^10.0.0",
+                    "express": "^4.17.1",
+                    "graphql": "^15.5.1",
+                    "graphql-type-json": "^0.3.2",
+                    "jsonwebtoken": "^8.5.1",
+                    "mongoose": "^6.0.14",
+                    "node": "^17.1.0"
+                },
+                "devDependencies": {
+                    "nodemon": "^2.0.15"
+                }
+            }
+            return crytoInfo
+        },
     },
     Mutation: {
         addUser: async (parent, { username, firstName, lastName, password }) => {
@@ -33,7 +68,7 @@ const resolvers = {
                 { portfolios: portfolio },
                 { new: true, runValidators: true }
             )
-            
+
             return { token, user };
         },
         login: async (parent, { username, password }) => {
@@ -55,9 +90,9 @@ const resolvers = {
             return { token, user };
         },
         addPortfolio: async (parent, { name, usdBalance }, context) => {
-        // addPortfolio: async (parent, { name, usdBalance }) => {
+            // addPortfolio: async (parent, { name, usdBalance }) => {
             if (context.user) {
-            // try {
+                // try {
                 const portfolio = await Portfolio.create({
                     name,
                     usdBalance
