@@ -23,8 +23,17 @@ const resolvers = {
     },
     Mutation: {
         addUser: async (parent, { username, firstName, lastName, password }) => {
+            const portfolio = await Portfolio.create({ name: 'Portfolio', usdBalance: 1000000 })
             const user = await User.create({ username, firstName, lastName, password });
             const token = signToken(user);
+
+            await User.findOneAndUpdate(
+                { username: username },
+                // { _id: id },
+                { portfolios: portfolio },
+                { new: true, runValidators: true }
+            )
+            
             return { token, user };
         },
         login: async (parent, { username, password }) => {
