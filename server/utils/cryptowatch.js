@@ -150,22 +150,10 @@ async function getNameandTicker() {
         final_arr.push(new_object);
     }
     console.log(final_arr);
-
+    return final_arr;
 }
 
 
 
 
 module.exports = { getNameandTicker, getCandlesData, coinbaseCurrentPrice, getSingleMarketPrice, getAllMarketPrices, getAllMarkets, getMarketDetails, getSingle24HourSummary, getOHLCcandlesticks };
-
-
-
-// function calcGainsOnSell() {
-//     let sellPrice = (currentPrice * quantity);
-
-//     if (sellPrice >= investment){
-//         let investment = 0;
-//     } else {
-//         let investment = (investment - sellPrice);
-//     }
-// }
