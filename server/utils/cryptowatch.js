@@ -73,7 +73,8 @@ async function getAllMarketPrices() { // API credit cost 0.005
             final.push(entries[i]);
     }
     }
-    console.log(final)
+    console.log(final);
+    return final;
     // console.log(keys)
 
 }
