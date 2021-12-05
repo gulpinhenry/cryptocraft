@@ -21,3 +21,14 @@ export function sixHourTimeInterval(graphDataPoints) {
     }
     return intervalLabels.reverse();
 }
+
+export function dayTimeInterval(history) {
+    var intervalLabels = [];
+    let timeStart = moment();
+    for (var i = 0; i < history.length; i++) {
+        let unixT = (timeStart - (i * 86400000)); // time is milliseconds, thus, 3 digits are added on the end of each unix integer.
+        let timePoint = moment(unixT).format("M-D-YYYY");
+        intervalLabels.push(timePoint);
+    }
+    return intervalLabels.reverse();
+}
