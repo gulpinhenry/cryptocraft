@@ -24,7 +24,7 @@ import Deposits from '../components/Deposits';
 import Browse from '../components/BrowseCryptos';
 import '../styles/dashboard.css';
 import Auth from '../utils/auth';
-import GraphContainer from '../components/PortfolioGraphContainer';
+import GraphContainer from '../components/GraphContainer';
 
 
 function Copyright(props) {
@@ -175,12 +175,11 @@ function DashboardContent() {
                         <Grid container spacing={3}>
                             {/* Chart */}
                             <Grid item xs={12} md={8} lg={9}>
-                                <Paper
+                                <Paper className="graph-paper"
                                     sx={{
                                         p: 2,
                                         display: 'flex',
                                         flexDirection: 'column',
-                                        height: 400,
                                     }}
                                 >
                                     {/* delete below after testing */}

@@ -1,6 +1,11 @@
 *{
-    
+
 }
+
+.graph-paper {
+    height: 400px;
+}
+
 #dashboard-table{
     overflow-x: scroll;
     table-layout: fixed;
@@ -9,6 +14,36 @@
 #dashboard-table-container {
     width: 100%;
 }
-@media only screen and (min-width: 600px) {
-    
+
+
+/* graph-paper sizing */
+@media only screen and (max-width: 768px) {
+    .graph-paper {
+        height: 350px;
+       }
+}
+@media only screen and (max-width: 672px) {
+    .graph-paper {
+        height: 300px;
+       }
+}
+@media only screen and (max-width: 576px) {
+    .graph-paper {
+        height: 250px;
+       }
+}
+@media only screen and (max-width: 480px) {
+    .graph-paper {
+        height: 200px;
+       }
+}
+@media only screen and (max-width: 400px) {
+    .graph-paper {
+        height: 150px;
+       }
+}
+@media only screen and (max-width: 321px) {
+    .graph-paper {
+        height: 120px;
+       }
 }
