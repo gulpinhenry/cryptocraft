@@ -13,11 +13,11 @@
     /* height: 75%;  */
     /* maintains 4:3 aspect ratio*/
     /* max-height: 400px; */
-    margin: auto auto;
+    /* margin: auto auto;
     /* min-height: 300px; */
-    width: 85%;
-    object-fit: scale-down;
-}
+    /* width: 85%; */
+    /* object-fit: scale-down; */
+/* } */ 
 .dashboard-graph-container{
     display: flex;
     margin: auto;
@@ -27,4 +27,3 @@
     height: 90%;
     width: 100%;
 }
- */

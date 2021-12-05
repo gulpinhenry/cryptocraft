@@ -1,9 +1,8 @@
 const axios = require("axios");
+const { JsonWebTokenError } = require("jsonwebtoken");
 require('dotenv').config();
 const baseUrl = 'https://api.cryptowat.ch/';
 const apiKey1 = `?apikey=${process.env.API_KEY1}`;  // API credit allowance of 10 per day 
-var keyedCoins = [];
-
 
 //Get all tickers using getAllMarkets and filtering the data response 
 //Returns a list of tickers
@@ -35,19 +34,8 @@ async function getMarketDetails(exchange, pair) { // API credit cost .002
     console.log(response.data);
 }
 
-// GET SINGLE PRICE - Alex Custom
-async function getSingleMarketPrice(exchange, pair) { // API credit cost 0.005
-    let query = `${baseUrl}markets/${exchange}/${pair}/price${apiKey1}`;
-
-    const response = await axios.get(query);
-    let singlePrice = response.data.result.price;
-    // console.log(singlePrice);
-    keyedCoins.push({ 'name': pair, "currentPrice": singlePrice })
-    // console.log(keyedCoins, keyedCoins.length);
-    // console.log(response.data);
-}
-
-// GET ALL MARKET PRICE
+// Returns a list of tickers, with the associate values using 
+// market prices api call 
 async function getAllMarketPrices() { // API credit cost 0.005
     let query = `${baseUrl}markets/prices${apiKey1}`;
 
@@ -63,19 +51,14 @@ async function getAllMarketPrices() { // API credit cost 0.005
         newData[k] = arr[k];
         return newData;
     }, {});
-
-    // const values = Object.values(marketPrices);
     const entries = Object.entries(marketPrices);
     var final = [];
     for (let i = 0;  i < entries.length; i++ ) {
         if(entries[i][0].slice(-3) === 'usd') {
-            final.push(entries[i]);
+            final.push([entries[i][0].slice(0, -3).substring(20), entries[i][1]]);
     }
     }
-    console.log(final);
     return final;
-    // console.log(keys)
-
 }
 
 
@@ -118,23 +101,8 @@ async function getOHLCcandlesticks(exchange, pair, one, six) { // API credit cos
     for (let i = 0; i < six.length; i++) {
         last_week.push(six[i][4]);
     }
-
-    // console.log(last_day);
-    // console.log(last_week);
     return { last_day, last_week};
 }
-
-
-async function coinbaseCurrentPrice() {
-    let filtered = await getAllMarkets();
-    for (var i = 0; i < filtered.length; i++) {
-        let cwPair = filtered[i] + 'usd'
-        // console.log(cwPair);
-        getSingleMarketPrice("coinbase-pro", cwPair);
-        // keyedCoins.push({ 'name': cwPair, "currentPrice": singlePrice })
-    }
-}
-
 
 //RETURNS A OBJECT OF CANDLE DATA 
 async function getCandlesData(pair) {
@@ -162,11 +130,22 @@ async function getNameandTicker() {
         const new_object = (({ name, symbol}) => ({name , symbol}))(object);
         final_arr.push(new_object);
     }
-    console.log(final_arr);
     return final_arr;
+}
+
+//Joins getNameandTicker and getAllMarketPrices array and object 
+async function cryptoInfo() {
+    var object = await getNameandTicker();
+    var array = await getAllMarketPrices();
+    
+    for(let i = 0; i < array.length; i++) {
+        array[i].unshift(object[i].name)
+    }
+    console.log(array);
+    return array;
 }
 
 
 
 
-module.exports = { getNameandTicker, getCandlesData, coinbaseCurrentPrice, getSingleMarketPrice, getAllMarketPrices, getAllMarkets, getMarketDetails, getSingle24HourSummary, getOHLCcandlesticks };
+module.exports = { cryptoInfo, getNameandTicker, getCandlesData, getAllMarketPrices, getAllMarkets, getMarketDetails, getSingle24HourSummary, getOHLCcandlesticks };

@@ -28,6 +28,7 @@ function createData(name, ticker, price) {
     return { name, ticker, price, getButton};
 }
 
+// cryptoInfo return array, lowercase ticker
 const rows = [
     createData('Bitcoin', 'BTC', 44000),
     createData('Ethereum', 'ETH', 4080),
@@ -51,6 +52,7 @@ export default function CryptoGrid() {
         // display data here
         // {name: 'Bitcoin', ticker: 'BTC', price: 44000, getButton: ƒ}
         // import call to query the api 
+        // getCandlesData returns object of lists, lastday, last week
     }
     return (
         <React.Fragment>
