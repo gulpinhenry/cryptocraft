@@ -48,16 +48,16 @@ async function getAllMarketPrices() { // API credit cost 0.005
 
     var marketPrices = Object.keys(arr).filter(function (k) {
         return k.indexOf(phrase) == 0;
-    }).reduce(function(newData, k) {
+    }).reduce(function (newData, k) {
         newData[k] = arr[k];
         return newData;
     }, {});
     const entries = Object.entries(marketPrices);
     var final = [];
-    for (let i = 0;  i < entries.length; i++ ) {
-        if(entries[i][0].slice(-3) === 'usd') {
+    for (let i = 0; i < entries.length; i++) {
+        if (entries[i][0].slice(-3) === 'usd') {
             final.push([entries[i][0].slice(0, -3).substring(20), entries[i][1]]);
-    }
+        }
     }
     return final;
 }
@@ -102,12 +102,12 @@ async function getOHLCcandlesticks(exchange, pair, one, six) { // API credit cos
     for (let i = 0; i < six.length; i++) {
         last_week.push(six[i][4]);
     }
-    return { last_day, last_week};
+    return { last_day, last_week };
 }
 
 //RETURNS A OBJECT OF CANDLE DATA 
 async function getCandlesData(pair) {
-    var sixHr = [];  
+    var sixHr = [];
     var hour = [];
     const exchange = 'coinbase';
 
@@ -119,16 +119,16 @@ async function getCandlesData(pair) {
 // GETS THE ALL ASSETs TICKER AND NAME 
 async function getNameandTicker() {
     let query = `${baseUrl}assets${apikey}`;
-    const response = await axios.get(query); 
+    const response = await axios.get(query);
     const objects = response.data.result; //objects of all cryptos with name and ticker 
 
     const ticker_arr = await getAllMarkets(); //array of all crypto tickers 
-    const final_arr =[];
+    const final_arr = [];
     var result = objects.filter(item => ticker_arr.includes(item.symbol));
 
     for (let i = 0; i < result.length; i++) {
         const object = result[i];
-        const new_object = (({ name, symbol}) => ({name , symbol}))(object);
+        const new_object = (({ name, symbol }) => ({ name, symbol }))(object);
         final_arr.push(new_object);
     }
     return final_arr;
@@ -138,8 +138,8 @@ async function getNameandTicker() {
 async function cryptoInfo() {
     var object = await getNameandTicker();
     var array = await getAllMarketPrices();
-    
-    for(let i = 0; i < array.length; i++) {
+
+    for (let i = 0; i < array.length; i++) {
         array[i].unshift(object[i].name)
     }
     console.log(array);
