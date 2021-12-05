@@ -58,7 +58,6 @@ async function getAllMarketPrices() { // API credit cost 0.005
             final.push([entries[i][0].slice(0, -3).substring(20), entries[i][1]]);
     }
     }
-    console.log(final);
     return final;
 }
 
@@ -131,11 +130,22 @@ async function getNameandTicker() {
         const new_object = (({ name, symbol}) => ({name , symbol}))(object);
         final_arr.push(new_object);
     }
-    console.log(final_arr);
     return final_arr;
+}
+
+//Joins getNameandTicker and getAllMarketPrices array and object 
+async function cryptoInfo() {
+    var object = await getNameandTicker();
+    var array = await getAllMarketPrices();
+    
+    for(let i = 0; i < array.length; i++) {
+        array[i].unshift(object[i].name)
+    }
+    console.log(array);
+    return array;
 }
 
 
 
 
-module.exports = { getNameandTicker, getCandlesData, getAllMarketPrices, getAllMarkets, getMarketDetails, getSingle24HourSummary, getOHLCcandlesticks };
+module.exports = { cryptoInfo, getNameandTicker, getCandlesData, getAllMarketPrices, getAllMarkets, getMarketDetails, getSingle24HourSummary, getOHLCcandlesticks };
