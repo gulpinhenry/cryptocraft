@@ -9,6 +9,19 @@ import PeopleIcon from '@mui/icons-material/People';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import LayersIcon from '@mui/icons-material/Layers';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import AddBoxIcon from '@mui/icons-material/AddBox';
+
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
+import { useState } from 'react';
+import { useMutation } from '@apollo/client';
+import { ADD_PORTFOLIO } from '../utils/mutations';
 
 export const mainListItems = (
     <div>
@@ -46,26 +59,104 @@ export const mainListItems = (
 );
 
 // map portfolios here
-export const secondaryListItems = (
-    <div>
-        <ListSubheader inset>Portfolios</ListSubheader>
-        <ListItem button>
-            <ListItemIcon>
-                <AssignmentIcon />
-            </ListItemIcon>
-            <ListItemText primary="Portfolio 1" />
-        </ListItem>
-        {/* <ListItem button>
-            <ListItemIcon>
-                <AssignmentIcon />
-            </ListItemIcon>
-            <ListItemText primary="Last quarter" />
-        </ListItem>
-        <ListItem button>
-            <ListItemIcon>
-                <AssignmentIcon />
-            </ListItemIcon>
-            <ListItemText primary="Year-end sale" />
-        </ListItem> */}
-    </div>
-);
+export default function SecondaryListItems() {
+    const [open, setOpen] = useState(false)
+    const [formState, setFormState] = useState({ name: '' });
+
+    const [addPortfolio, { error, data }] = useMutation(ADD_PORTFOLIO);
+
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+
+        setFormState({
+            ...formState,
+            [name]: value
+        });
+    }
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    }
+
+    const handleCancel = () => {
+        setOpen(false);
+    };
+
+    const handleAdd = async (event) => {
+        event.preventDefault();
+        console.log(formState);
+
+        try {
+            const { data } = await addPortfolio({
+                variables: { ...formState, usdBalance: 1000000 }
+            })
+            console.log(data)
+        } catch (e) {
+            console.error(e)
+        }
+
+        setFormState({ name: '' });
+        setOpen(false);
+    }
+
+    return (
+        <div>
+            <ListSubheader inset>Portfolios</ListSubheader>
+
+            <ListItem button onClick={handleClickOpen}>
+                <ListItemIcon>
+                    <AssignmentIcon />
+                </ListItemIcon>
+                <ListItemText primary="Portfolio 1" />
+            </ListItem>
+
+            <ListItem button onClick={handleClickOpen}>
+                <ListItemIcon>
+                    <AssignmentIcon />
+                </ListItemIcon>
+                <ListItemText primary="Portfolio 2" />
+            </ListItem>
+
+            <ListItem button onClick={handleClickOpen}>
+                <ListItemIcon>
+                    <AssignmentIcon />
+                </ListItemIcon>
+                <ListItemText primary="Portfolio 3" />
+            </ListItem>
+
+            <ListItem button onClick={handleClickOpen}>
+                <ListItemIcon>
+                    <AssignmentIcon />
+                </ListItemIcon>
+                <ListItemText primary="Portfolio 4" />
+            </ListItem>
+
+            <Dialog open={open} onClose={handleCancel}>
+                <DialogTitle>Add a new Portfolio</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Congrats, you're a millionaire! We fund each of your portfolios with $1,000,000 to start. 
+                        See how different sets of cryptocurrencies perform with each portfolio.
+                    </DialogContentText>
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        name="name"
+                        id="name"
+                        label="Portfolio name"
+                        type="text"
+                        fullWidth
+                        variant="standard"
+                        value={formState.name}
+                        onChange={handleChange}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCancel}>Cancel</Button>
+                    <Button onClick={handleAdd}>Add Portfolio</Button>
+                </DialogActions>
+            </Dialog>
+        </div>
+    )
+
+}

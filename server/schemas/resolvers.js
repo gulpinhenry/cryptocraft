@@ -9,16 +9,16 @@ const resolvers = {
                 return User.findOne({ _id: context.user._id }).populate('portfolios').populate({
                     path: 'portfolios',
                     populate: 'cryptos'
-                  });
+                });
             }
             throw new AuthenticationError('You need to be logged in!');
         },
         users: async (parent, args, context) => {
-           
-                return User.find({}).populate('portfolios').populate({
-                    path: 'portfolios',
-                    populate: 'cryptos'
-                  });
+
+            return User.find({}).populate('portfolios').populate({
+                path: 'portfolios',
+                populate: 'cryptos'
+            });
         }
     },
     Mutation: {
@@ -42,25 +42,32 @@ const resolvers = {
             }
 
             const token = signToken(user);
-            
+
             return { token, user };
         },
-        addPortfolio: async (parent, { name, usdBalance }, context) => {
-//             addPortfolio: async (parent, { id, name, usdBalance }) => {
-            if (context.user) {
+        // addPortfolio: async (parent, { name, usdBalance }, context) => {
+        addPortfolio: async (parent, { name, usdBalance }) => {
+            // if (context.user) {
+            try {
+                console.log('@@@@@@@@@@@heree111111@@@@@@@@@@@@@@@@')
                 const portfolio = await Portfolio.create({
                     name,
                     usdBalance
                 });
+                console.log('@@@@@@@@@@@heree@@@@@@@@@@@@@@@@')
 
                 await User.findOneAndUpdate(
                     { _id: context.user._id },
-//                     { _id: id },
+                    // { _id: id },
                     { $addToSet: { portfolios: portfolio } },
                     { new: true, runValidators: true }
                 )
+            } catch (e) {
+                console.error('something went wrong in trying to add portfolio')
             }
-            throw new AuthenticationError('You need to be logged in')
+
+            // }
+            // throw new AuthenticationError('You need to be logged in')
         },
         removePortfolio: async (parent, { portfolioId }, context) => {
             if (context.user) {
