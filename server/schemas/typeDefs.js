@@ -50,7 +50,7 @@ const typeDefs = gql`
     type Mutation {
         addUser(username: String!, firstName: String!, lastName: String!, password: String!): Auth
         login(username: String!, password: String!): Auth
-        addPortfolio(name: String, usdBalance: Float!): Portfolio
+        addPortfolio(name: String, usdBalance: Float): Portfolio
         removePortfolio(portfolioId: ID!): Portfolio
         buyCrypto(ticker: String!, quantity: Float!, investment: Float!): Portfolio
         sellCrypto(ticker: String!, quantity: Float!): Portfolio

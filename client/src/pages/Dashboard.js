@@ -18,7 +18,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 
 import LogoutIcon from '@mui/icons-material/Logout';
-import { mainListItems, secondaryListItems } from '../components/listItems';
+import { mainListItems } from '../components/listItems';
+import SecondaryListItems from '../components/listItems';
 import Chart from '../components/Chart';
 import InfoTab from '../components/InfoTab';
 // import Browse from '../components/BrowseCryptos';
@@ -157,7 +158,7 @@ function DashboardContent() {
                     <Divider />
                     <List>{mainListItems}</List>
                     <Divider />
-                    <List>{secondaryListItems}</List>
+                    <List>{SecondaryListItems()}</List>
                 </Drawer>
                 <Box
                     component="main"
