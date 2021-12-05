@@ -25,7 +25,7 @@ const rows = [
         'ETH',
         4085
     ),
-// query data here
+    // query data here
 ];
 
 
@@ -43,6 +43,7 @@ export default function Browse() {
                 </TableHead>
                 <TableBody>
                     {rows.map((row) => (
+                        // add onclick to this TableRow to get stats for graph
                         <TableRow key={row.id}>
                             <TableCell>{row.name}</TableCell>
                             <TableCell>{row.ticker}</TableCell>
@@ -51,7 +52,7 @@ export default function Browse() {
                     ))}
                 </TableBody>
             </Table>
-            <Link color="primary" target = "_blank" href="https://coinmarketcap.com/" sx={{ mt: 3 }}>
+            <Link color="primary" target="_blank" href="https://coinmarketcap.com/" sx={{ mt: 3 }}>
                 See more Cryptos
             </Link>
         </React.Fragment>

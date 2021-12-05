@@ -21,8 +21,6 @@ export default function IndividualGraph(props) {
                         labels: portfolioName,
                         data: (props.graph.data),
                         fill: false,
-                        // xAxisID: 'Time',
-                        // yAxisID: 'USD Price',
                         borderColor: 'rgb(175, 92, 192)',
                         tension: 0.1,
                         pointStyle: false,
@@ -32,26 +30,41 @@ export default function IndividualGraph(props) {
                     radius: 0,
                     responsive: true,
                     aspectRatio: 2,
-                    title: {
-                        display: true,
-                    },
                     plugins: {
+                        title: {
+                            display: true,
+                            text: portfolioName
+                        },
                         legend: {
-                            labels: {
-                                // This more specific font property overrides the global property
+                            display: false,
+                        }
+                    },
+                    showXAxisLabel: false,
+                    scales: {
+                        x: {
+                            display: false,
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Value in USD',
+                                font: {
+                                    size: 11
+                                }
+                            },
+                            display: true,
+                            ticks: {
                                 font: {
                                     size: 10
                                 }
-                            }
-                        }
+                            },
+                        },
                     },
-                    interaction: {
+                    interaction: { // allows for hover bubble
                         intersect: false,
-                        // mode: 'index',
                     },
                 }}
             />
-            <div className="card-text">description</div>
         </div>
     );
 }

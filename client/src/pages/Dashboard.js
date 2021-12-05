@@ -24,8 +24,7 @@ import Deposits from '../components/Deposits';
 import Browse from '../components/BrowseCryptos';
 import '../styles/dashboard.css';
 import Auth from '../utils/auth';
-// VVVV Testing Graphs
-import GraphContainer from '../components/PortfolioGraphContainer'; // Delete later
+import GraphContainer from '../components/PortfolioGraphContainer';
 
 
 function Copyright(props) {
@@ -33,7 +32,7 @@ function Copyright(props) {
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
             {'Copyright © '}
 
-            <Link color="inherit" target = "_blank" href="https://github.com/gulpinhenry/cryptocraft">
+            <Link color="inherit" target="_blank" href="https://github.com/gulpinhenry/cryptocraft">
                 cryptocraft
             </Link>{' '}
             {new Date().getFullYear()}
@@ -100,7 +99,7 @@ function DashboardContent() {
         event.preventDefault();
         console.log("logout");
         Auth.logout();
-      }
+    }
 
     return (
         <ThemeProvider theme={mdTheme}>
@@ -206,7 +205,7 @@ function DashboardContent() {
                             </Grid>
                             {/* Recent Orders */}
                             <Grid item xs={12}>
-                                <Paper id = "dashboard-table-container" sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                                <Paper id="dashboard-table-container" sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                                     <Browse />
                                 </Paper>
                             </Grid>
