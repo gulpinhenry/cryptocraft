@@ -6,7 +6,8 @@ const apiKey1 = `?apikey=${process.env.API_KEY1}`;  // API credit allowance of 1
 var keyedCoins = [];
 
 
-// GET ALL MARKETS
+//Get all tickers using getAllMarkets and filtering the data response 
+//Returns a list of tickers
 async function getAllMarkets() { // API credit cost .003
     let query = `${baseUrl}markets${apiKey1}`;
 
@@ -14,18 +15,18 @@ async function getAllMarkets() { // API credit cost .003
 
     crypto_data = response.data.result;
 
-    var filter = [];
-
+    var ticker_arr = [];
 
     for (let i = 0; i < crypto_data.length; i++) {
         if (crypto_data[i].active === true
             && crypto_data[i].pair.slice(-3) == 'usd'
             && crypto_data[i].exchange == 'coinbase-pro') {
-            filter.push(crypto_data[i]);
+            var ticker = crypto_data[i].pair.slice(0, -3)
+            ticker_arr.push(ticker);
         }
     }
-    // console.log(filter);
-    return filter;
+    console.log(ticker_arr);
+    return ticker_arr;
 }
 
 // GET ALL MARKETS-DETAILS
@@ -134,15 +135,18 @@ async function getCandlesData(pair) {
     return candles;
 }
 
-// //Return ticker and name
-// async function getNameandTicker() {
+//GETS THE ALL ASSETs TICKER AND NAME 
+async function getNameandTicker() {
+    let query = `${baseUrl}assets${apiKey1}`;
+    const response = await axios.get(query);
+    console.log(response.data.result)
 
-// }
+}
 
 
 
 
-module.exports = { getCandlesData, coinbaseCurrentPrice, getSingleMarketPrice, getAllMarketPrices, getAllMarkets, getMarketDetails, getSingle24HourSummary, getOHLCcandlesticks };
+module.exports = { getNameandTicker, getCandlesData, coinbaseCurrentPrice, getSingleMarketPrice, getAllMarketPrices, getAllMarkets, getMarketDetails, getSingle24HourSummary, getOHLCcandlesticks };
 
 
 
