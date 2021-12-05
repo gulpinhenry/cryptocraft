@@ -42,9 +42,9 @@ async function getSingleMarketPrice(exchange, pair) { // API credit cost 0.005
 
     const response = await axios.get(query);
     let singlePrice = response.data.result.price;
-    console.log(singlePrice);
+    // console.log(singlePrice);
     keyedCoins.push({ 'name': pair, "currentPrice": singlePrice })
-    console.log(keyedCoins, keyedCoins.length);
+    // console.log(keyedCoins, keyedCoins.length);
     // console.log(response.data);
 }
 
@@ -53,22 +53,36 @@ async function getAllMarketPrices() { // API credit cost 0.005
     let query = `${baseUrl}markets/prices${apiKey1}`;
 
     const response = await axios.get(query);
-    console.log(response.data);
+
+    const arr = response.data.result;
+
+    const phrase = 'market:coinbase-pro:';
+
+    var marketPrices = Object.keys(arr).filter(function (k) {
+        return k.indexOf(phrase) == 0;
+    }).reduce(function(newData, k) {
+        newData[k] = arr[k];
+        return newData;
+    }, {});
+
+    // const values = Object.values(marketPrices);
+    const entries = Object.entries(marketPrices);
+    var final = [];
+    for (let i = 0;  i < entries.length; i++ ) {
+        if(entries[i][0].slice(-3) === 'usd') {
+            final.push(entries[i]);
+    }
+    }
+    console.log(final);
+    return final;
+    // console.log(keys)
+
 }
 
 
 // GET SINGLE 24-HOUR DATA
 async function getSingle24HourSummary(exchange, pair) { // API credit cost 0.005
     let query = `${baseUrl}markets/${exchange}/${pair}/summary${apiKey1}`;
-
-    const response = await axios.get(query);
-    console.log(response.data);
-}
-
-
-// GET SINGLE OHLC CANDLESTICKS
-async function getOHLCcandlesticks(exchange, pair) { // API credit cost 0.015
-    let query = `${baseUrl}markets/${exchange}/${pair}/ohlc${apiKey1}`;
 
     const response = await axios.get(query);
     console.log(response.data);
@@ -115,11 +129,11 @@ async function getOHLCcandlesticks(exchange, pair, one, six) { // API credit cos
 async function coinbaseCurrentPrice() {
     let filtered = await getAllMarkets();
     for (var i = 0; i < filtered.length; i++) {
-        let cwPair = filtered[i].pair
-        console.log(cwPair);
+        let cwPair = filtered[i] + 'usd'
+        // console.log(cwPair);
         getSingleMarketPrice("coinbase-pro", cwPair);
         // keyedCoins.push({ 'name': cwPair, "currentPrice": singlePrice })
-    };
+    }
 }
 
 
