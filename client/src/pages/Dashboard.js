@@ -18,14 +18,17 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 
 import LogoutIcon from '@mui/icons-material/Logout';
-import { mainListItems, secondaryListItems } from '../components/listItems';
+import { mainListItems } from '../components/listItems';
+import SecondaryListItems from '../components/listItems';
 import Chart from '../components/Chart';
-import Deposits from '../components/Deposits';
-import Browse from '../components/BrowseCryptos';
+import InfoTab from '../components/InfoTab';
+// import Browse from '../components/BrowseCryptos';
 import '../styles/dashboard.css';
 import Auth from '../utils/auth';
 import GraphContainer from '../components/GraphContainer';
 
+import CryptoGrid from '../components/CryptoGrid';
+import GraphContainer from '../components/PortfolioGraphContainer'; // Delete later
 
 function Copyright(props) {
     return (
@@ -132,10 +135,9 @@ function DashboardContent() {
                         >
                             Dashboard
                         </Typography>
-                        <IconButton color="inherit">
-                            <Badge color="secondary" onClick={logout}>
+                        <IconButton color="inherit" onClick={logout}>
+                            <Badge color="secondary">
                                 <LogoutIcon />
-                                {/* logout here */}
                             </Badge>
                         </IconButton>
                     </Toolbar>
@@ -156,7 +158,7 @@ function DashboardContent() {
                     <Divider />
                     <List>{mainListItems}</List>
                     <Divider />
-                    <List>{secondaryListItems}</List>
+                    <List>{SecondaryListItems()}</List>
                 </Drawer>
                 <Box
                     component="main"
@@ -190,25 +192,24 @@ function DashboardContent() {
                             </Grid>
                             {/* Recent Deposits */}
                             <Grid item xs={12} md={4} lg={3}>
-                                <Paper
+                                <Paper className="stats-paper"
                                     sx={{
                                         p: 2,
                                         display: 'flex',
                                         flexDirection: 'column',
-                                        height: 400,
-
                                     }}
                                 >
-                                    <Deposits />
+                                    <InfoTab />
                                 </Paper>
                             </Grid>
                             {/* Recent Orders */}
                             <Grid item xs={12}>
                                 <Paper id="dashboard-table-container" sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                                    <Browse />
+                                    <CryptoGrid />
                                 </Paper>
                             </Grid>
                         </Grid>
+
                         <Copyright sx={{ pt: 4 }} />
                     </Container>
                 </Box>

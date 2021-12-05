@@ -6,6 +6,10 @@
     height: 400px;
 }
 
+.stats-paper {
+    height: 400px;
+}
+
 #dashboard-table{
     overflow-x: scroll;
     table-layout: fixed;

@@ -24,10 +24,10 @@ const userSchema = new Schema(
       required: true,
       minlength: 8,
     },
-    portfolios: [{
+    portfolios: {
       type: Schema.Types.ObjectId,
       ref: 'Portfolio'
-    }],
+    },
   },
   {
     toJSON: {
