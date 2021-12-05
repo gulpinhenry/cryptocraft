@@ -34,7 +34,8 @@ async function getMarketDetails(exchange, pair) { // API credit cost .002
     console.log(response.data);
 }
 
-// GET ALL MARKET PRICE
+// Returns a list of tickers, with the associate values using 
+// market prices api call 
 async function getAllMarketPrices() { // API credit cost 0.005
     let query = `${baseUrl}markets/prices${apiKey1}`;
 
@@ -54,7 +55,7 @@ async function getAllMarketPrices() { // API credit cost 0.005
     var final = [];
     for (let i = 0;  i < entries.length; i++ ) {
         if(entries[i][0].slice(-3) === 'usd') {
-            final.push(entries[i]);
+            final.push([entries[i][0].slice(0, -3).substring(20), entries[i][1]]);
     }
     }
     console.log(final);
@@ -137,4 +138,4 @@ async function getNameandTicker() {
 
 
 
-module.exports = { getNameandTicker, getCandlesData, coinbaseCurrentPrice, getSingleMarketPrice, getAllMarketPrices, getAllMarkets, getMarketDetails, getSingle24HourSummary, getOHLCcandlesticks };
+module.exports = { getNameandTicker, getCandlesData, getAllMarketPrices, getAllMarkets, getMarketDetails, getSingle24HourSummary, getOHLCcandlesticks };
