@@ -1,8 +1,9 @@
 const axios = require("axios");
-const { JsonWebTokenError } = require("jsonwebtoken");
+// const { JsonWebTokenError } = require("jsonwebtoken");
 require('dotenv').config();
 const baseUrl = 'https://api.cryptowat.ch/';
 const apiKey1 = `?apikey=${process.env.API_KEY1}`;  // API credit allowance of 10 per day 
+const apikey = 'NHUQDGN12WOLCYB079MA'
 
 //Get all tickers using getAllMarkets and filtering the data response 
 //Returns a list of tickers
@@ -11,7 +12,7 @@ async function getAllMarkets() { // API credit cost .003
 
     const response = await axios.get(query);
 
-    crypto_data = response.data.result;
+    var crypto_data = response.data.result;
 
     var ticker_arr = [];
 
@@ -37,7 +38,7 @@ async function getMarketDetails(exchange, pair) { // API credit cost .002
 // Returns a list of tickers, with the associate values using 
 // market prices api call 
 async function getAllMarketPrices() { // API credit cost 0.005
-    let query = `${baseUrl}markets/prices${apiKey1}`;
+    let query = `${baseUrl}markets/prices${apikey}`;
 
     const response = await axios.get(query);
 
@@ -117,7 +118,7 @@ async function getCandlesData(pair) {
 
 // GETS THE ALL ASSETs TICKER AND NAME 
 async function getNameandTicker() {
-    let query = `${baseUrl}assets${apiKey1}`;
+    let query = `${baseUrl}assets${apikey}`;
     const response = await axios.get(query); 
     const objects = response.data.result; //objects of all cryptos with name and ticker 
 

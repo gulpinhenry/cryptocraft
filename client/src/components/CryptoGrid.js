@@ -11,6 +11,8 @@ import Title from './Title';
 import Link from '@mui/material/Link';
 import Button from '@mui/material/Button';
 
+import { cryptoInfo, getNameandTicker, getAllMarketPrices } from '../utils/cryptowatch';
+
 const columns = [
     { id: 'name', label: 'Name', minWidth: 170 },
     { id: 'ticker', label: 'Ticker', minWidth: 100 },
@@ -53,6 +55,7 @@ export default function CryptoGrid() {
         // {name: 'Bitcoin', ticker: 'BTC', price: 44000, getButton: ƒ}
         // import call to query the api 
         // getCandlesData returns object of lists, lastday, last week
+        console.log(cryptoInfo())
     }
     return (
         <React.Fragment>
