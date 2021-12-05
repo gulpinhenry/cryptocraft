@@ -25,7 +25,6 @@ async function getAllMarkets() { // API credit cost .003
             ticker_arr.push(ticker);
         }
     }
-    console.log(ticker_arr);
     return ticker_arr;
 }
 
@@ -135,11 +134,22 @@ async function getCandlesData(pair) {
     return candles;
 }
 
-//GETS THE ALL ASSETs TICKER AND NAME 
+// GETS THE ALL ASSETs TICKER AND NAME 
 async function getNameandTicker() {
     let query = `${baseUrl}assets${apiKey1}`;
-    const response = await axios.get(query);
-    console.log(response.data.result)
+    const response = await axios.get(query); 
+    const objects = response.data.result; //objects of all cryptos with name and ticker 
+
+    const ticker_arr = await getAllMarkets(); //array of all crypto tickers 
+    const final_arr =[];
+    var result = objects.filter(item => ticker_arr.includes(item.symbol));
+
+    for (let i = 0; i < result.length; i++) {
+        const object = result[i];
+        const new_object = (({ name, symbol}) => ({name , symbol}))(object);
+        final_arr.push(new_object);
+    }
+    console.log(final_arr);
 
 }
 
