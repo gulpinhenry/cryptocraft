@@ -20,7 +20,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { mainListItems, secondaryListItems } from '../components/listItems';
 import Chart from '../components/Chart';
-import Deposits from '../components/Deposits';
+import InfoTab from '../components/InfoTab';
 // import Browse from '../components/BrowseCryptos';
 import '../styles/dashboard.css';
 import Auth from '../utils/auth';
@@ -202,7 +202,7 @@ function DashboardContent() {
 
                                     }}
                                 >
-                                    <Deposits />
+                                    <InfoTab />
                                 </Paper>
                             </Grid>
                             {/* Recent Orders */}

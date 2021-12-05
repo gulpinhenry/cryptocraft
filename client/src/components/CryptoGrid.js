@@ -12,7 +12,7 @@ import Link from '@mui/material/Link';
 
 const columns = [
     { id: 'name', label: 'Name', minWidth: 170 },
-    { id: 'ticker', label: 'ISO\u00a0Code', minWidth: 100 },
+    { id: 'ticker', label: 'Ticker', minWidth: 100 },
     { id: 'price', label: 'Price\u00a0(USD)', minWidth: 170, align: 'right' },
 ];
 

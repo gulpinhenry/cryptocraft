@@ -34,6 +34,7 @@ export default function IndividualGraph(props) {
                 options={{
                     responsive: true,
                     aspectRatio: 2,
+                    maintainAspectRatio: true,
                     title: {
                         display: true,
                     },
@@ -51,7 +52,7 @@ export default function IndividualGraph(props) {
                     },
                 }}
             />
-            <div className="card-text">description</div>
+            {/* <div className="card-text">description</div> */}
         </div>
     );
 }
