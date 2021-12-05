@@ -45,29 +45,26 @@ const resolvers = {
 
             return { token, user };
         },
-        // addPortfolio: async (parent, { name, usdBalance }, context) => {
-        addPortfolio: async (parent, { name, usdBalance }) => {
-            // if (context.user) {
-            try {
-                console.log('@@@@@@@@@@@heree111111@@@@@@@@@@@@@@@@')
+        addPortfolio: async (parent, { name, usdBalance }, context) => {
+        // addPortfolio: async (parent, { name, usdBalance }) => {
+            if (context.user) {
+            // try {
                 const portfolio = await Portfolio.create({
                     name,
                     usdBalance
                 });
-                console.log('@@@@@@@@@@@heree@@@@@@@@@@@@@@@@')
 
+                console.log("created portfolio")
                 await User.findOneAndUpdate(
                     { _id: context.user._id },
                     // { _id: id },
                     { $addToSet: { portfolios: portfolio } },
                     { new: true, runValidators: true }
                 )
-            } catch (e) {
-                console.error('something went wrong in trying to add portfolio')
-            }
+                console.log('updated user')
 
-            // }
-            // throw new AuthenticationError('You need to be logged in')
+            }
+            throw new AuthenticationError('You need to be logged in')
         },
         removePortfolio: async (parent, { portfolioId }, context) => {
             if (context.user) {
