@@ -19,6 +19,9 @@ const resolvers = {
                 path: 'portfolios',
                 populate: 'cryptos'
             });
+        },
+        cryptoData: async(parent, args, context) => {
+            return "hi"
         }
     },
     Mutation: {

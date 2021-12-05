@@ -36,7 +36,7 @@ const typeDefs = gql`
         token: ID!
         user: User
     }
-
+    
     type Query {
         me: User
         users: [User]
@@ -45,6 +45,7 @@ const typeDefs = gql`
         portfolio(username: String, portfolioId: ID!): Portfolio
         cryptos(portfolioId: ID!): [Crypto]
         crypto(portfolioId: ID!, ticker: String!): Crypto
+        cryptoData: String
     }
 
     type Mutation {
