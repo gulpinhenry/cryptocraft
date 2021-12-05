@@ -1,18 +1,14 @@
-import React, { useEffect } from 'react';
-import '../styles/css/Graph.css';
+import React, { useDebugValue, useEffect } from 'react';
+import '../styles/Graph.css';
 import { Line } from 'react-chartjs-2';
-import Chart from 'chart.js/auto'
+import Chart from 'chart.js/auto';
+import { hourTimeInterval, sixHourTimeInterval } from '../utils/timeHelpers'
 
 export default function IndividualGraph(props) {
     let graphDataPoints = (props.graph.data);
     let portfolioName = "YOLO Portfolio"
-    let tempLabel = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
-    useEffect(() => {
-        console.log(props);
-        console.log(props.graph.data);
-
-        console.log("^ G");
-    });
+    console.log(hourTimeInterval(graphDataPoints));
+    let tempLabels = hourTimeInterval(graphDataPoints);
 
 
     return (
@@ -20,29 +16,33 @@ export default function IndividualGraph(props) {
             <Line
                 datasetIdKey='id'
                 data={{
-                    labels: tempLabel, // dummy
+                    labels: tempLabels,
                     datasets: [{
-                        label: portfolioName, // should have name
-                        data: (props.graph.data), // dummy
+                        labels: portfolioName,
+                        data: (props.graph.data),
                         fill: false,
                         // xAxisID: 'Time',
                         // yAxisID: 'USD Price',
                         borderColor: 'rgb(175, 92, 192)',
                         tension: 0.1,
+                        pointStyle: false,
                     }],
                 }}
                 options={{
+                    radius: 0,
                     responsive: true,
                     aspectRatio: 2,
                     title: {
                         display: true,
                     },
-                    scales: {
-                        x: {
-                            type: 'linear',
-                        },
-                        y: {
-                            type: 'linear',
+                    plugins: {
+                        legend: {
+                            labels: {
+                                // This more specific font property overrides the global property
+                                font: {
+                                    size: 10
+                                }
+                            }
                         }
                     },
                     interaction: {
