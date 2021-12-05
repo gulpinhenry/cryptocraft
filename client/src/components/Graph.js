@@ -6,7 +6,7 @@ import { hourTimeInterval, sixHourTimeInterval } from '../utils/timeHelpers'
 
 export default function IndividualGraph(props) {
     let graphDataPoints = (props.graph.data);
-    let portfolioName = "YOLO Portfolio"
+    let titleLabel = "YOLO Portfolio"
     console.log(hourTimeInterval(graphDataPoints));
     let tempLabels = hourTimeInterval(graphDataPoints);
 
@@ -18,7 +18,6 @@ export default function IndividualGraph(props) {
                 data={{
                     labels: tempLabels,
                     datasets: [{
-                        labels: portfolioName,
                         data: (props.graph.data),
                         fill: false,
                         borderColor: 'rgb(175, 92, 192)',
@@ -33,20 +32,19 @@ export default function IndividualGraph(props) {
                     plugins: {
                         title: {
                             display: true,
-                            text: portfolioName
+                            text: titleLabel
                         },
                         legend: {
                             display: false,
                         }
                     },
-                    showXAxisLabel: false,
                     scales: {
                         x: {
                             display: false,
                         },
                         y: {
                             title: {
-                                display: true,
+                                display: false,
                                 text: 'Value in USD',
                                 font: {
                                     size: 11
@@ -62,6 +60,7 @@ export default function IndividualGraph(props) {
                     },
                     interaction: { // allows for hover bubble
                         intersect: false,
+                        backgroundColor: 'rgba(0, 0, 0, 0.57)',
                     },
                 }}
             />

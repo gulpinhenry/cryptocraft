@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-// import './GraphContainer.css';
-import IndividualGraph from './PortfolioGraph.js';
+import '../styles/GraphContainer.css';
+import IndividualGraph from './Graph.js';
 import { graphData } from '../utils/graphData';
 // const graphData = require('../../../server/utils/graphData');
 
@@ -13,7 +13,7 @@ const GraphContainer = () => {
     // });
 
     return (
-        <div className="dashboard-graph-container">
+        <div className="graph-container">
             {graphData.map((graph) => (
                 <IndividualGraph key={graph.id} graph={graph} />
             ))}

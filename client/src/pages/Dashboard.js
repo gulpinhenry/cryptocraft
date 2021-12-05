@@ -25,6 +25,7 @@ import InfoTab from '../components/InfoTab';
 // import Browse from '../components/BrowseCryptos';
 import '../styles/dashboard.css';
 import Auth from '../utils/auth';
+import GraphContainer from '../components/GraphContainer';
 
 import CryptoGrid from '../components/CryptoGrid';
 import GraphContainer from '../components/PortfolioGraphContainer'; // Delete later
@@ -176,12 +177,11 @@ function DashboardContent() {
                         <Grid container spacing={3}>
                             {/* Chart */}
                             <Grid item xs={12} md={8} lg={9}>
-                                <Paper
+                                <Paper className="graph-paper"
                                     sx={{
                                         p: 2,
                                         display: 'flex',
                                         flexDirection: 'column',
-                                        height: 400,
                                     }}
                                 >
                                     {/* delete below after testing */}
@@ -192,13 +192,11 @@ function DashboardContent() {
                             </Grid>
                             {/* Recent Deposits */}
                             <Grid item xs={12} md={4} lg={3}>
-                                <Paper
+                                <Paper className="stats-paper"
                                     sx={{
                                         p: 2,
                                         display: 'flex',
                                         flexDirection: 'column',
-                                        height: 400,
-
                                     }}
                                 >
                                     <InfoTab />
@@ -206,12 +204,12 @@ function DashboardContent() {
                             </Grid>
                             {/* Recent Orders */}
                             <Grid item xs={12}>
-                                <Paper id = "dashboard-table-container" sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                                <Paper id="dashboard-table-container" sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                                     <CryptoGrid />
                                 </Paper>
                             </Grid>
                         </Grid>
-                        
+
                         <Copyright sx={{ pt: 4 }} />
                     </Container>
                 </Box>
