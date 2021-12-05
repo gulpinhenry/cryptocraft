@@ -1,4 +1,14 @@
 .graph-card {
+    width: 90%;
+}
+
+
+@media screen and (max-width: 1200px) {
+    .graph-card {
+        width: 100%;
+    }
+}
+/* .graph-card2 {
     /* width: 90%; */
     /* height: 75%;  */
     /* maintains 4:3 aspect ratio*/
@@ -17,3 +27,4 @@
     height: 90%;
     width: 100%;
 }
+ */
