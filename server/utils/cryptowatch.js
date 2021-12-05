@@ -6,7 +6,8 @@ const apiKey1 = `?apikey=${process.env.API_KEY1}`;  // API credit allowance of 1
 var keyedCoins = [];
 
 
-// GET ALL MARKETS
+//Get all tickers using getAllMarkets and filtering the data response 
+//Returns a list of tickers
 async function getAllMarkets() { // API credit cost .003
     let query = `${baseUrl}markets${apiKey1}`;
 
@@ -14,19 +15,17 @@ async function getAllMarkets() { // API credit cost .003
 
     crypto_data = response.data.result;
 
-    var filter = [];
-
+    var ticker_arr = [];
 
     for (let i = 0; i < crypto_data.length; i++) {
         if (crypto_data[i].active === true
             && crypto_data[i].pair.slice(-3) == 'usd'
             && crypto_data[i].exchange == 'coinbase-pro') {
-            filter.push(crypto_data[i]);
+            var ticker = crypto_data[i].pair.slice(0, -3)
+            ticker_arr.push(ticker);
         }
     }
-    // console.log(filter);
-    return filter;
-
+    return ticker_arr;
 }
 
 // GET ALL MARKETS-DETAILS
@@ -36,15 +35,6 @@ async function getMarketDetails(exchange, pair) { // API credit cost .002
     const response = await axios.get(query);
     console.log(response.data);
 }
-// {
-//     id: 99,
-//     exchange: 'kraken',
-//     pair: 'ethgbp',
-//     active: true,
-//     route: 'https://api.cryptowat.ch/markets/kraken/ethgbp'
-//   },
-
-
 
 // GET SINGLE PRICE - Alex Custom
 async function getSingleMarketPrice(exchange, pair) { // API credit cost 0.005
@@ -118,16 +108,6 @@ async function getOHLCcandlesticks(exchange, pair, one, six) { // API credit cos
 
     // console.log(last_day);
     // console.log(last_week);
-
-    // console.log(listA) // 24 entry points for the last day 
-    // console.log(listB) // 6hr inteveral for the last week  
-    console.log('------------------')
-    // console.log(hour) //one month ago 
-    // console.log('------------------')
-    // console.log(day) //789 two years ago 
-    // console.log('------------------')
-    // console.log(week) //two years ago 
-
     return { last_day, last_week};
 }
 
@@ -143,7 +123,7 @@ async function coinbaseCurrentPrice() {
 }
 
 
-// //RETURNS A OBJECT OF CANDLE DATA 
+//RETURNS A OBJECT OF CANDLE DATA 
 async function getCandlesData(pair) {
     var sixHr = [];  
     var hour = [];
@@ -154,19 +134,26 @@ async function getCandlesData(pair) {
     return candles;
 }
 
+// GETS THE ALL ASSETs TICKER AND NAME 
+async function getNameandTicker() {
+    let query = `${baseUrl}assets${apiKey1}`;
+    const response = await axios.get(query); 
+    const objects = response.data.result; //objects of all cryptos with name and ticker 
+
+    const ticker_arr = await getAllMarkets(); //array of all crypto tickers 
+    const final_arr =[];
+    var result = objects.filter(item => ticker_arr.includes(item.symbol));
+
+    for (let i = 0; i < result.length; i++) {
+        const object = result[i];
+        const new_object = (({ name, symbol}) => ({name , symbol}))(object);
+        final_arr.push(new_object);
+    }
+    console.log(final_arr);
+    return final_arr;
+}
 
 
 
-module.exports = { getCandlesData, coinbaseCurrentPrice, getSingleMarketPrice, getAllMarketPrices, getAllMarkets, getMarketDetails, getSingle24HourSummary, getOHLCcandlesticks };
 
-
-
-// function calcGainsOnSell() {
-//     let sellPrice = (currentPrice * quantity);
-
-//     if (sellPrice >= investment){
-//         let investment = 0;
-//     } else {
-//         let investment = (investment - sellPrice);
-//     }
-// }
+module.exports = { getNameandTicker, getCandlesData, coinbaseCurrentPrice, getSingleMarketPrice, getAllMarketPrices, getAllMarkets, getMarketDetails, getSingle24HourSummary, getOHLCcandlesticks };
