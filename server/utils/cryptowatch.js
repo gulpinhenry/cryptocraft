@@ -3,8 +3,6 @@ const { JsonWebTokenError } = require("jsonwebtoken");
 require('dotenv').config();
 const baseUrl = 'https://api.cryptowat.ch/';
 const apiKey1 = `?apikey=${process.env.API_KEY1}`;  // API credit allowance of 10 per day 
-var keyedCoins = [];
-
 
 //Get all tickers using getAllMarkets and filtering the data response 
 //Returns a list of tickers
@@ -36,18 +34,6 @@ async function getMarketDetails(exchange, pair) { // API credit cost .002
     console.log(response.data);
 }
 
-// GET SINGLE PRICE - Alex Custom
-async function getSingleMarketPrice(exchange, pair) { // API credit cost 0.005
-    let query = `${baseUrl}markets/${exchange}/${pair}/price${apiKey1}`;
-
-    const response = await axios.get(query);
-    let singlePrice = response.data.result.price;
-    // console.log(singlePrice);
-    keyedCoins.push({ 'name': pair, "currentPrice": singlePrice })
-    // console.log(keyedCoins, keyedCoins.length);
-    // console.log(response.data);
-}
-
 // GET ALL MARKET PRICE
 async function getAllMarketPrices() { // API credit cost 0.005
     let query = `${baseUrl}markets/prices${apiKey1}`;
@@ -64,8 +50,6 @@ async function getAllMarketPrices() { // API credit cost 0.005
         newData[k] = arr[k];
         return newData;
     }, {});
-
-    // const values = Object.values(marketPrices);
     const entries = Object.entries(marketPrices);
     var final = [];
     for (let i = 0;  i < entries.length; i++ ) {
@@ -75,8 +59,6 @@ async function getAllMarketPrices() { // API credit cost 0.005
     }
     console.log(final);
     return final;
-    // console.log(keys)
-
 }
 
 
@@ -119,23 +101,8 @@ async function getOHLCcandlesticks(exchange, pair, one, six) { // API credit cos
     for (let i = 0; i < six.length; i++) {
         last_week.push(six[i][4]);
     }
-
-    // console.log(last_day);
-    // console.log(last_week);
     return { last_day, last_week};
 }
-
-
-async function coinbaseCurrentPrice() {
-    let filtered = await getAllMarkets();
-    for (var i = 0; i < filtered.length; i++) {
-        let cwPair = filtered[i] + 'usd'
-        // console.log(cwPair);
-        getSingleMarketPrice("coinbase-pro", cwPair);
-        // keyedCoins.push({ 'name': cwPair, "currentPrice": singlePrice })
-    }
-}
-
 
 //RETURNS A OBJECT OF CANDLE DATA 
 async function getCandlesData(pair) {
