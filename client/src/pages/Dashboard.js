@@ -133,10 +133,9 @@ function DashboardContent() {
                         >
                             Dashboard
                         </Typography>
-                        <IconButton color="inherit">
-                            <Badge color="secondary" onClick={logout}>
+                        <IconButton color="inherit" onClick={logout}>
+                            <Badge color="secondary">
                                 <LogoutIcon />
-                                {/* logout here */}
                             </Badge>
                         </IconButton>
                     </Toolbar>

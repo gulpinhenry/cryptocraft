@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import Portfolios from './pages/Portfolio';
@@ -27,48 +27,29 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-// const client = new ApolloClient({
-//   request: operation => {
-//     const token = localStorage.getItem('id_token')
-//     operation.setContext({
-//       headers: {
-//         authorization: token ? `Bearer ${token}` : ''
-//       }
-//     })
-//   },
-//   uri: '/graphql'
-// })
-
 function App() {
+  const isLoggedIn = localStorage.getItem('id_token');
+  let redirect;
+
+  if (isLoggedIn === null && window.location.pathname !== '/signup') {
+    redirect = <Redirect to='/login'/>
+  }
+
   return (
     <ApolloProvider client={client}>
       <Router>
-        {/* <div className="flex-column justify-flex-start min-100-vh"> */}
         <div>
-          {/* <Navbar /> */}
+          {redirect}
           <Switch>
-            <Route exact path="/">
-              {/* check to see if user is logged in 
-              if user is logged, direct them to /me
-              if not, direct them to login*/}
-              <Dashboard />
-            </Route>
-            <Route exact path="/login">
-              <LogIn />
-            </Route>
-            <Route exact path="/signup">
-              <SignUp />
-            </Route>
-            <Route exact path="/me">
-              <Dashboard />
-            </Route>
-            <Route>
-              <Error />
-            </Route>
+            <Route exact path="/" component={Dashboard} />
+            <Route exact path="/login" component={LogIn} />
+            <Route exact path="/signup" component={SignUp} />
+            <Route exact path="/me" component={Dashboard} />
+            <Route component={Error} />
           </Switch>
         </div>
       </Router>
-    </ApolloProvider>
+    </ApolloProvider >
   );
 }
 
