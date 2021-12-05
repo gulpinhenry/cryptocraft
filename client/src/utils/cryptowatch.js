@@ -1,8 +1,8 @@
 const axios = require("axios");
-const { JsonWebTokenError } = require("jsonwebtoken");
 require('dotenv').config();
 const baseUrl = 'https://api.cryptowat.ch/';
-const apiKey1 = `?apikey=${process.env.API_KEY1}`;  // API credit allowance of 10 per day 
+// const apiKey1 = `?apikey=${process.env.API_KEY1}`;  // API credit allowance of 10 per day 
+const apiKey1 = `?apikey=NHUQDGN12WOLCYB079MA`;
 
 //Get all tickers using getAllMarkets and filtering the data response 
 //Returns a list of tickers
@@ -11,7 +11,7 @@ async function getAllMarkets() { // API credit cost .003
 
     const response = await axios.get(query);
 
-    crypto_data = response.data.result;
+    let crypto_data = response.data.result;
 
     var ticker_arr = [];
 

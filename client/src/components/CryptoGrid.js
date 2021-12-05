@@ -10,6 +10,7 @@ import Table from '@mui/material/Table';
 import Title from './Title';
 import Link from '@mui/material/Link';
 import Button from '@mui/material/Button';
+import { cryptoInfo, getCandlesData } from '../utils/cryptowatch';
 
 const columns = [
     { id: 'name', label: 'Name', minWidth: 170 },
@@ -28,12 +29,20 @@ function createData(name, ticker, price) {
     return { name, ticker, price, getButton};
 }
 
+let rows;
+
 // cryptoInfo return array, lowercase ticker
-const rows = [
+async function createRows(){
+    let arr = await cryptoInfo();
+    console.log(arr);
+}
+createRows();
+rows = [
     createData('Bitcoin', 'BTC', 44000),
     createData('Ethereum', 'ETH', 4080),
     // query data here
 ];
+
 
 export default function CryptoGrid() {
     const [page, setPage] = React.useState(0);
