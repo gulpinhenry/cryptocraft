@@ -17,10 +17,10 @@ const portfolioSchema = new Schema(
       //required: true,
     },
     // used to log the changes in balance from market shifts
-    historicalBalance: {
-      type: Array,
-      default: []
-    },
+    // historicalBalance: {
+    //   type: Array,
+    //   default: []
+    // },
     cryptos: [
       {
         name: {
@@ -33,6 +33,14 @@ const portfolioSchema = new Schema(
         quantity: {
           type: Number,
         },
+        // historical: [{
+        //   unix: {
+        //     type: Number
+        //   },
+        //   historicalQuantity: {
+        //     type: Number
+        //   }
+        // }],
         investment: {
           type: Number,
         },
@@ -40,7 +48,7 @@ const portfolioSchema = new Schema(
         currentPrice: {
           type: Number,
         },
-      }
+      },
     ],
   },
   {
