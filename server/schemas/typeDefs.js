@@ -60,7 +60,7 @@ const typeDefs = gql`
         addUser(username: String!, firstName: String!, lastName: String!, password: String!): Auth
         login(username: String!, password: String!): Auth
         addPortfolio(name: String, usdBalance: Float): Portfolio
-        updateBalance(_id: ID!): Portfolio
+        updateBalance(name: String!): Portfolio
         updateUSDBalance(usdBalance: Float): Portfolio
         updateCryptoQuantity(quantity: Float): Crypto
         removePortfolio(portfolioId: ID!): Portfolio
