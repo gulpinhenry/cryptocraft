@@ -15,7 +15,6 @@ export const GET_PORTFOLIO = gql`
             name
             usdBalance
             cryptos {
-                name
                 ticker
                 quantity
             }

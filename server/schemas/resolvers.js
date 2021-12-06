@@ -9,10 +9,7 @@ const resolvers = {
     Query: {
         me: async (parent, args, context) => {
             if (context.user) {
-                return User.findOne({ _id: context.user._id }).populate('portfolios').populate({
-                    path: 'portfolios',
-                    populate: 'cryptos'
-                });
+                return User.findOne({ _id: context.user._id }).populate('portfolios')
             }
             throw new AuthenticationError('You need to be logged in!');
         },
@@ -119,7 +116,7 @@ const resolvers = {
             }
             throw new AuthenticationError('You need to be logged in');
         },
-        updateBalance: async (parent, {name, deltaBalance}, context) => {
+        updateBalance: async (parent, { name, deltaBalance }, context) => {
             //     console.log('hello');
             // // if (context.user) {
             //     console.log(args = " <- was your arg");
@@ -128,30 +125,30 @@ const resolvers = {
             //     console.log(context.query);
             //     console.log(context.user);
 
-                // let result = await cryptowatch.getCandlesData(args.pair);
-                // return { cryptoInfo: result }
-                // console.log(result)
+            // let result = await cryptowatch.getCandlesData(args.pair);
+            // return { cryptoInfo: result }
+            // console.log(result)
 
-                // return Portfolio.findOneAndUpdate(
-                //     { name: context.user.username }, //args.username
-                //     {
-                //         $addToSet: {
-                //             historicalBalance: {  }
-                //         }
-                //     },
-                //     {
-                //         new: true,
-                //         runValidators: true,
-                //     }
-                // )
-                // // await User.findOneAndUpdate(
-                //     { _id: context.user._id },
+            // return Portfolio.findOneAndUpdate(
+            //     { name: context.user.username }, //args.username
+            //     {
+            //         $addToSet: {
+            //             historicalBalance: {  }
+            //         }
+            //     },
+            //     {
+            //         new: true,
+            //         runValidators: true,
+            //     }
+            // )
+            // // await User.findOneAndUpdate(
+            //     { _id: context.user._id },
 
-                // )
+            // )
             // }
             // throw new AuthenticationError('You need to be logged in');
         },
-        buyCrypto: async (parent, { ticker, quantity }, context) => {
+        buyCrypto: async (parent, { name, ticker, quantity }, context) => {
             if (context.user) {
                 // const crypto = Portfolio.findOneAndUpdate(
                 //     {name: context.user.username},
@@ -161,16 +158,14 @@ const resolvers = {
                 //         }
                 //     }
                 // );
-                console.log("context ysername: ", context.user.username)
-                return Portfolio.findOneAndUpdate({
-                    query: {name: context.user.username}, 
-                    update: {
-                    $push: {
-                            cryptos: { ticker, quantity },
-                        },
-                    upsert: true
-                    }
-                });
+                console.log("hit butCrypto")
+                return Portfolio.findOneAndUpdate(
+                    { name: name },
+                    {$addToSet: {
+                        cryptos: { ticker, quantity },
+                    }},
+                    {upsert: true}
+                );
 
 
                 // db.Portfolio.findAndModify({
@@ -196,7 +191,7 @@ const resolvers = {
                 //     { quantity: { $sum: this.quantity + quantity } },
                 //     { investment: { $sum: this.investment + investment } }
                 // );
-                
+
 
                 // return Portfolio.findOneAndUpdate(
                 //     { _id: portfolioId },

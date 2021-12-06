@@ -22,6 +22,7 @@ import { useMutation } from '@apollo/client';
 import { useCryptoContext } from '../utils/CryptoContext';
 
 import { BUY_CRYPTO } from '../utils/mutations';
+import Auth from '../utils/auth';
 
 function Transaction({ open, handleOpen, action, price }) {
     const { currentTicker, handleTickerChange } = useCryptoContext();
@@ -60,8 +61,10 @@ function Transaction({ open, handleOpen, action, price }) {
     const handleBuy = async (event) => {
         event.preventDefault();
         console.log(`buying ${currentTicker}`, total)
+        console.log('handble buy username', Auth.getProfile().data.username)
         const mutationResponse = await buyCrypto({
             variables: {
+                name: Auth.getProfile().data.username,
                 ticker: currentTicker,
                 quantity: total,
             }
