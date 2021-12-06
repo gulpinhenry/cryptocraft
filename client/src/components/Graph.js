@@ -3,7 +3,8 @@ import '../styles/Graph.css';
 import { Line } from 'react-chartjs-2';
 import Chart from 'chart.js/auto';
 import { graphData } from '../utils/graphData'; // dummy data
-import { hourTimeInterval, sixHourTimeInterval } from '../utils/timeHelpers'
+import { hourTimeInterval, sixHourTimeInterval } from '../utils/timeHelpers';
+import { GET_CRYPTOCANDLES } from '../utils/queries';
 
 export default function Graph(props) {
     let graphDataPoints = graphData[0].price;
@@ -11,6 +12,25 @@ export default function Graph(props) {
     let titleLabel = "YOLO Portfolio"
     // console.log(hourTimeInterval(graphDataPoints));
     let tempLabels = sixHourTimeInterval(graphDataPoints);
+
+
+    /// construction zoonnnnnnneeeee
+    let curTicker = props.currentTicker;
+    const { loading, data } = useQuery(GET_CRYPTOCANDLES, {
+        variables: { pair: 'btc' }
+    });
+
+    let info = graphDataPoints;
+
+    if (loading) {
+        console.log('Now loading graph...')
+    } else {
+        info = data.cryptoDetails.cryptoInfo;
+        console.log(info);
+    }
+
+
+
 
     return (
         <div className="graph-container">
