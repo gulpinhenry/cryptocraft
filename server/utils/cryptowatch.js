@@ -186,6 +186,28 @@ async function cryptoDetails(symbol) {
 }
 
 
+//Returns a 2-D array with unix time and price at that time  
+async function unixPrice(exchange, pair) {
+    let query = `${baseUrl}markets/${exchange}/${pair}/ohlc${apiKey1}`;
+    const response = await axios.get(query); 
 
 
-module.exports = { cryptoDetails, cryptoInfo, getNameandTicker, getCandlesData, getAllMarketPrices, getAllMarkets, getMarketDetails, getSingle24HourSummary, getOHLCcandlesticks };
+    const candleData = response.data.result;
+
+    var six_hr = candleData[Object.keys(candleData)[9]];
+    let six = six_hr.slice(-28);
+    var timePrice = [];
+
+    for (let i = 0; i < six.length; i++) {
+       timePrice.push([six[i][0], six[i][4]]);
+    }
+
+
+    console.log(timePrice)
+
+}
+
+
+
+
+module.exports = { unixPrice, cryptoDetails, cryptoInfo, getNameandTicker, getCandlesData, getAllMarketPrices, getAllMarkets, getMarketDetails, getSingle24HourSummary, getOHLCcandlesticks };
