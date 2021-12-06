@@ -64,6 +64,7 @@ const typeDefs = gql`
         updateUSDBalance(usdBalance: Float): Portfolio
         updateCryptoQuantity(quantity: Float): Crypto
         removePortfolio(portfolioId: ID!): Portfolio
+        # 
         buyCrypto(ticker: String!, quantity: Float!, investment: Float!): Portfolio
         sellCrypto(ticker: String!, quantity: Float!): Portfolio
     }

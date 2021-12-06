@@ -1,9 +1,10 @@
 import '../styles/dashboard.css';
 
 import * as React from 'react';
+import { useEffect } from 'react';
 import { CryptoProvider } from '../utils/CryptoContext';
 import { GET_CRYPTOINFO, GET_CRYPTOCANDLES } from '../utils/queries';
-import { useQuery } from '@apollo/client'
+import { useQuery, useMutation } from '@apollo/client'
 import Auth from '../utils/auth';
 
 
@@ -31,6 +32,8 @@ import CryptoGrid from '../components/CryptoGrid';
 import Graph from '../components/Graph';
 import InfoTab from '../components/InfoTab';
 import SecondaryListItems from '../components/listItems';
+
+import { UPDATE_BALANCE } from '../utils/mutations';
 
 function Copyright(props) {
     return (
@@ -102,9 +105,8 @@ function DashboardContent() {
         event.preventDefault();
         Auth.logout();
     }
-    const { loading, data } = useQuery(GET_CRYPTOCANDLES, {
-        variables: { pair: 'btc' }
-    });
+
+
 
     return (
         <CryptoProvider>
