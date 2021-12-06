@@ -201,9 +201,8 @@ async function unixPrice(exchange, pair) {
     for (let i = 0; i < six.length; i++) {
        timePrice.push([six[i][0], six[i][4]]);
     }
-
-
     console.log(timePrice)
+    return timePrice;
 
 }
 
