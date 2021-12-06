@@ -99,7 +99,8 @@ function DashboardContent() {
     const [open, setOpen] = React.useState(false);
 
     const [currentTicker, setCurrentTicker] = useState('btc');
-    const handleTickerChange = (ticker) => {
+    const handleTickerChange = (event, ticker) => {
+        event.preventDefault();
         setCurrentTicker(ticker);
     }
 

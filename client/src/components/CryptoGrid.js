@@ -115,10 +115,11 @@ export default function CryptoGrid(props) {
                                 .map((row) => {
                                     return (
                                         <TableRow hover role="checkbox" tabIndex={-1} key={row.code}
-                                            currentTicker={props.currentTicker} handleTickerChange={props.handleTickerChange} onClick={() => {
+                                            currentTicker={props.currentTicker} handleTickerChange={props.handleTickerChange} onClick={(event) => {
+                                                event.preventDefault();
                                                 console.log(props.currentTicker);
                                                 tableClick(row);
-                                                props.handleTickerChange(row.ticker);
+                                                props.handleTickerChange(event, row.ticker);
                                             }}>
                                             {columns.map((column, index) => {
                                                 const value = row[index];
