@@ -30,7 +30,6 @@ const columns = [
 
 // gridType will either be "my" or "all"
 export default function CryptoGrid({gridType}) {
-    // console.log("grid" + gridType)
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [open, setOpen] = React.useState(false);
