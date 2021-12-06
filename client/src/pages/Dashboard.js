@@ -205,7 +205,7 @@ function DashboardContent() {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <Paper id="dashboard-table-container" sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                                        <CryptoGrid />
+                                        <CryptoGrid gridType={"all"}/>
                                     </Paper>
                                 </Grid>
                             </Grid>

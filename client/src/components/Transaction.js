@@ -24,54 +24,98 @@ import { useCryptoContext } from '../utils/CryptoContext';
 // add some other query
 
 
-function Transaction({ open, handleOpen, action }) {
+function Transaction({ open, handleOpen, action, price }) {
     const { currentTicker, handleTickerChange } = useCryptoContext();
     const [transactionType, setTransactionType] = React.useState(action);
-    const handleClickOpen = () => {
-        handleOpen(true);
-    };
-
+    const [amount, setAmount] = React.useState(0);
+    const [ptf, setPtf] = React.useState("portfolio1");
+    let total = amount/price;
+    console.log(price);
     const handleClose = () => {
         handleOpen(false);
     };
     const handleTransactionType = (event) => {
         setTransactionType(
-          event.target.value,
+            event.target.value,
         );
-      };
+    };
+    const handleAmountChange = (event) => {
+        setAmount(
+            event.target.value,
+        );
+        total = amount/price;
+    }
+    const handlePtfChange = (event) => {
+        setPtf(
+            event.target.value,
+        );
+    }
     return (
         <div>
             <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>{action == "buy" ? "Buy" : "Sell"} {currentTicker}</DialogTitle>
+                <DialogTitle>Trade {currentTicker}</DialogTitle>
                 <DialogContent>
-                    <DialogContentText>
-                        Some random stuff here{currentTicker}
-                    </DialogContentText>
-                    {/* select which portfolio to buy or choose from */}
-                    <Select
-                        autoFocus
-                        // value={maxWidth}
-                        onChange={handleTransactionType}
-                        label="Transaction Type"
-                        fullWidth
-                        inputProps={{
-                            name: 'Transaction Type',
-                            id: 'Transaction Type',
+
+                    <Box
+                        noValidate
+                        component="form"
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            m: 'auto',
+                            width: 'fit-content',
                         }}
                     >
-                        <MenuItem value="buy">Buy</MenuItem>
-                        <MenuItem value="sell">Sell</MenuItem>
-                    </Select>
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        label="Price" 
-                        type="float" //or some number idk
-                        fullWidth
-                        variant="standard"
-                    />
-                    {/* add text to calculate quantity for them */}
+                        <DialogContentText>
+                            Portfolio
+                        </DialogContentText>
+                        {/* select which portfolio to buy or choose from */}
+                        <Select
+                            autoFocus
+                            value={ptf}
+                            onChange={handlePtfChange}
+                            label="Portfolio"
+                            fullWidth
+                            inputProps={{
+                                name: 'ptf',
+                                id: 'ptf',
+                            }}
+                        >
+                            <MenuItem value="Portfolio 1">portfolio 1</MenuItem>
+                            {/* list other ones here */}
+                        </Select>
+                        <DialogContentText>
+                            Transaction Type
+                        </DialogContentText>
+                        <Select
+                            value={transactionType}
+                            onChange={handleTransactionType}
+                            label="Transaction Type"
+                            fullWidth
+                            inputProps={{
+                                name: 'transactionType',
+                                id: 'transactionType',
+                            }}
+                        >
+                            <MenuItem value="buy">Buy</MenuItem>
+                            <MenuItem value="sell">Sell</MenuItem>
+                        </Select>
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            id="name"
+                            label="$"
+                            type="number" //or some number idk, figure out how to replace it when you click onit
+                            fullWidth
+                            required={true}
+                            defaultValue="0.00"
+                            variant="standard"
+                            onChange={handleAmountChange}
+                        />
+                        <DialogContentText>
+                            {total} {currentTicker}
+                        </DialogContentText>
+                    </Box>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>

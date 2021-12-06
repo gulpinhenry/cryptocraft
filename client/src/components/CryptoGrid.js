@@ -28,19 +28,22 @@ const columns = [
     { id: 'buysell', label: 'Buy/Sell', minWidth: 100, align: 'right' }
 ];
 
-
-export default function CryptoGrid() {
+// gridType will either be "my" or "all"
+export default function CryptoGrid({gridType}) {
+    console.log("grid" + gridType)
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [open, setOpen] = React.useState(false);
+    const [price, setPrice] = React.useState(0)
 
     const { currentTicker, handleTickerChange } = useCryptoContext();
     const { loading, data } = useQuery(GET_CRYPTOINFO);
 
+
     
     function getButton(ticker) {
         return (
-            <button>Buy</button>
+            <button>Trade</button>
         )
     }
     function createData(name, ticker, price) {
@@ -60,11 +63,21 @@ export default function CryptoGrid() {
         console.log('loading crypto grid...')
     } else {
         let temp = [];
-        for (let i = 0; i < data.cryptoData.cryptoInfo.length; i++)
-            temp[i] = data.cryptoData.cryptoInfo[i].slice();
-        temp.forEach(element => {
-            element.push(getButton(element[1]));
-        });
+        if(gridType=="all"){
+            for (let i = 0; i < data.cryptoData.cryptoInfo.length; i++){
+                temp[i] = data.cryptoData.cryptoInfo[i].slice();
+            }
+            temp.forEach(element => {
+                element.push(getButton(element[1]));
+            });
+        }
+        else
+        {
+            temp = [
+                ['My Crypto 1', 'BTC', 50000, getButton('btc')],
+                ['My Crypto 2', 'ETH', 50000, getButton('eth')]
+            ];
+        }
         rows = temp;
     }
 
@@ -85,11 +98,11 @@ export default function CryptoGrid() {
         <React.Fragment>
             <div>
                 {open
-                    ? <Transaction open = {open} handleOpen = {handleOpen} action = {"buy"}/>
+                    ? <Transaction open = {open} handleOpen = {handleOpen} action = {"buy"} price = {price}/>
                     : <div></div>
                 }
             </div>
-            <Title>Browse Cryptos</Title>
+            <Title>{gridType == "all"? "Browse Cryptos" : "My Cryptos"}</Title>
             <Stack spacing={2} sx={{ width: 300 }}>
                 <Autocomplete
                     id="search-for-crypto"
@@ -139,6 +152,8 @@ export default function CryptoGrid() {
                                                             event.stopPropagation();
                                                             handleTickerChange(row[1]);
                                                             console.log(row[1] + " button clicked");
+                                                            setPrice(row[2]);
+                                                            console.log("price here" + price)
                                                             handleOpen(true);
                                                         }}>
                                                             {column.format && typeof value === 'number'
