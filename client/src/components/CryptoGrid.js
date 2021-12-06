@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -18,7 +19,7 @@ import { useQuery } from '@apollo/client'
 const columns = [
     { id: 'name', label: 'Name', minWidth: 170 },
     { id: 'ticker', label: 'Ticker', minWidth: 100 },
-    { id: 'price', label: 'Price\u00a0(USD)', minWidth: 170},
+    { id: 'price', label: 'Price\u00a0(USD)', minWidth: 170 },
     { id: 'buysell', label: 'Buy/Sell', minWidth: 100, align: 'right' }
 ];
 
@@ -29,16 +30,16 @@ const getButton = () => {
 }
 function createData(name, ticker, price) {
     // conditional part here
-    return { name, ticker, price, getButton};
+    return { name, ticker, price, getButton };
 }
 
 let rows;
 
 // cryptoInfo return array, lowercase ticker
-async function createRows(){
+async function createRows() {
     // let arr = await cryptoInfo();
     // console.log(arr);
-    
+
 }
 createRows();
 rows = [
@@ -49,13 +50,21 @@ rows = [
 
 
 export default function CryptoGrid(props) {
+    // Crypt state changers
+    const [currentTicker, setCurrentTicker] = useState('btc');
+    const handleTickerChange = (ticker) => {
+        setCurrentTicker(ticker);
+    }
+    //
+
+
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
     const { loading, data } = useQuery(GET_CRYPTOCANDLES, {
         variables: { pair: '' }
     });
-        
+
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -64,7 +73,7 @@ export default function CryptoGrid(props) {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
-    function tableClick(row){
+    function tableClick(row) {
         console.log(row);
         // display data here
         // {name: 'Bitcoin', ticker: 'BTC', price: 44000, getButton: ƒ}
@@ -80,7 +89,7 @@ export default function CryptoGrid(props) {
                         <TableHead>
                             <TableRow>
                                 {columns.map((column) => (
-                                    <TableCell
+                                    <TableCell 
                                         key={column.id}
                                         align={column.align}
                                         style={{ minWidth: column.minWidth }}
@@ -95,8 +104,12 @@ export default function CryptoGrid(props) {
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row) => {
                                     return (
-                                        
-                                        <TableRow  hover role="checkbox" tabIndex={-1} key={row.code} onClick={() => tableClick(row)}>
+                                        <TableRow hover role="checkbox" tabIndex={-1} key={row.code} 
+                                        currentTicker={currentTicker} handleTickerChange={handleTickerChange} onClick={() => {
+                                            console.log(currentTicker);
+                                            tableClick(row);
+                                            handleTickerChange(row.ticker);
+                                        }}>
                                             {columns.map((column) => {
                                                 const value = row[column.id];
                                                 return (

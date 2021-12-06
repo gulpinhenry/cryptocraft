@@ -108,7 +108,7 @@ function DashboardContent() {
 
     // const { loading, data } = useQuery(GET_CRYPTOINFO);
     const { loading, data } = useQuery(GET_CRYPTOCANDLES, {
-        variables: { pair: 'btcusd' }
+        variables: { pair: 'btc' }
     });
 
     // const cryptoData = data?.cryptoData || []

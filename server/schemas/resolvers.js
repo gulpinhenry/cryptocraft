@@ -25,12 +25,17 @@ const resolvers = {
         },
         cryptoData: async(parent, args, context) => {
             // return cryptodata from cryptowatch
+
             let arr = cryptowatch.cryptoInfo();
             console.log(arr);
             return {cryptoInfo: arr};
         },
         cryptoCandles: async (parent, args, context) => {
             let result = await cryptowatch.getCandlesData(args.pair);
+            return { cryptoInfo: result }
+        },
+        cryptoDetails: async (parent, args, context) => {
+            let result = await cryptowatch.cryptoDetails(args.pair);
             return { cryptoInfo: result }
         }
     },

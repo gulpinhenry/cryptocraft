@@ -71,7 +71,8 @@ async function getSingle24HourSummary(exchange, pair) { // API credit cost 0.005
 }
 
 //GET SINGLE OHLC CANDLESTICKS FOR 
-async function getOHLCcandlesticks(exchange, pair, one, six) { // API credit cost 0.015
+async function getOHLCcandlesticks(exchange, ticker, one, six) { // API credit cost 0.015
+    const pair = ticker + 'usd';
     let query = `${baseUrl}markets/${exchange}/${pair}/ohlc${apiKey1}`;
 
     const response = await axios.get(query);
@@ -114,12 +115,13 @@ async function getOHLCcandlesticks(exchange, pair, one, six) { // API credit cos
 }
 
 //RETURNS A OBJECT OF CANDLE DATA 
-async function getCandlesData(pair) {
+async function getCandlesData(symbol) {
+    let ticker = symbol.toLowerCase()
     var sixHr = [];  
     var hour = [];
     const exchange = 'coinbase';
 
-    const candles = await getOHLCcandlesticks(exchange, pair, sixHr, hour);
+    const candles = await getOHLCcandlesticks(exchange, ticker, sixHr, hour);
     return candles;
 }
 
@@ -154,10 +156,9 @@ async function cryptoInfo() {
 }
 
 //Return percentage change for an individual crypto with the ticker 
-async function cryptoDetails(ticker) {
-    const pair = ticker + 'usd';
-    var candles = await getCandlesData(pair);
-
+async function cryptoDetails(symbol) {
+    let ticker = symbol.toLowerCase()
+    var candles = await getCandlesData(ticker);
 
     const lastDay = candles.last_day;
     const lastWeek = candles.last_week;
