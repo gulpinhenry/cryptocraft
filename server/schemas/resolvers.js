@@ -114,9 +114,10 @@ const resolvers = {
             throw new AuthenticationError('You need to be logged in');
         },
         updateBalance: async (parent, args, context) => {
-            if (context.user) {
-                console.log('i need a miracle')
-
+                console.log('hello');
+            // if (context.user) {
+                console.log('i need a miracle 123')
+                console.log(context);
                 // let result = await cryptowatch.getCandlesData(args.pair);
                 // return { cryptoInfo: result }
                 // console.log(result)
@@ -137,8 +138,8 @@ const resolvers = {
                 //     { _id: context.user._id },
 
                 // )
-            }
-            throw new AuthenticationError('You need to be logged in');
+            // }
+            // throw new AuthenticationError('You need to be logged in');
         },
         buyCrypto: async (parent, { portfolioId, ticker, quantity, investment }, context) => {
             if (context.user) {
