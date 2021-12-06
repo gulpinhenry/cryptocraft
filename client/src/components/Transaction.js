@@ -66,11 +66,12 @@ function Transaction({ open, handleOpen, action }) {
                         autoFocus
                         margin="dense"
                         id="name"
-                        label="Quantity"
+                        label="Price" 
                         type="float" //or some number idk
                         fullWidth
                         variant="standard"
                     />
+                    {/* add text to calculate quantity for them */}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
