@@ -73,7 +73,5 @@ export default function Graph() {
 
 
 
-
-
 // https://react-chartjs-2.netlify.app/docs/working-with-datasets
 // https://www.chartjs.org/docs/latest/charts/line.html
