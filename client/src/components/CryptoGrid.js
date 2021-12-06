@@ -10,7 +10,10 @@ import Table from '@mui/material/Table';
 import Title from './Title';
 import Link from '@mui/material/Link';
 import Button from '@mui/material/Button';
-import { cryptoInfo, getCandlesData } from '../utils/cryptowatch';
+// import { cryptoInfo, getCandlesData } from '../utils/cryptowatch';
+
+import { GET_CRYPTOINFO, GET_CRYPTOCANDLES } from '../utils/queries';
+import { useQuery } from '@apollo/client'
 
 const columns = [
     { id: 'name', label: 'Name', minWidth: 170 },
@@ -33,8 +36,9 @@ let rows;
 
 // cryptoInfo return array, lowercase ticker
 async function createRows(){
-    let arr = await cryptoInfo();
-    console.log(arr);
+    // let arr = await cryptoInfo();
+    // console.log(arr);
+    
 }
 createRows();
 rows = [
@@ -44,10 +48,14 @@ rows = [
 ];
 
 
-export default function CryptoGrid() {
+export default function CryptoGrid(props) {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
+    const { loading, data } = useQuery(GET_CRYPTOCANDLES, {
+        variables: { pair: '' }
+    });
+        
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
