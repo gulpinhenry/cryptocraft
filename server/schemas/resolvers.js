@@ -42,7 +42,7 @@ const resolvers = {
     },
     Mutation: {
         addUser: async (parent, { username, firstName, lastName, password }) => {
-            const portfolio = await Portfolio.create({ name: 'Portfolio', usdBalance: 1000000 })
+            const portfolio = await Portfolio.create({ name: 'Portfolio', usdBalance: 1000000, historicalBalance: [1000000] })
             const user = await User.create({ username, firstName, lastName, password });
             const token = signToken(user);
 
@@ -106,6 +106,25 @@ const resolvers = {
                 )
 
                 return portfolio;
+            }
+            throw new AuthenticationError('You need to be logged in');
+        },
+        updateBalance: async (parent, args, context) => {
+            if (context.user) {
+                const user = await User.findOne({ _id: context.user._id }).populate('portfolios').populate({
+                    path: 'portfolios',
+                    populate: 'cryptos'
+                });
+
+                let result = await cryptowatch.getCandlesData(args.pair);
+                // return { cryptoInfo: result }
+                console.log(result)
+
+                console.log(user)
+                // await User.findOneAndUpdate(
+                //     { _id: context.user._id },
+
+                // )
             }
             throw new AuthenticationError('You need to be logged in');
         },

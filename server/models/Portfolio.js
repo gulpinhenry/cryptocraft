@@ -21,7 +21,6 @@ const portfolioSchema = new Schema(
       type: Array,
       default: []
     },
-
     cryptos: [{
       type: Schema.Types.ObjectId,
       ref: 'Crypto'

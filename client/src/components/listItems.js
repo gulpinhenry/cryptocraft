@@ -16,6 +16,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import Link from '@mui/material/Link'
 
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
@@ -25,7 +26,7 @@ export const mainListItems = (
     <div>
         <ListItem button>
             <ListItemIcon>
-                <DashboardIcon />
+                <Link href="/" className="sideLinks"><DashboardIcon /></Link>
             </ListItemIcon>
             <ListItemText primary="Dashboard" />
         </ListItem>
@@ -40,44 +41,44 @@ export const mainListItems = (
 
 // map portfolios here
 export default function SecondaryListItems() {
-    const [open, setOpen] = useState(false)
-    const [formState, setFormState] = useState({ name: '' });
+    // const [open, setOpen] = useState(false)
+    // const [formState, setFormState] = useState({ name: '' });
 
-    const [addPortfolio, { error, data }] = useMutation(ADD_PORTFOLIO);
+    // const [addPortfolio, { error, data }] = useMutation(ADD_PORTFOLIO);
 
-    const handleChange = (event) => {
-        const { name, value } = event.target;
+    // const handleChange = (event) => {
+    //     const { name, value } = event.target;
 
-        setFormState({
-            ...formState,
-            [name]: value
-        });
-    }
+    //     setFormState({
+    //         ...formState,
+    //         [name]: value
+    //     });
+    // }
 
     const handleClickOpen = () => {
-        setOpen(true);
+
     }
 
-    const handleCancel = () => {
-        setOpen(false);
-    };
+    // const handleCancel = () => {
+    //     setOpen(false);
+    // };
 
-    const handleAdd = async (event) => {
-        event.preventDefault();
-        console.log(formState);
+    // const handleAdd = async (event) => {
+    //     event.preventDefault();
+    //     console.log(formState);
 
-        try {
-            const { data } = await addPortfolio({
-                variables: { ...formState, usdBalance: 1000000 }
-            })
-            console.log(data)
-        } catch (e) {
-            console.error(e)
-        }
+    //     try {
+    //         const { data } = await addPortfolio({
+    //             variables: { ...formState, usdBalance: 1000000 }
+    //         })
+    //         console.log(data)
+    //     } catch (e) {
+    //         console.error(e)
+    //     }
 
-        setFormState({ name: '' });
-        setOpen(false);
-    }
+    //     setFormState({ name: '' });
+    //     setOpen(false);
+    // }
 
     return (
         <div>
@@ -85,12 +86,12 @@ export default function SecondaryListItems() {
 
             <ListItem button onClick={handleClickOpen}>
                 <ListItemIcon>
-                    <AssignmentIcon />
+                    <Link href="/portfolio" className="sideLinks"><AssignmentIcon /></Link>
                 </ListItemIcon>
                 <ListItemText primary="Portfolio" />
             </ListItem>
 
-            <Dialog open={open} onClose={handleCancel}>
+            {/* <Dialog open={open} onClose={handleCancel}>
                 <DialogTitle>Add a new Portfolio</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
@@ -114,7 +115,7 @@ export default function SecondaryListItems() {
                     <Button onClick={handleCancel}>Cancel</Button>
                     <Button onClick={handleAdd}>Add Portfolio</Button>
                 </DialogActions>
-            </Dialog>
+            </Dialog> */}
         </div>
     )
 

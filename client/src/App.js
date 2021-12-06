@@ -46,7 +46,7 @@ function App() {
             <Route exact path="/login" component={LogIn} />
             <Route exact path="/signup" component={SignUp} />
             {/* TODO change routing */}
-            <Route exact path="/portfolio" component={SignUp} />
+            <Route exact path="/portfolio" component={Portfolio} />
             <Route exact path="/me" component={Dashboard} />
             <Route component={Error} />
           </Switch>

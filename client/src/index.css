@@ -15,3 +15,11 @@ h6 {
   font-weight: 300;
   font-style: italic;
 }
+
+.sideLinks {
+  text-decoration: none !important;
+}
+
+.sideLinks:visited {
+  color: white;
+}
