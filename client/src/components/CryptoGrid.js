@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useState } from 'react';
 import { useQuery } from '@apollo/client'
 
 import TableBody from '@mui/material/TableBody';
@@ -30,6 +29,7 @@ const columns = [
 export default function CryptoGrid() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [open, setOpen] = React.useState(false);
 
     const { currentTicker, handleTickerChange } = useCryptoContext();
     const { loading, data } = useQuery(GET_CRYPTOINFO);
@@ -72,15 +72,18 @@ export default function CryptoGrid() {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
-    function clickButton(){
-        console.log("hii desparetarjekhfalifjqawe");
-        return (<Transaction></Transaction>)
-        //dispaly of transaction = true
+    function clickButton() {
+        setOpen(true);
     }
 
     return (
         <React.Fragment>
-            <Transaction></Transaction>
+            <div>
+                {open
+                    ? <Transaction />
+                    : <div></div>
+                }
+            </div>
             <Title>Browse Cryptos</Title>
             <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                 <TableContainer sx={{ maxHeight: 440 }}>
@@ -111,9 +114,9 @@ export default function CryptoGrid() {
                                             }}>
                                             {columns.map((column, index) => {
                                                 const value = row[index];
-                                                if(index == 3){
+                                                if (index == 3) {
                                                     return (
-                                                        <TableCell key={index} align={column.align} onClick={(event) =>{
+                                                        <TableCell key={index} align={column.align} onClick={(event) => {
                                                             event.preventDefault();
                                                             event.stopPropagation();
                                                             handleTickerChange(row[1]);
@@ -139,7 +142,7 @@ export default function CryptoGrid() {
                                 })}
                         </TableBody>
                     </Table>
-                    
+
                 </TableContainer>
                 <TablePagination
                     rowsPerPageOptions={[10, 25, 100]}
