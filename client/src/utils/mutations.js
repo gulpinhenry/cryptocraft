@@ -41,3 +41,11 @@ export const ADD_PORTFOLIO = gql`
         }
     }
 `;
+
+export const UPDATE_BALANCE = gql`
+    mutation updateBalance($name: String!) {
+        updateBalance(name: $name) {
+            historicalBalance
+        }
+    }
+`;

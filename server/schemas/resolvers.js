@@ -23,12 +23,16 @@ const resolvers = {
                 populate: 'cryptos'
             });
         },
-        cryptoData: async(parent, args, context) => {
-            // return cryptodata from cryptowatch
+        cryptoData: async (parent, args, context) => {
+            const user = await User.findOne({ _id: context.user._id }).populate('portfolios').populate({
+                path: 'portfolios',
+                populate: 'cryptos'
+            });
+            console.log(" user test:", user)
 
             let arr = cryptowatch.cryptoInfo();
             console.log(arr);
-            return {cryptoInfo: arr};
+            return { cryptoInfo: arr };
         },
         cryptoCandles: async (parent, args, context) => {
             let result = await cryptowatch.getCandlesData(args.pair);
@@ -42,7 +46,7 @@ const resolvers = {
     },
     Mutation: {
         addUser: async (parent, { username, firstName, lastName, password }) => {
-            const portfolio = await Portfolio.create({ name: 'Portfolio', usdBalance: 1000000 })
+            const portfolio = await Portfolio.create({ name: username, usdBalance: 1000000, historicalBalance: [1000000] })
             const user = await User.create({ username, firstName, lastName, password });
             const token = signToken(user);
 
@@ -52,7 +56,7 @@ const resolvers = {
                 { portfolios: portfolio },
                 { new: true, runValidators: true }
             )
-            
+
             return { token, user };
         },
         login: async (parent, { username, password }) => {
@@ -74,9 +78,9 @@ const resolvers = {
             return { token, user };
         },
         addPortfolio: async (parent, { name, usdBalance }, context) => {
-        // addPortfolio: async (parent, { name, usdBalance }) => {
+            // addPortfolio: async (parent, { name, usdBalance }) => {
             if (context.user) {
-            // try {
+                // try {
                 const portfolio = await Portfolio.create({
                     name,
                     usdBalance
@@ -106,6 +110,33 @@ const resolvers = {
                 )
 
                 return portfolio;
+            }
+            throw new AuthenticationError('You need to be logged in');
+        },
+        updateBalance: async (parent, args, context) => {
+            if (context.user) {
+                console.log('i need a miracle')
+
+                // let result = await cryptowatch.getCandlesData(args.pair);
+                // return { cryptoInfo: result }
+                // console.log(result)
+
+                // return Portfolio.findOneAndUpdate(
+                //     { name: context.user.username }, //args.username
+                //     {
+                //         $addToSet: {
+                //             historicalBalance: {  }
+                //         }
+                //     },
+                //     {
+                //         new: true,
+                //         runValidators: true,
+                //     }
+                // )
+                // // await User.findOneAndUpdate(
+                //     { _id: context.user._id },
+
+                // )
             }
             throw new AuthenticationError('You need to be logged in');
         },

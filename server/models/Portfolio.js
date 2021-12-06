@@ -21,11 +21,27 @@ const portfolioSchema = new Schema(
       type: Array,
       default: []
     },
-
-    cryptos: [{
-      type: Schema.Types.ObjectId,
-      ref: 'Crypto'
-    }],
+    cryptos: [
+      {
+        name: {
+          type: String,
+        },
+        ticker: {
+          type: String,
+        },
+        // percentage of crypto posted
+        quantity: {
+          type: Number,
+        },
+        investment: {
+          type: Number,
+        },
+        // current price of the crypto
+        currentPrice: {
+          type: Number,
+        },
+      }
+    ],
   },
   {
     toJSON: {
