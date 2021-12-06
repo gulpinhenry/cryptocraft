@@ -29,6 +29,9 @@ import GraphContainer from '../components/GraphContainer';
 
 import CryptoGrid from '../components/CryptoGrid';
 
+import { GET_CRYPTOINFO, GET_CRYPTOCANDLES } from '../utils/queries';
+import { useQuery } from '@apollo/client'
+
 function Copyright(props) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -103,6 +106,13 @@ function DashboardContent() {
         Auth.logout();
     }
 
+    // const { loading, data } = useQuery(GET_CRYPTOINFO);
+    const { loading, data } = useQuery(GET_CRYPTOCANDLES, {
+        variables: { pair: 'btcusd' }
+    });
+
+    // const cryptoData = data?.cryptoData || []
+    console.log("dashboard", data)
     return (
         <ThemeProvider theme={mdTheme}>
             <Box sx={{ display: 'flex' }}>

@@ -8,3 +8,19 @@ export const GET_ME = gql`
         }
     }
 `;
+
+export const GET_CRYPTOINFO = gql`
+    query cryptoData {
+        cryptoData {
+            cryptoInfo
+        }
+    }
+`;
+
+export const GET_CRYPTOCANDLES = gql`
+    query cryptoCandles ($pair: String) {
+        cryptoCandles(pair: $pair) {
+            cryptoInfo
+        }
+    }
+`;

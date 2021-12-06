@@ -43,7 +43,6 @@ const typeDefs = gql`
         cryptoInfo: JSON
     }
 
-
     type Query {
         me: User
         users: [User]
@@ -53,6 +52,7 @@ const typeDefs = gql`
         cryptos(portfolioId: ID!): [Crypto]
         crypto(portfolioId: ID!, ticker: String!): Crypto
         cryptoData: cryptoData
+        cryptoCandles(pair: String): cryptoData
     }
 
     type Mutation {

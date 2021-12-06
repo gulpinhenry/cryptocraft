@@ -28,6 +28,10 @@ const resolvers = {
             let arr = cryptowatch.cryptoInfo();
             console.log(arr);
             return {cryptoInfo: arr};
+        },
+        cryptoCandles: async (parent, args, context) => {
+            let result = await cryptowatch.getCandlesData(args.pair);
+            return { cryptoInfo: result }
         }
     },
     Mutation: {
