@@ -143,12 +143,14 @@ const resolvers = {
         },
         buyCrypto: async (parent, { portfolioId, ticker, quantity, investment }, context) => {
             if (context.user) {
-                const crypto = Portfolio.findOne({
-                    _id: portfolioId,
-                    cryptos: {
-                        $elemMatch: { ticker: ticker }
+                const crypto = Portfolio.findOneAndUpdate(
+                    {name: context.user.username},
+                    {
+                        $addToSet: {
+                            cryptos: { ticker, quantity, investment }
+                        }
                     }
-                });
+                );
 
                 // need portfolio id in crypto model??
                 if (!crypto) {
