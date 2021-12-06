@@ -2,23 +2,25 @@ import React, { useDebugValue, useEffect } from 'react';
 import '../styles/Graph.css';
 import { Line } from 'react-chartjs-2';
 import Chart from 'chart.js/auto';
+import { graphData } from '../utils/graphData'; // dummy data
 import { hourTimeInterval, sixHourTimeInterval } from '../utils/timeHelpers'
 
-export default function IndividualGraph(props) {
-    let graphDataPoints = (props.graph.data);
+export default function Graph() {
+    let graphDataPoints = graphData[0].price;
+    // console.log(graphData[0].price);
     let titleLabel = "YOLO Portfolio"
-    console.log(hourTimeInterval(graphDataPoints));
-    let tempLabels = hourTimeInterval(graphDataPoints);
-
+    // console.log(hourTimeInterval(graphDataPoints));
+    let tempLabels = sixHourTimeInterval(graphDataPoints);
 
     return (
+        <div className="graph-container">
         <div className="graph-card" >
             <Line
                 datasetIdKey='id'
                 data={{
                     labels: tempLabels,
                     datasets: [{
-                        data: (props.graph.data),
+                        data: graphDataPoints,
                         fill: false,
                         borderColor: 'rgb(175, 92, 192)',
                         tension: 0.1,
@@ -64,6 +66,7 @@ export default function IndividualGraph(props) {
                     },
                 }}
             />
+        </div>
         </div>
     );
 }
