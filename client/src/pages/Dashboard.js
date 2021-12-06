@@ -26,7 +26,7 @@ import InfoTab from '../components/InfoTab';
 // import Browse from '../components/BrowseCryptos';
 import '../styles/dashboard.css';
 import Auth from '../utils/auth';
-import GraphContainer from '../components/GraphContainer';
+import Graph from '../components/Graph';
 
 import CryptoGrid from '../components/CryptoGrid';
 
@@ -202,7 +202,7 @@ function DashboardContent() {
                                     }}
                                 >
                                     {/* delete below after testing */}
-                                    <GraphContainer />
+                                    <Graph />
                                     {/* the below chart is from rechart */}
                                     {/* <Chart /> */}
                                 </Paper>
