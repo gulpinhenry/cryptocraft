@@ -1,16 +1,40 @@
-import React, { useDebugValue, useEffect } from 'react';
+import * as React from 'react';
+import { useEffect } from 'react';
+
 import '../styles/Graph.css';
+
 import { Line } from 'react-chartjs-2';
 import Chart from 'chart.js/auto';
-import { graphData } from '../utils/graphData'; // dummy data
-import { hourTimeInterval, sixHourTimeInterval } from '../utils/timeHelpers'
 
-export default function Graph(props) {
-    let graphDataPoints = graphData[0].price;
-    // console.log(graphData[0].price);
-    let titleLabel = "YOLO Portfolio"
-    // console.log(hourTimeInterval(graphDataPoints));
-    let tempLabels = sixHourTimeInterval(graphDataPoints);
+import { useQuery } from '@apollo/client';
+import { GET_CRYPTOCANDLES } from '../utils/queries';
+import { useCryptoContext } from '../utils/CryptoContext';
+import { hourTimeInterval, sixHourTimeInterval, dayTimeInterval, weekTimeInterval } from '../utils/timeHelpers';
+
+function preventDefault(event) {
+    event.preventDefault();
+}
+
+export default function Graph() {
+    const { currentTicker, handleTickerChange } = useCryptoContext();
+    const { loading, data } = useQuery(GET_CRYPTOCANDLES, {
+        variables: { pair: currentTicker }
+    });
+    let titleLabel = currentTicker.toUpperCase() + " (price over the past week)";
+
+    // TODO: ADD TOGGLE FOR TIMESCALES
+    let info = [];
+    if (loading) {
+        console.log('loading graph..');
+    } else {
+        // info = data.cryptoCandles.cryptoInfo.last_day;
+        info = data.cryptoCandles.cryptoInfo.last_week;
+        // info = data.cryptoCandles.cryptoInfo.last_year;
+    }
+
+    // let xLabels = hourTimeInterval(graphDataPoints));
+    let xLabels = sixHourTimeInterval(info);
+    // let xLabels = weekTimeInterval(graphDataPoints);
 
     return (
         <div className="graph-container">
@@ -18,9 +42,9 @@ export default function Graph(props) {
                 <Line
                     datasetIdKey='id'
                     data={{
-                        labels: tempLabels,
+                        labels: xLabels,
                         datasets: [{
-                            data: graphDataPoints,
+                            data: info,
                             fill: false,
                             borderColor: 'rgb(175, 92, 192)',
                             tension: 0.1,

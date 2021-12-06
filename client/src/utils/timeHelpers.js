@@ -32,3 +32,14 @@ export function dayTimeInterval(history) {
     }
     return intervalLabels.reverse();
 }
+
+export function weekTimeInterval(history) {
+    var intervalLabels = [];
+    let timeStart = moment();
+    for (var i = 0; i < history.length; i++) {
+        let unixT = (timeStart - (i * 604800000)); // time is milliseconds, thus, 3 digits are added on the end of each unix integer.
+        let timePoint = moment(unixT).format("M-D-YYYY");
+        intervalLabels.push(timePoint);
+    }
+    return intervalLabels.reverse();
+}

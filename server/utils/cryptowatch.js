@@ -31,7 +31,7 @@ async function getMarketDetails(exchange, pair) { // API credit cost .002
     let query = `${baseUrl}markets/${exchange}/${pair}${apiKey1}`;
 
     const response = await axios.get(query);
-    console.log(response.data);
+    // console.log(response.data);
 }
 
 // Returns a list of tickers, with the associate values using 
@@ -67,7 +67,7 @@ async function getSingle24HourSummary(exchange, pair) { // API credit cost 0.005
     let query = `${baseUrl}markets/${exchange}/${pair}/summary${apiKey1}`;
 
     const response = await axios.get(query);
-    console.log(response.data);
+    // console.log(response.data);
 }
 
 //GET SINGLE OHLC CANDLESTICKS FOR 
@@ -148,12 +148,12 @@ async function cryptoInfo() {
     var object = await getNameandTicker();
     var array = await getAllMarketPrices();
 
-    console.log(array);
+    // console.log(array);
     
     for(let i = 0; i < array.length; i++) {
         array[i].unshift(object[i].name)
     }
-    console.log(array);
+    // console.log(array);
     return array;
 }
 
@@ -181,7 +181,7 @@ async function cryptoDetails(symbol) {
         yearly_low: low
     }
 
-    console.log(cryptoData)
+    // console.log(cryptoData)
     return cryptoData;
 }
 
