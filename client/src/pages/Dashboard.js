@@ -30,6 +30,8 @@ import Graph from '../components/Graph';
 
 import CryptoGrid from '../components/CryptoGrid';
 
+import { CryptoProvider } from '../utils/CryptoContext';
+
 import { GET_CRYPTOINFO, GET_CRYPTOCANDLES } from '../utils/queries';
 import { useQuery } from '@apollo/client'
 
@@ -98,11 +100,11 @@ const mdTheme = createTheme();
 function DashboardContent() {
     const [open, setOpen] = React.useState(false);
 
-    const [currentTicker, setCurrentTicker] = useState('btc');
-    const handleTickerChange = (event, ticker) => {
-        event.preventDefault();
-        setCurrentTicker(ticker);
-    }
+    // const [currentTicker, setCurrentTicker] = useState('btc');
+    // const handleTickerChange = (event, ticker) => {
+    //     event.preventDefault();
+    //     setCurrentTicker(ticker);
+    // }
 
     const toggleDrawer = () => {
         setOpen(!open);
@@ -123,6 +125,7 @@ function DashboardContent() {
     // const cryptoData = data?.cryptoData || []
     console.log("dashboard", data)
     return (
+        <CryptoProvider>
         <ThemeProvider theme={mdTheme}>
             <Box sx={{ display: 'flex' }}>
                 <CssBaseline />
@@ -217,13 +220,13 @@ function DashboardContent() {
                                         flexDirection: 'column',
                                     }}
                                 >
-                                    <InfoTab currentTicker={currentTicker} handleTickerChange={handleTickerChange} />
+                                    <InfoTab/>
                                 </Paper>
                             </Grid>
                             {/* Recent Orders */}
                             <Grid item xs={12}>
                                 <Paper id="dashboard-table-container" sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                                    <CryptoGrid currentTicker={currentTicker} handleTickerChange={handleTickerChange}/>
+                                    <CryptoGrid/>
                                 </Paper>
                             </Grid>
                         </Grid>
@@ -233,6 +236,7 @@ function DashboardContent() {
                 </Box>
             </Box>
         </ThemeProvider>
+        </CryptoProvider>
     );
 }
 

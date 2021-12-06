@@ -8,6 +8,7 @@ import Error from './pages/Error';
 import SignUp from './pages/Signup';
 import LogIn from './pages/Login';
 
+
 const httpLink = createHttpLink({
   uri: '/graphql'
 });

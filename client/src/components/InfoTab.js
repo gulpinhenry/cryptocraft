@@ -4,17 +4,17 @@ import Typography from '@mui/material/Typography';
 import Title from './Title';
 import { useQuery } from '@apollo/client';
 import { GET_CRYPTODETAILS } from '../utils/queries';
+import { useCryptoContext } from '../utils/CryptoContext';
 
 function preventDefault(event) {
     event.preventDefault();
 }
 
-export default function InfoTab(props) {
+export default function InfoTab() {
     // get our user data here or maybe portfolio
-    
-    let curTicker = props.currentTicker;
+    const { currentTicker, handleTickerChange } = useCryptoContext();
     const { loading, data } = useQuery(GET_CRYPTODETAILS, {
-        variables: { pair: props.currentTicker }
+        variables: { pair: currentTicker }
     });
     console.log("here");
     let info = 'Loading';
@@ -23,7 +23,6 @@ export default function InfoTab(props) {
         // console.log(props.currentTicker);
         console.log(':D');
     } else {
-        console.log(props.currentTicker);
         // curTicker = props.currentTicker;
         info = data.cryptoDetails.cryptoInfo;
         console.log(info);

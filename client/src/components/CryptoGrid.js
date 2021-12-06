@@ -11,6 +11,7 @@ import Table from '@mui/material/Table';
 import Title from './Title';
 import Link from '@mui/material/Link';
 import Button from '@mui/material/Button';
+import { useCryptoContext } from '../utils/CryptoContext';
 // import { cryptoInfo, getCandlesData } from '../utils/cryptowatch';
 
 import { GET_CRYPTOINFO, GET_CRYPTOCANDLES } from '../utils/queries';
@@ -40,9 +41,9 @@ const getButton = () => {
 // }
 // createRows();
 
-export default function CryptoGrid(props) {
+export default function CryptoGrid() {
 
-    
+    const { currentTicker, handleTickerChange } = useCryptoContext();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     
@@ -115,11 +116,12 @@ export default function CryptoGrid(props) {
                                 .map((row) => {
                                     return (
                                         <TableRow hover role="checkbox" tabIndex={-1} key={row.code}
-                                            currentTicker={props.currentTicker} handleTickerChange={props.handleTickerChange} onClick={(event) => {
+                                            currentTicker={currentTicker} handleTickerChange={handleTickerChange} onClick={(event) => {
                                                 event.preventDefault();
-                                                console.log(props.currentTicker);
-                                                tableClick(row);
-                                                props.handleTickerChange(event, row.ticker);
+                                                console.log(row);
+                                                console.log(row[1]);
+                                                handleTickerChange(row[1]);
+                                                // props.handleTickerChange(row.ticker);
                                             }}>
                                             {columns.map((column, index) => {
                                                 const value = row[index];
