@@ -35,6 +35,7 @@ const resolvers = {
             return { cryptoInfo: result }
         },
         cryptoDetails: async (parent, args, context) => {
+            console.log(args);
             let result = await cryptowatch.cryptoDetails(args.pair);
             return { cryptoInfo: result }
         }

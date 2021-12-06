@@ -55,7 +55,7 @@ async function getAllMarketPrices() { // API credit cost 0.005
     var final = [];
     for (let i = 0;  i < entries.length; i++ ) {
         if(entries[i][0].slice(-3) === 'usd') {
-            final.push([entries[i][0].slice(0, -3).substring(20), entries[i][1]]);
+            final.push([entries[i][0].slice(0, -3).substring(20).toUpperCase(), entries[i][1]]);
     }
     }
     return final;
@@ -147,6 +147,8 @@ async function getNameandTicker() {
 async function cryptoInfo() {
     var object = await getNameandTicker();
     var array = await getAllMarketPrices();
+
+    console.log(array);
     
     for(let i = 0; i < array.length; i++) {
         array[i].unshift(object[i].name)

@@ -52,5 +52,5 @@ db.then(() => {
 // getCandlesData('btcusd');
 // getNameandTicker();
 // cryptoInfo();
-cryptoDetails('btc');
+// cryptoDetails('btc');
 

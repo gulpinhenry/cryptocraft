@@ -24,3 +24,11 @@ export const GET_CRYPTOCANDLES = gql`
         }
     }
 `;
+
+export const GET_CRYPTODETAILS = gql`
+    query cryptoDetails ($pair : String) { 
+        cryptoDetails(pair: $pair) {
+            cryptoInfo
+        }
+    }
+`;

@@ -216,7 +216,7 @@ function DashboardContent() {
                                         flexDirection: 'column',
                                     }}
                                 >
-                                    <InfoTab />
+                                    <InfoTab currentTicker={currentTicker} handleTickerChange={handleTickerChange} />
                                 </Paper>
                             </Grid>
                             {/* Recent Orders */}
