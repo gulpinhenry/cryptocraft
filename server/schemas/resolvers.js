@@ -114,13 +114,13 @@ const resolvers = {
             throw new AuthenticationError('You need to be logged in');
         },
         updateBalance: async (parent, {name, deltaBalance}, context) => {
-                console.log('hello');
-            // if (context.user) {
-                console.log(args = " <- was your arg");
-                console.log('i need a miracle 123')
-                console.log(context.params);
-                console.log(context.query);
-                console.log(context.user);
+            //     console.log('hello');
+            // // if (context.user) {
+            //     console.log(args = " <- was your arg");
+            //     console.log('i need a miracle 123')
+            //     console.log(context.params);
+            //     console.log(context.query);
+            //     console.log(context.user);
 
                 // let result = await cryptowatch.getCandlesData(args.pair);
                 // return { cryptoInfo: result }
