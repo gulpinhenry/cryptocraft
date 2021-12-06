@@ -44,6 +44,7 @@ function Transaction({ open, handleOpen, action, price }) {
             event.target.value,
         );
         total = amount/price;
+   
     }
     const handlePtfChange = (event) => {
         setPtf(
