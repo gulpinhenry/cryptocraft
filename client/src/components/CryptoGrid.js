@@ -28,42 +28,52 @@ const getButton = () => {
         <h1>hi</h1>
     )
 }
-function createData(name, ticker, price) {
-    // conditional part here
-    return { name, ticker, price, getButton };
-}
 
-let rows;
 
-// cryptoInfo return array, lowercase ticker
-async function createRows() {
-    // let arr = await cryptoInfo();
-    // console.log(arr);
+// let rows;
 
-}
-createRows();
-rows = [
-    createData('Bitcoin', 'BTC', 44000),
-    createData('Ethereum', 'ETH', 4080),
-    // query data here
-];
+// // cryptoInfo return array, lowercase ticker
+// async function createRows() {
+//     // let arr = await cryptoInfo();
+//     // console.log(arr);
 
+// }
+// createRows();
 
 export default function CryptoGrid(props) {
-    // Crypt state changers
-    const [currentTicker, setCurrentTicker] = useState('btc');
-    const handleTickerChange = (ticker) => {
-        setCurrentTicker(ticker);
-    }
-    //
 
-
+    
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    
+    // const { loading, data } = useQuery(GET_CRYPTOCANDLES, {
+        //     variables: { pair: '' }
+        // });
+        
+        const { loading, data } = useQuery(GET_CRYPTOINFO);
+        
+        
+        
+        function createData(name, ticker, price) {
+            // conditional part here
+            return { name, ticker, price, getButton };
+        }
+        
+        var rows = [
+            createData('Bitcoin', 'BTC', 44000),
+            createData('Ethereum', 'ETH', 4080),
+            // query data here
+        ];
 
-    const { loading, data } = useQuery(GET_CRYPTOCANDLES, {
-        variables: { pair: '' }
-    });
+        // var rows;
+
+        if (loading) {
+            console.log(':D')
+        } else {
+            rows = data.cryptoData.cryptoInfo
+            // console.log(data.cryptoData.cryptoInfo[0])
+            // for
+        }
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -89,7 +99,7 @@ export default function CryptoGrid(props) {
                         <TableHead>
                             <TableRow>
                                 {columns.map((column) => (
-                                    <TableCell 
+                                    <TableCell
                                         key={column.id}
                                         align={column.align}
                                         style={{ minWidth: column.minWidth }}
@@ -104,16 +114,16 @@ export default function CryptoGrid(props) {
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row) => {
                                     return (
-                                        <TableRow hover role="checkbox" tabIndex={-1} key={row.code} 
-                                        currentTicker={currentTicker} handleTickerChange={handleTickerChange} onClick={() => {
-                                            console.log(currentTicker);
-                                            tableClick(row);
-                                            handleTickerChange(row.ticker);
-                                        }}>
-                                            {columns.map((column) => {
-                                                const value = row[column.id];
+                                        <TableRow hover role="checkbox" tabIndex={-1} key={row.code}
+                                            currentTicker={props.currentTicker} handleTickerChange={props.handleTickerChange} onClick={() => {
+                                                console.log(props.currentTicker);
+                                                tableClick(row);
+                                                props.handleTickerChange(row.ticker);
+                                            }}>
+                                            {columns.map((column, index) => {
+                                                const value = row[index];
                                                 return (
-                                                    <TableCell key={column.id} align={column.align}>
+                                                    <TableCell key={index} align={column.align}>
                                                         {column.format && typeof value === 'number'
                                                             ? column.format(value)
                                                             : value}
