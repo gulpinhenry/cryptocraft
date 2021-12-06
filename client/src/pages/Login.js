@@ -1,22 +1,23 @@
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
+
 import { LOGIN_USER } from '../utils/mutations';
 import Auth from '../utils/auth';
+
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import CssBaseline from '@mui/material/CssBaseline';
+import Grid from '@mui/material/Grid';
+import Link from '@mui/material/Link';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+
+
 
 function Copyright(props) {
     return (
@@ -34,8 +35,8 @@ function Copyright(props) {
 const theme = createTheme();
 
 const LogIn = (props) => {
-    const [formState, setFormState] = useState({ 
-        username: '', password: '' 
+    const [formState, setFormState] = useState({
+        username: '', password: ''
     });
     const [login, { error, data }] = useMutation(LOGIN_USER);
 
@@ -50,20 +51,10 @@ const LogIn = (props) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        // const data = new FormData(event.currentTarget);
-        // // eslint-disable-next-line no-console
-        // console.log({
-        //     email: data.get('email'),
-        //     password: data.get('password'),
-        // });
-        console.log(formState);
         try {
             const { data } = await login({
                 variables: { ...formState }
             })
-
-            console.log(data)
-
             Auth.login(data.login.token)
         } catch (e) {
             console.error(e)

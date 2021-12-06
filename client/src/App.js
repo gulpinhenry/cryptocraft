@@ -2,11 +2,12 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
-import Portfolios from './pages/Portfolio';
+import Portfolio from './pages/Portfolio';
 import Dashboard from './pages/Dashboard';
 import Error from './pages/Error';
 import SignUp from './pages/Signup';
 import LogIn from './pages/Login';
+
 
 const httpLink = createHttpLink({
   uri: '/graphql'
@@ -44,6 +45,7 @@ function App() {
             <Route exact path="/" component={Dashboard} />
             <Route exact path="/login" component={LogIn} />
             <Route exact path="/signup" component={SignUp} />
+            {/* TODO change routing */}
             <Route exact path="/portfolio" component={SignUp} />
             <Route exact path="/me" component={Dashboard} />
             <Route component={Error} />

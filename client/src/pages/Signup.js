@@ -1,10 +1,9 @@
 import * as React from 'react';
+
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -13,9 +12,9 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-// import React, { useState } from 'react';
+
 import { useState } from 'react';
-// import { Link } from 'react-router-dom';
+
 
 import { useMutation } from '@apollo/client';
 import { ADD_USER } from '../utils/mutations';
@@ -57,16 +56,6 @@ export default function SignUp() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        // const data = new FormData(event.currentTarget);
-        // // eslint-disable-next-line no-console
-        // console.log({
-        //     username: data.get('username'),
-        //     firstName: data.get('firstName'),
-        //     lastName: data.get('lastName'),
-        //     password: data.get('password'),
-        // });
-        console.log(formState);
-
         try {
             const { data } = await addUser({
                 variables: { ...formState }
