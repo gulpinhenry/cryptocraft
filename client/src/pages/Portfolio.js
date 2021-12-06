@@ -31,6 +31,7 @@ import { mainListItems } from '../components/listItems';
 import CryptoGrid from '../components/CryptoGrid';
 import Graph from '../components/Graph';
 import InfoTab from '../components/InfoTab';
+import PortfolioTabs from '../components/PortfolioTabs';
 import SecondaryListItems from '../components/listItems';
 
 function Copyright(props) {
@@ -229,9 +230,11 @@ function PortfolioContent() {
                                     </Paper>
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <Paper id="dashboard-table-container" sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                                    {/* add tab here */}
+                                    <PortfolioTabs />
+                                    {/* <Paper id="dashboard-table-container" sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                                         <CryptoGrid />
-                                    </Paper>
+                                    </Paper> */}
                                 </Grid>
                             </Grid>
                             <Copyright sx={{ pt: 4 }} />
