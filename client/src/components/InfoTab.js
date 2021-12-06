@@ -10,7 +10,8 @@ function preventDefault(event) {
     event.preventDefault();
 }
 
-export default function InfoTab() {
+// gridType is either "my" or "all"
+export default function InfoTab({ gridType }) {
     const { currentTicker, handleTickerChange } = useCryptoContext();
     const { loading, data } = useQuery(GET_CRYPTODETAILS, {
         variables: { pair: currentTicker }
@@ -24,30 +25,38 @@ export default function InfoTab() {
     let url = `https://cryptowat.ch/charts/COINBASE-PRO:${currentTicker}-USD`
     return (
         <React.Fragment>
-            <Title>{currentTicker.toUpperCase()}</Title>
-            <Typography component="p">
-                Daily Change: {info.dailyChange}%
-            </Typography>
-            <Typography component="p">
-                Weekly Change: {info.weeklyChange}%
-            </Typography>
-            <Typography component="p">
-                Yearly Change: {info.yearlyChange}%
-                {/* TODO change later */}
-            </Typography>
-            <Typography component="p">
-                52-Wk High: ${info.yearly_high}
-            </Typography>
-            <Typography component="p">
-                52-Wk Low: ${info.yearly_low}
-            </Typography>
+            <Title>{gridType == "all"
+                    ? currentTicker.toUpperCase()
+                : "My Portfolio"}</Title>
+            {
+                gridType == "all"
+                    ?
+                    <div><Typography component="p">
+                        Daily Change: {info.dailyChange}%
+                    </Typography>
+                        <Typography component="p">
+                            Weekly Change: {info.weeklyChange}%
+                        </Typography>
+                        <Typography component="p">
+                            Yearly Change: {info.yearlyChange}%
+                            {/* TODO change later */}
+                        </Typography>
+                        <Typography component="p">
+                            52-Wk High: ${info.yearly_high}
+                        </Typography>
+                        <Typography component="p">
+                            52-Wk Low: ${info.yearly_low}
+                        </Typography></div>
+                    :
+                    <div></div>
+            }
             {/* add a chart pie chart hereinstead of the value */}
             <Typography color="text.secondary" sx={{ flex: 1 }}>
                 on {new Date().toDateString()}
             </Typography>
             <div>
                 {/* https://www.coinbase.com/price/bitcoin, format to make href like this */}
-                <Link color="primary" href={url} target = "_blank" >
+                <Link color="primary" href={url} target="_blank" >
                     Buy Real Coin
                 </Link>
             </div>

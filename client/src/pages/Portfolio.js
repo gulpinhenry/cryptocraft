@@ -97,6 +97,7 @@ const mdTheme = createTheme();
 
 function PortfolioContent() {
     const [open, setOpen] = React.useState(false);
+    const [gridType, setGridType] = React.useState("my");
     const toggleDrawer = () => {
         setOpen(!open);
     };
@@ -105,6 +106,10 @@ function PortfolioContent() {
         Auth.logout();
     }
 
+    const handleGridType = (type) => {
+        console.log(gridType, "changed to", type);
+        setGridType(type);
+    };
     // const [updateBalance, { error }] = useMutation(UPDATE_BALANCE);
 
     // try {
@@ -226,15 +231,11 @@ function PortfolioContent() {
                                             flexDirection: 'column',
                                         }}
                                     >
-                                        <InfoTab />
+                                        <InfoTab gridType={gridType} handleGridType = {handleGridType}/>
                                     </Paper>
                                 </Grid>
                                 <Grid item xs={12}>
-                                    {/* add tab here */}
-                                    <PortfolioTabs />
-                                    {/* <Paper id="dashboard-table-container" sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                                        <CryptoGrid />
-                                    </Paper> */}
+                                    <PortfolioTabs gridType={gridType} handleGridType = {handleGridType} />
                                 </Grid>
                             </Grid>
                             <Copyright sx={{ pt: 4 }} />
