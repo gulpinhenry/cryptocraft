@@ -5,7 +5,7 @@ import Chart from 'chart.js/auto';
 import { graphData } from '../utils/graphData'; // dummy data
 import { hourTimeInterval, sixHourTimeInterval } from '../utils/timeHelpers'
 
-export default function Graph() {
+export default function Graph(props) {
     let graphDataPoints = graphData[0].price;
     // console.log(graphData[0].price);
     let titleLabel = "YOLO Portfolio"
