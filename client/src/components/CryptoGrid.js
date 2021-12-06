@@ -30,14 +30,16 @@ export default function CryptoGrid() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [open, setOpen] = React.useState(false);
+    const [price, setPrice] = React.useState(0)
 
     const { currentTicker, handleTickerChange } = useCryptoContext();
     const { loading, data } = useQuery(GET_CRYPTOINFO);
 
+
     
     function getButton(ticker) {
         return (
-            <button>Buy</button>
+            <button>Trade</button>
         )
     }
     function createData(name, ticker, price) {
@@ -79,7 +81,7 @@ export default function CryptoGrid() {
         <React.Fragment>
             <div>
                 {open
-                    ? <Transaction open = {open} handleOpen = {handleOpen} action = {"buy"}/>
+                    ? <Transaction open = {open} handleOpen = {handleOpen} action = {"buy"} price = {price}/>
                     : <div></div>
                 }
             </div>
@@ -120,6 +122,8 @@ export default function CryptoGrid() {
                                                             event.stopPropagation();
                                                             handleTickerChange(row[1]);
                                                             console.log(row[1] + " button clicked");
+                                                            setPrice(row[2]);
+                                                            console.log("price here" + price)
                                                             handleOpen(true);
                                                         }}>
                                                             {column.format && typeof value === 'number'
