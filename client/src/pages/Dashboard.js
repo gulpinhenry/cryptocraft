@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
@@ -96,6 +97,12 @@ const mdTheme = createTheme();
 
 function DashboardContent() {
     const [open, setOpen] = React.useState(false);
+
+    const [currentTicker, setCurrentTicker] = useState('btc');
+    const handleTickerChange = (ticker) => {
+        setCurrentTicker(ticker);
+    }
+
     const toggleDrawer = () => {
         setOpen(!open);
     };
@@ -107,6 +114,7 @@ function DashboardContent() {
     }
 
     // const { loading, data } = useQuery(GET_CRYPTOINFO);
+    // console.log(data.cryptoInfo)
     const { loading, data } = useQuery(GET_CRYPTOCANDLES, {
         variables: { pair: 'btc' }
     });
@@ -214,7 +222,7 @@ function DashboardContent() {
                             {/* Recent Orders */}
                             <Grid item xs={12}>
                                 <Paper id="dashboard-table-container" sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                                    <CryptoGrid />
+                                    <CryptoGrid currentTicker={currentTicker} handleTickerChange={handleTickerChange}/>
                                 </Paper>
                             </Grid>
                         </Grid>
