@@ -12,7 +12,7 @@ export const CryptoProvider = ({ children }) => {
 
   // Function to add a student
   const handleTickerChange = (ticker) => {
-      console.log("here " + ticker);
+      // console.log("here " + ticker);
     setCurrentTicker(ticker);
 }
     
