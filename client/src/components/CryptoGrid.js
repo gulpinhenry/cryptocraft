@@ -12,6 +12,9 @@ import Table from '@mui/material/Table';
 import Title from './Title';
 import Link from '@mui/material/Link';
 import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Stack from '@mui/material/Stack';
+import Autocomplete from '@mui/material/Autocomplete';
 
 import { useCryptoContext } from '../utils/CryptoContext';
 import { GET_CRYPTOINFO } from '../utils/queries';
@@ -64,9 +67,25 @@ export default function CryptoGrid() {
         setPage(0);
     };
 
+
+    
+
     return (
         <React.Fragment>
             <Title>Browse Cryptos</Title>
+            <Stack spacing={2} sx={{ width: 300 }}>
+                <Autocomplete
+                    id="search-for-crypto"
+                    freeSolo
+                    options={rows.map((option) => option[1])}
+                    renderInput={(params) => <TextField {...params} label="Search For Crypto" onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          const ticker = params.inputProps.value.toLowerCase();
+                          handleTickerChange(ticker);
+                        }
+                      }}  />}
+                />
+            </Stack>
             <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                 <TableContainer sx={{ maxHeight: 440 }}>
                     <Table stickyHeader aria-label="Crypto Table">
