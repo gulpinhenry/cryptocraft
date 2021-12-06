@@ -53,6 +53,7 @@ const typeDefs = gql`
         crypto(portfolioId: ID!, ticker: String!): Crypto
         cryptoData: cryptoData
         cryptoCandles(pair: String): cryptoData
+        cryptoDetails(pair: String): cryptoData
     }
 
     type Mutation {
