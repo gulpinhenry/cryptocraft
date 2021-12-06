@@ -52,12 +52,11 @@ export const UPDATE_BALANCE = gql`
 
 
 export const BUY_CRYPTO = gql`
-    mutation buyCrypto($ticker: String! , $quantity: Float! , $investment: Float!) {
-        buyCrypto(ticker: $ticker, quantity: $quantity, investment: $investment) {
+    mutation buyCrypto($ticker: String! , $quantity: Float!) {
+        buyCrypto(ticker: $ticker, quantity: $quantity) {
             cryptos {
-            ticker
-            quantity
-            investment
+                ticker
+                quantity
             }
         }
     }

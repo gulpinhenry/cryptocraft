@@ -9,6 +9,20 @@ export const GET_ME = gql`
     }
 `;
 
+export const GET_PORTFOLIO = gql`
+    query getPortfolio ($name: String) {
+        getPortfolio (name: $name) {
+            name
+            usdBalance
+            cryptos {
+                name
+                ticker
+                quantity
+            }
+        }
+    }
+`;
+
 export const GET_CRYPTOINFO = gql`
     query cryptoData {
         cryptoData {

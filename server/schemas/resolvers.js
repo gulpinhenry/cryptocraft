@@ -23,6 +23,12 @@ const resolvers = {
                 populate: 'cryptos'
             });
         },
+        getPortfolio: async (parent, { name }) => {
+            return Portfolio.findOne(
+                { name: name }
+
+            )
+        },
         cryptoData: async (parent, args, context) => {
             const user = await User.findOne({ _id: context.user._id }).populate('portfolios').populate({
                 path: 'portfolios',
@@ -145,7 +151,7 @@ const resolvers = {
             // }
             // throw new AuthenticationError('You need to be logged in');
         },
-        buyCrypto: async (parent, { ticker, quantity, investment }, context) => {
+        buyCrypto: async (parent, { ticker, quantity }, context) => {
             if (context.user) {
                 // const crypto = Portfolio.findOneAndUpdate(
                 //     {name: context.user.username},
@@ -155,15 +161,17 @@ const resolvers = {
                 //         }
                 //     }
                 // );
-                return crypto = Portfolio.findAndModify({
+                console.log("context ysername: ", context.user.username)
+                return Portfolio.findOneAndUpdate({
                     query: {name: context.user.username}, 
                     update: {
-                        $addToSet: {
-                            cryptos: { ticker, quantity, investment },
+                    $push: {
+                            cryptos: { ticker, quantity },
                         },
                     upsert: true
                     }
                 });
+
 
                 // db.Portfolio.findAndModify({
                 //     query: { name: "Andy" },     

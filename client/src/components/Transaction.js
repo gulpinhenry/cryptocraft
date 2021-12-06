@@ -20,36 +20,57 @@ import { useQuery } from '@apollo/client'
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { useCryptoContext } from '../utils/CryptoContext';
-// import { ADD_PORTFOLIO } from '../utils/mutations';
-// add some other query
 
+import { BUY_CRYPTO } from '../utils/mutations';
 
 function Transaction({ open, handleOpen, action, price }) {
     const { currentTicker, handleTickerChange } = useCryptoContext();
     const [transactionType, setTransactionType] = React.useState(action);
     const [amount, setAmount] = React.useState(0);
     const [ptf, setPtf] = React.useState("portfolio1");
-    let total = amount/price;
+
+    const [buyCrypto] = useMutation(BUY_CRYPTO);
+
+
+    let total = amount / price;
     console.log(price);
     const handleClose = () => {
         handleOpen(false);
     };
+
     const handleTransactionType = (event) => {
         setTransactionType(
             event.target.value,
         );
     };
+
     const handleAmountChange = (event) => {
         setAmount(
             event.target.value,
         );
-        total = amount/price;
+        total = amount / price;
     }
+
     const handlePtfChange = (event) => {
         setPtf(
             event.target.value,
         );
     }
+
+    const handleBuy = async (event) => {
+        event.preventDefault();
+        console.log(`buying ${currentTicker}`, total)
+        const mutationResponse = await buyCrypto({
+            variables: {
+                ticker: currentTicker,
+                quantity: total,
+            }
+        })
+
+        handleClose();
+        return mutationResponse;
+    }
+
     return (
         <div>
             <Dialog open={open} onClose={handleClose}>
@@ -119,7 +140,7 @@ function Transaction({ open, handleOpen, action, price }) {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleClose}>{transactionType == "buy" ? "Purchase" : "Sell"}</Button>
+                    <Button onClick={handleBuy}>{transactionType == "buy" ? "Purchase" : "Sell"}</Button>
                 </DialogActions>
             </Dialog>
         </div>
