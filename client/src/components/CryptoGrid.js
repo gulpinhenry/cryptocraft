@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { useQuery } from '@apollo/client'
 
 import TableBody from '@mui/material/TableBody';
@@ -13,6 +14,7 @@ import Title from './Title';
 import Link from '@mui/material/Link';
 import Button from '@mui/material/Button';
 
+import Transaction from './Transaction';
 import { useCryptoContext } from '../utils/CryptoContext';
 import { GET_CRYPTOINFO } from '../utils/queries';
 
@@ -24,12 +26,6 @@ const columns = [
     { id: 'buysell', label: 'Buy/Sell', minWidth: 100, align: 'right' }
 ];
 
-const getButton = () => {
-    // buy/sell TODO
-    return (
-        <h1>hi</h1>
-    )
-}
 
 export default function CryptoGrid() {
     const [page, setPage] = React.useState(0);
@@ -38,9 +34,16 @@ export default function CryptoGrid() {
     const { currentTicker, handleTickerChange } = useCryptoContext();
     const { loading, data } = useQuery(GET_CRYPTOINFO);
 
+    function getButton(ticker) {
+        return (
+            <button>Buy</button>
+        )
+    }
     function createData(name, ticker, price) {
         // TODO add button
-        return { name, ticker, price, getButton };
+        let btn = getButton(ticker);
+        // console.log(btn);
+        return { name, ticker, price, btn };
     }
 
     // default seed data
@@ -52,7 +55,13 @@ export default function CryptoGrid() {
     if (loading) {
         console.log('loading crypto grid...')
     } else {
-        rows = data.cryptoData.cryptoInfo;
+        let temp = [];
+        for (let i = 0; i < data.cryptoData.cryptoInfo.length; i++)
+            temp[i] = data.cryptoData.cryptoInfo[i].slice();
+        temp.forEach(element => {
+            element.push(getButton(element[1]));
+        });
+        rows = temp;
     }
 
     const handleChangePage = (event, newPage) => {
@@ -63,9 +72,15 @@ export default function CryptoGrid() {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
+    function clickButton(){
+        console.log("hii desparetarjekhfalifjqawe");
+        return (<Transaction></Transaction>)
+        //dispaly of transaction = true
+    }
 
     return (
         <React.Fragment>
+            <Transaction></Transaction>
             <Title>Browse Cryptos</Title>
             <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                 <TableContainer sx={{ maxHeight: 440 }}>
@@ -96,6 +111,21 @@ export default function CryptoGrid() {
                                             }}>
                                             {columns.map((column, index) => {
                                                 const value = row[index];
+                                                if(index == 3){
+                                                    return (
+                                                        <TableCell key={index} align={column.align} onClick={(event) =>{
+                                                            event.preventDefault();
+                                                            event.stopPropagation();
+                                                            handleTickerChange(row[1]);
+                                                            console.log(row[1] + " button clicked");
+                                                            clickButton();
+                                                        }}>
+                                                            {column.format && typeof value === 'number'
+                                                                ? column.format(value)
+                                                                : value}
+                                                        </TableCell>
+                                                    );
+                                                }
                                                 return (
                                                     <TableCell key={index} align={column.align}>
                                                         {column.format && typeof value === 'number'
@@ -109,6 +139,7 @@ export default function CryptoGrid() {
                                 })}
                         </TableBody>
                     </Table>
+                    
                 </TableContainer>
                 <TablePagination
                     rowsPerPageOptions={[10, 25, 100]}

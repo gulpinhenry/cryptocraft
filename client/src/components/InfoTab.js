@@ -24,7 +24,7 @@ export default function InfoTab() {
     let url = `https://cryptowat.ch/charts/COINBASE-PRO:${currentTicker}-USD`
     return (
         <React.Fragment>
-            <Title>My Portfolios</Title>
+            <Title>{currentTicker.toUpperCase()}</Title>
             <Typography component="p">
                 Daily Change: {info.dailyChange}%
             </Typography>
