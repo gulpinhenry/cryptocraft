@@ -14,59 +14,59 @@ export default function Graph() {
 
     return (
         <div className="graph-container">
-        <div className="graph-card" >
-            <Line
-                datasetIdKey='id'
-                data={{
-                    labels: tempLabels,
-                    datasets: [{
-                        data: graphDataPoints,
-                        fill: false,
-                        borderColor: 'rgb(175, 92, 192)',
-                        tension: 0.1,
-                        pointStyle: false,
-                    }],
-                }}
-                options={{
-                    radius: 0,
-                    responsive: true,
-                    aspectRatio: 2,
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: titleLabel
-                        },
-                        legend: {
-                            display: false,
-                        }
-                    },
-                    scales: {
-                        x: {
-                            display: false,
-                        },
-                        y: {
+            <div className="graph-card" >
+                <Line
+                    datasetIdKey='id'
+                    data={{
+                        labels: tempLabels,
+                        datasets: [{
+                            data: graphDataPoints,
+                            fill: false,
+                            borderColor: 'rgb(175, 92, 192)',
+                            tension: 0.1,
+                            pointStyle: false,
+                        }],
+                    }}
+                    options={{
+                        radius: 0,
+                        responsive: true,
+                        aspectRatio: 2,
+                        plugins: {
                             title: {
-                                display: false,
-                                text: 'Value in USD',
-                                font: {
-                                    size: 11
-                                }
+                                display: true,
+                                text: titleLabel
                             },
-                            display: true,
-                            ticks: {
-                                font: {
-                                    size: 10
-                                }
+                            legend: {
+                                display: false,
+                            }
+                        },
+                        scales: {
+                            x: {
+                                display: false,
+                            },
+                            y: {
+                                title: {
+                                    display: false,
+                                    text: 'Value in USD',
+                                    font: {
+                                        size: 11
+                                    }
+                                },
+                                display: true,
+                                ticks: {
+                                    font: {
+                                        size: 10
+                                    }
+                                },
                             },
                         },
-                    },
-                    interaction: { // allows for hover bubble
-                        intersect: false,
-                        backgroundColor: 'rgba(0, 0, 0, 0.57)',
-                    },
-                }}
-            />
-        </div>
+                        interaction: { // allows for hover bubble
+                            intersect: false,
+                            backgroundColor: 'rgba(0, 0, 0, 0.57)',
+                        },
+                    }}
+                />
+            </div>
         </div>
     );
 }
