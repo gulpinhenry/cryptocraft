@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useQuery } from '@apollo/client'
+
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -11,11 +12,10 @@ import Table from '@mui/material/Table';
 import Title from './Title';
 import Link from '@mui/material/Link';
 import Button from '@mui/material/Button';
-import { useCryptoContext } from '../utils/CryptoContext';
-// import { cryptoInfo, getCandlesData } from '../utils/cryptowatch';
 
-import { GET_CRYPTOINFO, GET_CRYPTOCANDLES } from '../utils/queries';
-import { useQuery } from '@apollo/client'
+import { useCryptoContext } from '../utils/CryptoContext';
+import { GET_CRYPTOINFO } from '../utils/queries';
+
 
 const columns = [
     { id: 'name', label: 'Name', minWidth: 170 },
@@ -25,56 +25,35 @@ const columns = [
 ];
 
 const getButton = () => {
+    // buy/sell TODO
     return (
         <h1>hi</h1>
     )
 }
 
-
-// let rows;
-
-// // cryptoInfo return array, lowercase ticker
-// async function createRows() {
-//     // let arr = await cryptoInfo();
-//     // console.log(arr);
-
-// }
-// createRows();
-
 export default function CryptoGrid() {
-
-    const { currentTicker, handleTickerChange } = useCryptoContext();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    
-    // const { loading, data } = useQuery(GET_CRYPTOCANDLES, {
-        //     variables: { pair: '' }
-        // });
-        
-        const { loading, data } = useQuery(GET_CRYPTOINFO);
-        
-        
-        
-        function createData(name, ticker, price) {
-            // conditional part here
-            return { name, ticker, price, getButton };
-        }
-        
-        var rows = [
-            createData('Bitcoin', 'BTC', 44000),
-            createData('Ethereum', 'ETH', 4080),
-            // query data here
-        ];
 
-        // var rows;
+    const { currentTicker, handleTickerChange } = useCryptoContext();
+    const { loading, data } = useQuery(GET_CRYPTOINFO);
 
-        if (loading) {
-            console.log(':D')
-        } else {
-            rows = data.cryptoData.cryptoInfo
-            // console.log(data.cryptoData.cryptoInfo[0])
-            // for
-        }
+    function createData(name, ticker, price) {
+        // TODO add button
+        return { name, ticker, price, getButton };
+    }
+
+    // default seed data
+    var rows = [
+        createData('Bitcoin', 'BTC', 44000),
+        createData('Ethereum', 'ETH', 4080),
+    ];
+
+    if (loading) {
+        console.log('loading crypto grid...')
+    } else {
+        rows = data.cryptoData.cryptoInfo;
+    }
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -84,19 +63,13 @@ export default function CryptoGrid() {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
-    function tableClick(row) {
-        console.log(row);
-        // display data here
-        // {name: 'Bitcoin', ticker: 'BTC', price: 44000, getButton: ƒ}
-        // import call to query the api 
-        // getCandlesData returns object of lists, lastday, last week
-    }
+
     return (
         <React.Fragment>
             <Title>Browse Cryptos</Title>
             <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                 <TableContainer sx={{ maxHeight: 440 }}>
-                    <Table stickyHeader aria-label="sticky table">
+                    <Table stickyHeader aria-label="Crypto Table">
                         <TableHead>
                             <TableRow>
                                 {columns.map((column) => (
@@ -113,15 +86,13 @@ export default function CryptoGrid() {
                         <TableBody>
                             {rows
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                .map((row) => {
+                                .map((row, index) => {
                                     return (
-                                        <TableRow hover role="checkbox" tabIndex={-1} key={row.code}
+                                        <TableRow hover role="checkbox" tabIndex={-1} key={index}
                                             currentTicker={currentTicker} handleTickerChange={handleTickerChange} onClick={(event) => {
                                                 event.preventDefault();
-                                                console.log(row);
-                                                console.log(row[1]);
                                                 handleTickerChange(row[1]);
-                                                // props.handleTickerChange(row.ticker);
+                                                // handles what row is being clicked on, saves ticker to render other components, saves to context
                                             }}>
                                             {columns.map((column, index) => {
                                                 const value = row[index];
