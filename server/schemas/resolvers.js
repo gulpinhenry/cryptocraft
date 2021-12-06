@@ -145,41 +145,55 @@ const resolvers = {
             // }
             // throw new AuthenticationError('You need to be logged in');
         },
-        buyCrypto: async (parent, { portfolioId, ticker, quantity, investment }, context) => {
+        buyCrypto: async (parent, { ticker, quantity, investment }, context) => {
             if (context.user) {
-                const crypto = Portfolio.findOneAndUpdate(
-                    {name: context.user.username},
-                    {
+                // const crypto = Portfolio.findOneAndUpdate(
+                //     {name: context.user.username},
+                //     {
+                //         $addToSet: {
+                //             cryptos: { ticker, quantity, investment }
+                //         }
+                //     }
+                // );
+                return crypto = Portfolio.findAndModify({
+                    query: {name: context.user.username}, 
+                    update: {
                         $addToSet: {
-                            cryptos: { ticker, quantity, investment }
-                        }
+                            cryptos: { ticker, quantity, investment },
+                        },
+                    upsert: true
                     }
-                );
+                });
+
+                // db.Portfolio.findAndModify({
+                //     query: { name: "Andy" },     
+                //     update: { $inc: { score: 1 } },     upsert: true   })
 
                 // need portfolio id in crypto model??
-                if (!crypto) {
-                    const newCrypto = await Crypto.create({
-                        ticker: ticker,
-                        quantity: quantity,
-                        investment: investment
-                    })
+                // if (!crypto) {
+                //     const newCrypto = await Crypto.create({
+                //         ticker: ticker,
+                //         quantity: quantity,
+                //         investment: investment
+                //     })
 
-                    return Portfolio.findOneAndUpdate(
-                        { _id: portfolioId },
-                        { $addToSet: { cryptos: newCrypto } }
-                    )
-                }
+                //     return Portfolio.findOneAndUpdate(
+                //         { _id: portfolioId },
+                //         { $addToSet: { cryptos: newCrypto } }
+                //     )
+                // }
 
-                const updatedCrypto = await Crypto.findOneAndUpdate(
-                    { ticker: ticker },
-                    { quantity: { $sum: this.quantity + quantity } },
-                    { investment: { $sum: this.investment + investment } }
-                );
+                // const updatedCrypto = await Crypto.findOneAndUpdate(
+                //     { ticker: ticker },
+                //     { quantity: { $sum: this.quantity + quantity } },
+                //     { investment: { $sum: this.investment + investment } }
+                // );
+                
 
-                return Portfolio.findOneAndUpdate(
-                    { _id: portfolioId },
-                    { $addToSet: { cryptos: updatedCrypto } } // change it to set or update
-                )
+                // return Portfolio.findOneAndUpdate(
+                //     { _id: portfolioId },
+                //     { $addToSet: { cryptos: updatedCrypto } } // change it to set or update
+                // )
             }
             throw new AuthenticationError('You need to be logged in');
         },
