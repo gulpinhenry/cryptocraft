@@ -67,6 +67,7 @@ function Transaction({ open, handleOpen, action, price }) {
                 name: Auth.getProfile().data.username,
                 ticker: currentTicker,
                 quantity: total,
+                investment: amount
             }
         })
 

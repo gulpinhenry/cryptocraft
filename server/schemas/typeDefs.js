@@ -59,7 +59,7 @@ const typeDefs = gql`
         updateCryptoQuantity(quantity: Float): Crypto
         removePortfolio(portfolioId: ID!): Portfolio
         # 
-        buyCrypto(name: String!, ticker: String!, quantity: Float!, investment: Float): Portfolio
+        buyCrypto(name: String!, ticker: String!, quantity: Float!, investment: Float!): Portfolio
         sellCrypto(ticker: String!, quantity: Float!): Portfolio
     }
 `;
