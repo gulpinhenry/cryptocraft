@@ -25,7 +25,7 @@ function Copyright(props) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
             {'Copyright © '}
-            <Link color="inherit" href="https://github.com/gulpinhenry/cryptocraft">
+            <Link color="inherit" target = "_blank" href="https://github.com/gulpinhenry/cryptocraft">
                 cryptocraft
             </Link>{' '}
             {new Date().getFullYear()}

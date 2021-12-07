@@ -24,12 +24,15 @@ import { ADD_PORTFOLIO } from '../utils/mutations';
 
 export const mainListItems = (
     <div>
-        <ListItem button>
-            <ListItemIcon>
-                <Link href="/" className="sideLinks"><DashboardIcon /></Link>
-            </ListItemIcon>
-            <ListItemText primary="Dashboard" />
-        </ListItem>
+        {/* TODO make the href colors of visited not showing */}
+        <Link href="/" className="sideLinks">
+            <ListItem button>
+                <ListItemIcon>
+                    <DashboardIcon />
+                </ListItemIcon>
+                <ListItemText primary="Dashboard" />
+            </ListItem>
+        </Link>
         <ListItem button>
             <ListItemIcon>
                 <BarChartIcon />
@@ -83,13 +86,14 @@ export default function SecondaryListItems() {
     return (
         <div>
             <ListSubheader inset>Portfolios</ListSubheader>
-
-            <ListItem button onClick={handleClickOpen}>
-                <ListItemIcon>
-                    <Link href="/portfolio" className="sideLinks"><AssignmentIcon /></Link>
-                </ListItemIcon>
-                <ListItemText primary="Portfolio" />
-            </ListItem>
+            <Link href="/portfolio" className="sideLinks">
+                <ListItem button onClick={handleClickOpen}>
+                    <ListItemIcon>
+                        <AssignmentIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Portfolio" />
+                </ListItem>
+            </Link>
 
             {/* <Dialog open={open} onClose={handleCancel}>
                 <DialogTitle>Add a new Portfolio</DialogTitle>
