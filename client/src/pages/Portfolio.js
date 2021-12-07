@@ -125,16 +125,16 @@ function PortfolioContent() {
     // };
 
 
-    const { loading, data } = useMutation(UPDATE_BALANCE, {
-        variables: { name: 't' }
-    });
-    let info = 'Loading UB...';
-    if (loading) {
-        console.log('loading info tab..');
-    } else {
-        info = data;
-        console.log(info);
-    }
+    // const { loading, data } = useMutation(UPDATE_BALANCE, {
+    //     variables: { name: 't' }
+    // });
+    // let info = 'Loading UB...';
+    // if (loading) {
+    //     console.log('loading info tab..');
+    // } else {
+    //     info = data;
+    //     console.log(info);
+    // }
 
 
 
