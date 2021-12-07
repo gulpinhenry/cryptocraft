@@ -1,19 +1,21 @@
 import * as React from 'react';
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 
 import '../styles/Graph.css';
 
 import { Line } from 'react-chartjs-2';
-import Chart from 'chart.js/auto';
+import Chart from 'chart.js/auto'; // needs to be here in order for the graph to load.
 
 import { useQuery } from '@apollo/client';
 import { GET_CRYPTOCANDLES } from '../utils/queries';
 import { useCryptoContext } from '../utils/CryptoContext';
-import { hourTimeInterval, sixHourTimeInterval, dayTimeInterval, weekTimeInterval } from '../utils/timeHelpers';
+// import { hourTimeInterval, sixHourTimeInterval, dayTimeInterval, weekTimeInterval } from '../utils/timeHelpers';
+import { sixHourTimeInterval } from '../utils/timeHelpers';
 
-function preventDefault(event) {
-    event.preventDefault();
-}
+
+// function preventDefault(event) {
+//     event.preventDefault();
+// }
 
 export default function Graph() {
     const { currentTicker, handleTickerChange } = useCryptoContext();

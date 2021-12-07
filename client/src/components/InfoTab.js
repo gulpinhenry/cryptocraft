@@ -7,9 +7,6 @@ import { GET_CRYPTODETAILS, GET_PORTFOLIO, GET_ME } from '../utils/queries';
 
 import { useCryptoContext } from '../utils/CryptoContext';
 
-function preventDefault(event) {
-    event.preventDefault();
-}
 
 // gridType is either "my" or "all"
 export default function InfoTab({ gridType }) {
@@ -30,11 +27,13 @@ export default function InfoTab({ gridType }) {
     }
 
     // PORTFOLIO LOADING QUERY
+
     const { loading, data }  = useQuery(GET_PORTFOLIO, {
         variables: { name: un }
     });
 
     // console.log("portfoliodata", data)
+
 
     // CRYPTO DETAILS LOADING
     let info = 'Loading';
@@ -61,11 +60,11 @@ export default function InfoTab({ gridType }) {
 
     return (
         <React.Fragment>
-            <Title>{gridType == "all"
+            <Title>{gridType === "all"
                 ? currentTicker.toUpperCase()
                 : "My Portfolio"}</Title>
             {
-                gridType == "all"
+                gridType === "all"
                     ?
                     // Crypto info
                     <div><Typography component="p">

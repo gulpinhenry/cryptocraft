@@ -91,7 +91,8 @@ export default function CryptoGrid({ gridType }) {
         console.log('loading crypto grid...')
     } else {
         let temp = [];
-        if (gridType == "all") {
+
+        if (gridType === "all") {
             for (let i = 0; i < data.cryptoData.cryptoInfo.length; i++) {
                 temp[i] = data.cryptoData.cryptoInfo[i].slice();
             }
@@ -119,10 +120,6 @@ export default function CryptoGrid({ gridType }) {
     const handleOpen = (bool) => setOpen(bool);
 
 
-    
-    
-
-
     return (
         <React.Fragment>
             <div>
@@ -131,7 +128,8 @@ export default function CryptoGrid({ gridType }) {
                     : <div></div>
                 }
             </div>
-            <Title>{gridType == "all" ? "Browse Cryptos" : "My Cryptos"}</Title>
+
+            <Title>{gridType === "all" ? "Browse Cryptos" : "My Cryptos"}</Title>
             <Stack spacing={2} sx={{ width: 300 }}>
                 <Autocomplete
                     id="search-for-crypto"
@@ -174,7 +172,7 @@ export default function CryptoGrid({ gridType }) {
                                             }}>
                                             {columns.map((column, index) => {
                                                 const value = row[index];
-                                                if (index == 3) {
+                                                if (index === 3) {
                                                     return (
                                                         <TableCell key={index} align={column.align} onClick={(event) => {
                                                             event.preventDefault();
