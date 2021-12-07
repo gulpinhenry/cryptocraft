@@ -105,9 +105,8 @@ function Transaction({ open, handleOpen, action, price }) {
             return;
         }
 
-        // console.log(`buying ${currentticker}`, total)
         console.log(curCryptos);
-        // console.log('handble buy username', Auth.getProfile().data.username)
+        
         const mutationResponse = await buyCrypto({
             variables: {
                 name: un,
@@ -130,15 +129,15 @@ function Transaction({ open, handleOpen, action, price }) {
         // check to see if the sell is valid, traverse through map to see if i have it
         let sum = 0;
         curCryptos.forEach(element => {
-            if(element.ticker == currentTicker){
+            if(element.ticker == currentticker){
                 sum+=element.quantity;
             }
         });
         if(sum>=total){
             const mutationResponse = await buyCrypto({
                 variables: {
-                    name: Auth.getProfile().data.username,
-                    ticker: currentTicker,
+                    name: un,
+                    ticker: currentticker,
                     quantity: (total*-1),
                     investment: (amount*-1).toString()
                 }
@@ -148,7 +147,7 @@ function Transaction({ open, handleOpen, action, price }) {
             return mutationResponse;
         }
         else{
-            alert("Not enough " + currentTicker +"!");
+            alert("Not enough " + currentticker +"!");
             return;
         }
         // create the mutation
