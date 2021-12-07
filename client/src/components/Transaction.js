@@ -21,6 +21,7 @@ import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { useCryptoContext } from '../utils/CryptoContext';
 
+import { GET_PORTFOLIO } from '../utils/queries';
 import { BUY_CRYPTO } from '../utils/mutations';
 import Auth from '../utils/auth';
 
@@ -31,10 +32,20 @@ function Transaction({ open, handleOpen, action, price }) {
     const [ptf, setPtf] = React.useState("portfolio1");
 
     const [buyCrypto] = useMutation(BUY_CRYPTO);
+    
+    // Grabs portfolio data
+    const { data } = useQuery(GET_PORTFOLIO, {
+        variables: { name: Auth.getProfile().data.username }
+    });
+    let curUSDbalance;
+    if (data) {
+        curUSDbalance = data.getPortfolio.usdBalance;
+    }
+    //
 
-
+    // BUY FUNCTIONS
     let total = amount / price;
-    console.log(price);
+    // console.log(price);
     const handleClose = () => {
         handleOpen(false);
     };
@@ -49,7 +60,7 @@ function Transaction({ open, handleOpen, action, price }) {
         setAmount(
             event.target.value,
         );
-      
+
         total = amount / price;
 
     }
@@ -62,8 +73,14 @@ function Transaction({ open, handleOpen, action, price }) {
 
     const handleBuy = async (event) => {
         event.preventDefault();
-        console.log(`buying ${currentTicker}`, total)
-        console.log('handble buy username', Auth.getProfile().data.username)
+
+        if (amount > curUSDbalance){
+            alert("You don't have enough money!");
+            return;
+        }
+
+        // console.log(`buying ${currentTicker}`, total)
+        // console.log('handble buy username', Auth.getProfile().data.username)
         const mutationResponse = await buyCrypto({
             variables: {
                 name: Auth.getProfile().data.username,
