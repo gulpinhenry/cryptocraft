@@ -134,7 +134,7 @@ function Transaction({ open, handleOpen, action, price }) {
         if(sum>=total){
             const mutationResponse = await buyCrypto({
                 variables: {
-                    name: Auth.getProfile().data.username,
+                    name: un,
                     ticker: currentTicker,
                     quantity: (total*-1),
                     investment: (amount*-1).toString()
