@@ -102,7 +102,7 @@ function DashboardContent() {
     const toggleDrawer = () => {
         setOpen(!open);
     };
-    const logout = (event) => {git 
+    const logout = (event) => {
         event.preventDefault();
         Auth.logout();
     }
