@@ -182,19 +182,39 @@ const resolvers = {
             }
             throw new AuthenticationError('You need to be logged in');
         },
-        sellCrypto: async (parent, { portfolioId, ticker, quantity, investment }, context) => {
+        sellCrypto: async (parent, { name, ticker, quantity, investment }, context) => {
             if (context.user) {
-                const updatedCrypto = await Crypto.findOneAndUpdate(
-                    { ticker: ticker },
-                    { quantity: { $sum: this.quantity - quantity } },
-                    { investment: { $sum: this.investment - investment } } // needs to change
+                const portfolioUpdate = await Portfolio.findOne(
+                    { name: name }
+                )
+
+                console.log("cryptoquantity", portfolioUpdate.cryptos.quantity)
+
+                if (parseFloat(investment) < portfolioUpdate.usdBalance) {
+                    console.log("Overdraft prevented");
+                    return;
+                }
+
+                let newBalance = portfolioUpdate.usdBalance + parseFloat(investment);
+
+
+                await Portfolio.findOneAndUpdate(
+                    { name: name },
+                    { usdBalance: newBalance },
+                    { upsert: true, new: false }
                 );
 
-                return Portfolio.findOneAndUpdate(
-                    { _id: portfolioId },
-                    { $addToSet: { cryptos: updatedCrypto } } // change it to set or update
+                return await Portfolio.findOneAndUpdate(
+                    { name: name },
+                    {
+                        $addToSet: {
+                            cryptos: { ticker, quantity },
+                        }
+                    },
+                    { upsert: true, new: true }
                 );
             }
+            throw new AuthenticationError('You need to be logged in');
         }
     }
 }
