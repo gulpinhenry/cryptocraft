@@ -40,7 +40,7 @@ export default function InfoTab({ gridType }) {
         console.log('loading portfolio data..');
     } else {
         curUSDbalance = data.getPortfolio.usdBalance;
-        console.log(curUSDbalance);
+        // console.log(curUSDbalance);
     }
 
 

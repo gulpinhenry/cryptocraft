@@ -146,9 +146,8 @@ export default function CryptoGrid({ gridType }) {
                                                             event.preventDefault();
                                                             event.stopPropagation();
                                                             handletickerchange(row[1]);
-                                                            console.log(row[1] + " button clicked");
+                                                            // console.log(row[1] + " button clicked");
                                                             setPrice(row[2]);
-                                                            console.log("price here" + price)
                                                             handleOpen(true);
                                                         }}>
                                                             {column.format && typeof value === 'number'

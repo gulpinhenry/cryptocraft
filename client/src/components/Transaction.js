@@ -40,7 +40,7 @@ function Transaction({ open, handleOpen, action, price }) {
 
     if (getme_data) {
         un = getme_data.me.username;
-        console.log(un)
+        // console.log(un)
     }
 
     // Grabs portfolio data
@@ -53,7 +53,7 @@ function Transaction({ open, handleOpen, action, price }) {
     if (data) {
         curUSDbalance = data.getPortfolio.usdBalance;
         curCryptos = data.getPortfolio.cryptos;
-        console.log(curCryptos)
+        // console.log(curCryptos)
     }
     //
 

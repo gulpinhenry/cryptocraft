@@ -114,7 +114,7 @@ function DashboardContent() {
 
     const { loading, data } = useQuery(GET_ME);
 
-    if (data) console.log(data);
+    // if (data) console.log(data);
 
 
     return (
