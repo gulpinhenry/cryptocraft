@@ -3,8 +3,7 @@ import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import Title from './Title';
 import { useQuery } from '@apollo/client';
-import { GET_CRYPTODETAILS, GET_PORTFOLIO } from '../utils/queries';
-import Auth from '../utils/auth';
+import { GET_CRYPTODETAILS, GET_PORTFOLIO, GET_ME } from '../utils/queries';
 
 import { useCryptoContext } from '../utils/CryptoContext';
 
@@ -19,11 +18,19 @@ export default function InfoTab({ gridType }) {
         variables: { pair: currentticker }
     });
 
-    // PORTFOLIO LOADING QUERY
-    const { loading, data }  = useQuery(GET_PORTFOLIO, {
-        variables: { name: Auth.getProfile().data.username }
-    });
+    const { loading: getme_loading, data: getme_data } = useQuery(GET_ME);
 
+    let un; //checks username -> profile username
+
+    if (getme_data) {
+        un = getme_data.me.username;
+        // console.log(un)
+    }
+
+    // Grabs portfolio data
+    const { loading, data } = useQuery(GET_PORTFOLIO, {
+        variables: { name: un }
+    });
 
     // CRYPTO DETAILS LOADING
     let info = 'Loading';
