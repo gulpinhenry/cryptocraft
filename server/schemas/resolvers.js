@@ -190,10 +190,12 @@ const resolvers = {
 
                 console.log("cryptoquantity", portfolioUpdate.cryptos.quantity)
 
+                // ====== Change?
                 if (parseFloat(investment) < portfolioUpdate.usdBalance) {
                     console.log("Overdraft prevented");
                     return;
                 }
+                // =======
 
                 let newBalance = portfolioUpdate.usdBalance + parseFloat(investment);
 
@@ -201,7 +203,7 @@ const resolvers = {
                 await Portfolio.findOneAndUpdate(
                     { name: name },
                     { usdBalance: newBalance },
-                    { upsert: true, new: false }
+                    { upsert: true, new: true }
                 );
 
                 return await Portfolio.findOneAndUpdate(
