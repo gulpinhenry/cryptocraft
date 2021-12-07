@@ -17,6 +17,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
+import '../styles/login.css';
+
 
 
 function Copyright(props) {
@@ -75,7 +77,7 @@ const LogIn = (props) => {
 
     return (
         <ThemeProvider theme={theme}>
-            <Container component="main" maxWidth="xs">
+            <Container className = "signin-container" component="main" maxWidth="xs">
                 <CssBaseline />
                 <Box
                     sx={{

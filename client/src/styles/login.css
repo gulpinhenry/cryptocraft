@@ -1,0 +1,37 @@
+.signin-container{
+    background-color: rgb(212, 212, 212);
+    opacity: 90%;
+    margin-top: -50px;
+    width: 90%;
+}
+body{
+    background-image: url("../images/cryptocraft.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    
+}
+
+@media only screen and (min-width: 768px) {
+    .signin-container{
+        margin-top: 12%;
+    }
+}
+@media only screen and (min-width: 672px) {
+    .signin-container{
+
+    }
+}
+@media only screen and (min-width: 576px) {
+    .signin-container{
+
+    }
+}
+@media only screen and (min-width: 480px) {
+    .signin-container{
+
+    }
+}
+@media only screen and (min-width: 400px) {
+    .signin-container{
+    }
+}

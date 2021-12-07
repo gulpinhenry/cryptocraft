@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+import '../styles/login.css';
 
 import { useState } from 'react';
 
@@ -75,7 +76,7 @@ export default function SignUp() {
 
     return (
         <ThemeProvider theme={theme}>
-            <Container component="main" maxWidth="xs">
+            <Container className = "signin-container" component="main" maxWidth="xs">
                 <CssBaseline />
                 <Box
                     sx={{
