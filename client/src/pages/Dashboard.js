@@ -33,7 +33,7 @@ import Graph from '../components/Graph';
 import InfoTab from '../components/InfoTab';
 import SecondaryListItems from '../components/listItems';
 
-import { UPDATE_BALANCE } from '../utils/mutations';
+import { GET_ME } from '../utils/queries';
 
 function Copyright(props) {
     return (
@@ -110,6 +110,10 @@ function DashboardContent() {
         console.log(gridType, "changed to", type);
         setGridType(type);
     };
+
+    const { loading, data } = useQuery(GET_ME);
+
+    if (data) console.log(data);
 
 
     return (

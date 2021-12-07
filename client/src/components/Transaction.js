@@ -21,9 +21,8 @@ import { useQuery } from '@apollo/client'
 import { useMutation } from '@apollo/client';
 import { useCryptoContext } from '../utils/CryptoContext';
 
-import { GET_PORTFOLIO } from '../utils/queries';
+import { GET_PORTFOLIO, GET_ME } from '../utils/queries';
 import { BUY_CRYPTO } from '../utils/mutations';
-import Auth from '../utils/auth';
 
 function Transaction({ open, handleOpen, action, price }) {
     const { currentTicker, handleTickerChange } = useCryptoContext();
@@ -33,9 +32,18 @@ function Transaction({ open, handleOpen, action, price }) {
 
     const [buyCrypto] = useMutation(BUY_CRYPTO);
 
+    const { loading: getme_loading, data: getme_data } = useQuery(GET_ME);
+
+    let un; //checks username -> profile username
+
+    if (getme_data) {
+        un = getme_data.me.username;
+        console.log(un)
+    }
+
     // Grabs portfolio data
     const { data } = useQuery(GET_PORTFOLIO, {
-        variables: { name: Auth.getProfile().data.username }
+        variables: { name: un }
     });
     let curUSDbalance;
     let curCryptos;
@@ -89,7 +97,7 @@ function Transaction({ open, handleOpen, action, price }) {
         // console.log('handble buy username', Auth.getProfile().data.username)
         const mutationResponse = await buyCrypto({
             variables: {
-                name: Auth.getProfile().data.username,
+                name: un,
                 ticker: currentTicker,
                 quantity: total,
                 investment: amount

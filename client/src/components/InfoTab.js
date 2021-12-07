@@ -3,8 +3,7 @@ import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import Title from './Title';
 import { useQuery } from '@apollo/client';
-import { GET_CRYPTODETAILS, GET_PORTFOLIO } from '../utils/queries';
-import Auth from '../utils/auth';
+import { GET_CRYPTODETAILS, GET_PORTFOLIO, GET_ME } from '../utils/queries';
 
 import { useCryptoContext } from '../utils/CryptoContext';
 
@@ -18,14 +17,22 @@ export default function InfoTab({ gridType }) {
         variables: { pair: currentTicker }
     });
 
+    const { loading: getme_loading, data: getme_data } = useQuery(GET_ME);
+
+    let un; //checks username -> profile username
+
+    if (getme_data) {
+        un = getme_data.me.username;
+        console.log(un)
+    }
+
     // PORTFOLIO LOADING QUERY
 
-    let validToken = Auth.getProfile().data.username || 'b'; // The "b" should be your dummy user. Needs to be seeded.
-
-    
-    const { loading, data } = useQuery(GET_PORTFOLIO, {
-        variables: { name: validToken }
+    const { loading, data }  = useQuery(GET_PORTFOLIO, {
+        variables: { name: un }
     });
+
+    // console.log("portfoliodata", data)
 
 
     // CRYPTO DETAILS LOADING

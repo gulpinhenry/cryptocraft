@@ -110,34 +110,6 @@ function PortfolioContent() {
         console.log(gridType, "changed to", type);
         setGridType(type);
     };
-    // const [updateBalance, { error }] = useMutation(UPDATE_BALANCE);
-
-    // try {
-    //     const { data } = addComment(UPDATE_BALANCE,{
-    //       variables: {
-    //         name: Auth.getProfile().data.username,
-    //       },
-    //     });
-    //     console.log(data);
-    //     } catch (err) {
-    //     console.error(err);
-    //   }
-    // };
-
-
-    // const { loading, data } = useMutation(UPDATE_BALANCE, {
-    //     variables: { name: 't' }
-    // });
-    // let info = 'Loading UB...';
-    // if (loading) {
-    //     console.log('loading info tab..');
-    // } else {
-    //     info = data;
-    //     console.log(info);
-    // }
-
-
-
 
     return (
         <CryptoProvider>
