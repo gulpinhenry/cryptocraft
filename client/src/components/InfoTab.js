@@ -15,38 +15,20 @@ function preventDefault(event) {
 // gridType is either "my" or "all"
 export default function InfoTab({ gridType }) {
     const { currentTicker, handleTickerChange } = useCryptoContext();
-
-    // query multiple ========================================================
-    // const queryMultiple = () => {
-    //     const cryptoDetails_res = useQuery(GET_CRYPTODETAILS, {
-    //         variables: { pair: currentTicker }
-    //     });
-    //     const portfolio_res = useQuery(GET_PORTFOLIO, {
-    //         variables: { name: Auth.getProfile().data.username }
-    //     });
-
-    //     return [cryptoDetails_res, portfolio_res];
-    // }
-
-    // const [
-    //     { loading: loading1, data: data1 },
-    //     { loading: loading2, data: data2 }
-    // ] = queryMultiple();
-    // //
-
-
+    
+    // CRYPTO DETAILS QUERY
     const { loading: cryptoDetails_loading, data: cryptoDetails_data } = useQuery(GET_CRYPTODETAILS, {
         variables: { pair: currentTicker }
     });
-    const { loading, data } = useQuery(GET_PORTFOLIO, {
+
+    // PORTFOLIO LOADING QUERY
+    const { loading, data }  = useQuery(GET_PORTFOLIO, {
         variables: { name: Auth.getProfile().data.username }
     });
 
+    
 
-
-    // const { loading: cryptoDetails_loading, data: cryptoDetails_data } = useQuery(GET_CRYPTODETAILS, {
-    //     variables: { pair: currentTicker }
-    // });
+    // CRYPTO DETAILS LOADING
     let info = 'Loading';
     if (cryptoDetails_loading) {
         console.log('loading info tab..');
@@ -55,22 +37,15 @@ export default function InfoTab({ gridType }) {
     }
     let url = `https://cryptowat.ch/charts/COINBASE-PRO:${currentTicker}-USD`
 
-
-    // Load in portfolio data
-    // const {loading: portfolio_loading, data: portfolio_data} = useQuery(GET_PORTFOLIO, {
-    //     variables: { name: Auth.getProfile().data.username }
-    // });
-
-    let curUSDbalance = "";
+    // PORTFOLIO LOADING
+    let curUSDbalance;
     if (loading) {
         console.log('loading portfolio data..');
     } else {
-        curUSDbalance = data;
+        curUSDbalance = data.getPortfolio.usdBalance;
         console.log(curUSDbalance);
-        // console.log(curUSDbalance.getPortfolio.usdBalance);
-        // console.log(curUSDbalance);
     }
-    //
+
 
 
 
