@@ -175,6 +175,7 @@ export default function CryptoGrid({ gridType }) {
                                     return (
                                         <TableRow hover role="checkbox" tabIndex={-1} key={index}
                                             currentticker={currentticker} handletickerchange={handletickerchange} onClick={(event) => {
+                                                handleOpen(true);
                                                 event.preventDefault();
                                                 handletickerchange(row[1]);
                                                 // handles what row is being clicked on, saves ticker to render other components, saves to context
