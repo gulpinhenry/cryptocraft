@@ -8,22 +8,21 @@ import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import InputLabel from '@mui/material/InputLabel';
+// import FormControl from '@mui/material/FormControl';
+// import FormControlLabel from '@mui/material/FormControlLabel';
+// import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import Switch from '@mui/material/Switch';
+// import Switch from '@mui/material/Switch';
 
 
 import { useQuery } from '@apollo/client'
-import { useState } from 'react';
+// import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { useCryptoContext } from '../utils/CryptoContext';
 
-import { GET_PORTFOLIO } from '../utils/queries';
+import { GET_PORTFOLIO, GET_ME } from '../utils/queries';
 import { BUY_CRYPTO } from '../utils/mutations';
-import Auth from '../utils/auth';
 
 function Transaction({ open, handleOpen, action, price }) {
     const { currentTicker, handleTickerChange } = useCryptoContext();
@@ -34,9 +33,18 @@ function Transaction({ open, handleOpen, action, price }) {
     const [buyCrypto] = useMutation(BUY_CRYPTO);
     // sell crypto add the mutation 
 
+    const { loading: getme_loading, data: getme_data } = useQuery(GET_ME);
+
+    let un; //checks username -> profile username
+
+    if (getme_data) {
+        un = getme_data.me.username;
+        console.log(un)
+    }
+
     // Grabs portfolio data
     const { data } = useQuery(GET_PORTFOLIO, {
-        variables: { name: Auth.getProfile().data.username }
+        variables: { name: un }
     });
     let curUSDbalance;
     let curCryptos;
@@ -99,7 +107,7 @@ function Transaction({ open, handleOpen, action, price }) {
         // console.log('handble buy username', Auth.getProfile().data.username)
         const mutationResponse = await buyCrypto({
             variables: {
-                name: Auth.getProfile().data.username,
+                name: un,
                 ticker: currentTicker,
                 quantity: total,
                 investment: amount
@@ -217,7 +225,7 @@ function Transaction({ open, handleOpen, action, price }) {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleSubmit}>{transactionType == "buy" ? "Purchase" : "Sell"}</Button>
+                    <Button onClick={handleSubmit}>{transactionType === "buy" ? "Purchase" : "Sell"}</Button>
                 </DialogActions>
             </Dialog>
         </div>

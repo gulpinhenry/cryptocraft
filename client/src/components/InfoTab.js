@@ -3,30 +3,37 @@ import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import Title from './Title';
 import { useQuery } from '@apollo/client';
-import { GET_CRYPTODETAILS, GET_PORTFOLIO } from '../utils/queries';
-import Auth from '../utils/auth';
+import { GET_CRYPTODETAILS, GET_PORTFOLIO, GET_ME } from '../utils/queries';
 
 import { useCryptoContext } from '../utils/CryptoContext';
 
-function preventDefault(event) {
-    event.preventDefault();
-}
 
 // gridType is either "my" or "all"
 export default function InfoTab({ gridType }) {
     const { currentTicker, handleTickerChange } = useCryptoContext();
-    
+
     // CRYPTO DETAILS QUERY
     const { loading: cryptoDetails_loading, data: cryptoDetails_data } = useQuery(GET_CRYPTODETAILS, {
         variables: { pair: currentTicker }
     });
 
-    // PORTFOLIO LOADING QUERY
-    const { loading, data }  = useQuery(GET_PORTFOLIO, {
-        variables: { name: Auth.getProfile().data.username }
-    }, []);
+    const { loading: getme_loading, data: getme_data } = useQuery(GET_ME);
 
-    
+    let un; //checks username -> profile username
+
+    if (getme_data) {
+        un = getme_data.me.username;
+        console.log(un)
+    }
+
+    // PORTFOLIO LOADING QUERY
+
+    const { loading, data }  = useQuery(GET_PORTFOLIO, {
+        variables: { name: un }
+    });
+
+    // console.log("portfoliodata", data)
+
 
     // CRYPTO DETAILS LOADING
     let info = 'Loading';
@@ -53,11 +60,11 @@ export default function InfoTab({ gridType }) {
 
     return (
         <React.Fragment>
-            <Title>{gridType == "all"
+            <Title>{gridType === "all"
                 ? currentTicker.toUpperCase()
                 : "My Portfolio"}</Title>
             {
-                gridType == "all"
+                gridType === "all"
                     ?
                     // Crypto info
                     <div><Typography component="p">
