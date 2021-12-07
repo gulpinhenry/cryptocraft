@@ -118,7 +118,6 @@ function Transaction({ open, handleOpen, action, price }) {
         console.log("purchase successful");
         // maybe give user feedback
         handleClose();
-        // window.location.reload(); // change to state so new USD balance renders dynamically
         return mutationResponse;
     }
 

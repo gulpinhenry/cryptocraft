@@ -20,15 +20,23 @@ import Transaction from './Transaction';
 import { useCryptoContext } from '../utils/CryptoContext';
 import { GET_CRYPTOINFO, GET_PORTFOLIO, GET_ME } from '../utils/queries';
 
-const columns = [
-    { id: 'name', label: 'Name', minWidth: 170 },
-    { id: 'ticker', label: 'Ticker', minWidth: 100 },
-    { id: 'price', label: 'Price\u00a0(USD)', minWidth: 170 },
-    { id: 'buysell', label: 'Buy/Sell', minWidth: 100, align: 'right' }
-];
+
 
 // gridType will either be "my" or "all"
 export default function CryptoGrid({ gridType }) {
+    const columns = gridType === "all" ? [
+        { id: 'name', label: 'Name', minWidth: 170 },
+        { id: 'ticker', label: 'Ticker', minWidth: 100 },
+        { id: 'price', label: 'Price\u00a0(USD)', minWidth: 170 },
+        { id: 'buysell', label: 'Buy/Sell', minWidth: 100, align: 'right' }
+    ]
+        :
+        [{ id: 'name', label: 'Name', minWidth: 170 },
+        { id: 'ticker', label: 'Ticker', minWidth: 100 },
+        { id: 'price', label: 'Price per Coin\u00a0(USD)', minWidth: 170 },
+        { id: 'quantity', label: 'Quantity', minWidth: 170 },
+        { id: 'investment', label: 'Total Value', minWidth: 170 },
+        { id: 'buysell', label: 'Buy/Sell', minWidth: 100, align: 'right' }]
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [open, setOpen] = React.useState(false);
@@ -37,12 +45,12 @@ export default function CryptoGrid({ gridType }) {
     const { currentticker, handletickerchange } = useCryptoContext();
     const { loading, data } = useQuery(GET_CRYPTOINFO);
     const { loading: getme_loading, data: getme_data } = useQuery(GET_ME);
-    
+
     let un; //checks username -> profile username
 
     if (getme_data) {
         un = getme_data.me.username;
-        console.log(un)
+        // console.log(un)
     }
     let curCryptos = [];
     // Grabs portfolio data
@@ -57,7 +65,7 @@ export default function CryptoGrid({ gridType }) {
 
     let map = new Map();
     curCryptos.forEach(element => {
-        console.log(element)
+        // console.log(element)
         if (map.has(element.ticker)) {
             map.set(element.ticker, map.get(element.ticker) + element.quantity);
         } else {
@@ -67,17 +75,13 @@ export default function CryptoGrid({ gridType }) {
 
     const cryptoQuantities = [...map.entries()];
 
-    // work from here
-
     function getButton(ticker) {
         return (
             <button>Trade</button>
         )
     }
     function createData(name, ticker, price) {
-        // TODO add button
         let btn = getButton(ticker);
-        // console.log(btn);
         return { name, ticker, price, btn };
     }
 
@@ -101,10 +105,20 @@ export default function CryptoGrid({ gridType }) {
             });
         }
         else {
-            temp = [
-                ['My Crypto 1', 'BTC', 50000, getButton('btc')],
-                ['My Crypto 2', 'ETH', 50000, getButton('eth')]
-            ];
+            for (let i = 0; i < data.cryptoData.cryptoInfo.length; i++) {
+                if(map.has(data.cryptoData.cryptoInfo[i][1]))
+                {
+                    temp[i] = data.cryptoData.cryptoInfo[i].slice();
+                }
+            }
+            temp.forEach(element => {
+                // quantity
+                element.push(map.get(element[1]));
+                // investment
+                let total = map.get(element[1]) * element[2];
+                element.push(total.toFixed(2));
+                element.push(getButton(element[1]));
+            });
         }
         rows = temp;
     }
@@ -122,12 +136,7 @@ export default function CryptoGrid({ gridType }) {
 
     return (
         <React.Fragment>
-            <div>
-                {open
-                    ? <Transaction open={open} handleOpen={handleOpen} action={"buy"} price={price} />
-                    : <div></div>
-                }
-            </div>
+            
 
             <Title>{gridType === "all" ? "Browse Cryptos" : "My Cryptos"}</Title>
             <Stack spacing={2} sx={{ width: 300 }}>
@@ -172,13 +181,29 @@ export default function CryptoGrid({ gridType }) {
                                             }}>
                                             {columns.map((column, index) => {
                                                 const value = row[index];
-                                                if (index === 3) {
+                                                if (index === 3 && gridType === "all") {
                                                     return (
                                                         <TableCell key={index} align={column.align} onClick={(event) => {
                                                             event.preventDefault();
                                                             event.stopPropagation();
                                                             handletickerchange(row[1]);
-                                                            // console.log(row[1] + " button clicked");
+                                                            console.log(row[1] + " button clicked");
+                                                            setPrice(row[2]);
+                                                            handleOpen(true);
+                                                        }}>
+                                                            {column.format && typeof value === 'number'
+                                                                ? column.format(value)
+                                                                : value}
+                                                        </TableCell>
+                                                    );
+                                                }
+                                                else if(index === 5 && gridType === "my"){
+                                                    return (
+                                                        <TableCell key={index} align={column.align} onClick={(event) => {
+                                                            event.preventDefault();
+                                                            event.stopPropagation();
+                                                            handletickerchange(row[1]);
+                                                            console.log(row[1] + " button clicked");
                                                             setPrice(row[2]);
                                                             handleOpen(true);
                                                         }}>
@@ -213,6 +238,12 @@ export default function CryptoGrid({ gridType }) {
                     onRowsPerPageChange={handleChangeRowsPerPage}
                 />
             </Paper>
+            <div>
+                {open
+                    ? <Transaction open={open} handleOpen={handleOpen} action={"buy"} price={price} />
+                    : <div></div>
+                }
+            </div>
             <Link color="primary" target="_blank" href="https://coinmarketcap.com/" sx={{ mt: 3 }}>
                 See more Cryptos
             </Link>

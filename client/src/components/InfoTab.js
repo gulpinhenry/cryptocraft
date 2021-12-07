@@ -42,19 +42,13 @@ export default function InfoTab({ gridType }) {
     let url = `https://cryptowat.ch/charts/COINBASE-PRO:${currentticker}-USD`
 
     // PORTFOLIO LOADING
-    let curUSDbalance;
+    let curUSDbalance ="";
     if (loading) {
         console.log('loading portfolio data..');
     } else {
         curUSDbalance = data.getPortfolio.usdBalance;
         // console.log(curUSDbalance);
     }
-
-
-
-
-
-
     return (
         <React.Fragment>
             <Title>{gridType === "all"
