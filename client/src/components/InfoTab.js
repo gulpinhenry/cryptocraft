@@ -8,25 +8,25 @@ import Auth from '../utils/auth';
 
 import { useCryptoContext } from '../utils/CryptoContext';
 
-function preventDefault(event) {
-    event.preventDefault();
-}
 
 // gridType is either "my" or "all"
 export default function InfoTab({ gridType }) {
     const { currentTicker, handleTickerChange } = useCryptoContext();
-    
+
     // CRYPTO DETAILS QUERY
     const { loading: cryptoDetails_loading, data: cryptoDetails_data } = useQuery(GET_CRYPTODETAILS, {
         variables: { pair: currentTicker }
     });
 
     // PORTFOLIO LOADING QUERY
-    const { loading, data }  = useQuery(GET_PORTFOLIO, {
-        variables: { name: Auth.getProfile().data.username }
-    });
+
+    let validToken = Auth.getProfile().data.username || 'b'; // The "b" should be your dummy user. Needs to be seeded.
 
     
+    const { loading, data } = useQuery(GET_PORTFOLIO, {
+        variables: { name: validToken }
+    });
+
 
     // CRYPTO DETAILS LOADING
     let info = 'Loading';
@@ -53,11 +53,11 @@ export default function InfoTab({ gridType }) {
 
     return (
         <React.Fragment>
-            <Title>{gridType == "all"
+            <Title>{gridType === "all"
                 ? currentTicker.toUpperCase()
                 : "My Portfolio"}</Title>
             {
-                gridType == "all"
+                gridType === "all"
                     ?
                     // Crypto info
                     <div><Typography component="p">

@@ -28,7 +28,7 @@ const columns = [
 ];
 
 // gridType will either be "my" or "all"
-export default function CryptoGrid({gridType}) {
+export default function CryptoGrid({ gridType }) {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [open, setOpen] = React.useState(false);
@@ -59,16 +59,15 @@ export default function CryptoGrid({gridType}) {
         console.log('loading crypto grid...')
     } else {
         let temp = [];
-        if(gridType=="all"){
-            for (let i = 0; i < data.cryptoData.cryptoInfo.length; i++){
+        if (gridType === "all") {
+            for (let i = 0; i < data.cryptoData.cryptoInfo.length; i++) {
                 temp[i] = data.cryptoData.cryptoInfo[i].slice();
             }
             temp.forEach(element => {
                 element.push(getButton(element[1]));
             });
         }
-        else
-        {
+        else {
             temp = [
                 ['My Crypto 1', 'BTC', 50000, getButton('btc')],
                 ['My Crypto 2', 'ETH', 50000, getButton('eth')]
@@ -88,17 +87,17 @@ export default function CryptoGrid({gridType}) {
     const handleOpen = (bool) => setOpen(bool);
 
 
-    
+
 
     return (
         <React.Fragment>
             <div>
                 {open
-                    ? <Transaction open = {open} handleOpen = {handleOpen} action = {"buy"} price = {price}/>
+                    ? <Transaction open={open} handleOpen={handleOpen} action={"buy"} price={price} />
                     : <div></div>
                 }
             </div>
-            <Title>{gridType == "all"? "Browse Cryptos" : "My Cryptos"}</Title>
+            <Title>{gridType === "all" ? "Browse Cryptos" : "My Cryptos"}</Title>
             <Stack spacing={2} sx={{ width: 300 }}>
                 <Autocomplete
                     id="search-for-crypto"
@@ -106,10 +105,10 @@ export default function CryptoGrid({gridType}) {
                     options={rows.map((option) => option[1])}
                     renderInput={(params) => <TextField {...params} label="Search For Crypto" onKeyDown={(e) => {
                         if (e.key === 'Enter') {
-                          const ticker = params.inputProps.value.toLowerCase();
-                          handleTickerChange(ticker);
+                            const ticker = params.inputProps.value.toLowerCase();
+                            handleTickerChange(ticker);
                         }
-                      }}  />}
+                    }} />}
                 />
             </Stack>
             <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -141,7 +140,7 @@ export default function CryptoGrid({gridType}) {
                                             }}>
                                             {columns.map((column, index) => {
                                                 const value = row[index];
-                                                if (index == 3) {
+                                                if (index === 3) {
                                                     return (
                                                         <TableCell key={index} align={column.align} onClick={(event) => {
                                                             event.preventDefault();
