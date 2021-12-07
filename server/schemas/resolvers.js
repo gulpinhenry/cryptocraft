@@ -9,10 +9,7 @@ const resolvers = {
     Query: {
         me: async (parent, args, context) => {
             if (context.user) {
-                return User.findOne({ _id: context.user._id }).populate('portfolios').populate({
-                    path: 'portfolios',
-                    populate: 'cryptos'
-                });
+                return User.findOne({ _id: context.user._id }).populate('portfolios')
             }
             throw new AuthenticationError('You need to be logged in!');
         },
@@ -22,6 +19,11 @@ const resolvers = {
                 path: 'portfolios',
                 populate: 'cryptos'
             });
+        },
+        getPortfolio: async (parent, { name }) => {
+            return Portfolio.findOne(
+                { name: name }
+            )
         },
         cryptoData: async (parent, args, context) => {
             const user = await User.findOne({ _id: context.user._id }).populate('portfolios').populate({
@@ -113,7 +115,7 @@ const resolvers = {
             }
             throw new AuthenticationError('You need to be logged in');
         },
-        updateBalance: async (parent, {name, deltaBalance}, context) => {
+        updateBalance: async (parent, { name, deltaBalance }, context) => {
             //     console.log('hello');
             // // if (context.user) {
             //     console.log(args = " <- was your arg");
@@ -122,78 +124,57 @@ const resolvers = {
             //     console.log(context.query);
             //     console.log(context.user);
 
-                // let result = await cryptowatch.getCandlesData(args.pair);
-                // return { cryptoInfo: result }
-                // console.log(result)
+            // let result = await cryptowatch.getCandlesData(args.pair);
+            // return { cryptoInfo: result }
+            // console.log(result)
 
-                // return Portfolio.findOneAndUpdate(
-                //     { name: context.user.username }, //args.username
-                //     {
-                //         $addToSet: {
-                //             historicalBalance: {  }
-                //         }
-                //     },
-                //     {
-                //         new: true,
-                //         runValidators: true,
-                //     }
-                // )
-                // // await User.findOneAndUpdate(
-                //     { _id: context.user._id },
+            // return Portfolio.findOneAndUpdate(
+            //     { name: context.user.username }, //args.username
+            //     {
+            //         $addToSet: {
+            //             historicalBalance: {  }
+            //         }
+            //     },
+            //     {
+            //         new: true,
+            //         runValidators: true,
+            //     }
+            // )
+            // // await User.findOneAndUpdate(
+            //     { _id: context.user._id },
 
-                // )
+            // )
             // }
             // throw new AuthenticationError('You need to be logged in');
         },
-        buyCrypto: async (parent, { ticker, quantity, investment }, context) => {
+        buyCrypto: async (parent, { name, ticker, quantity, investment }, context) => {
             if (context.user) {
-                // const crypto = Portfolio.findOneAndUpdate(
-                //     {name: context.user.username},
-                //     {
-                //         $addToSet: {
-                //             cryptos: { ticker, quantity, investment }
-                //         }
-                //     }
-                // );
-                return crypto = Portfolio.findAndModify({
-                    query: {name: context.user.username}, 
-                    update: {
+                const portfolioUpdate = await Portfolio.findOne(
+                    { name: name }
+                )
+
+                console.log("usdbalance", portfolioUpdate.usdBalance)
+
+                let newBalance = portfolioUpdate.usdBalance - parseFloat(investment);
+
+                console.log("newbalance", newBalance)
+
+                await Portfolio.findOneAndUpdate(
+                    { name: name },
+                    { usdBalance: newBalance },
+                    { upsert: true, new: true }
+                );
+
+                return await Portfolio.findOneAndUpdate(
+                    { name: name },
+                    {
                         $addToSet: {
-                            cryptos: { ticker, quantity, investment },
-                        },
-                    upsert: true
-                    }
-                });
+                            cryptos: { ticker, quantity },
+                        }
+                    },
+                    { upsert: true, new: true }
+                );
 
-                // db.Portfolio.findAndModify({
-                //     query: { name: "Andy" },     
-                //     update: { $inc: { score: 1 } },     upsert: true   })
-
-                // need portfolio id in crypto model??
-                // if (!crypto) {
-                //     const newCrypto = await Crypto.create({
-                //         ticker: ticker,
-                //         quantity: quantity,
-                //         investment: investment
-                //     })
-
-                //     return Portfolio.findOneAndUpdate(
-                //         { _id: portfolioId },
-                //         { $addToSet: { cryptos: newCrypto } }
-                //     )
-                // }
-
-                // const updatedCrypto = await Crypto.findOneAndUpdate(
-                //     { ticker: ticker },
-                //     { quantity: { $sum: this.quantity + quantity } },
-                //     { investment: { $sum: this.investment + investment } }
-                // );
-                
-
-                // return Portfolio.findOneAndUpdate(
-                //     { _id: portfolioId },
-                //     { $addToSet: { cryptos: updatedCrypto } } // change it to set or update
-                // )
             }
             throw new AuthenticationError('You need to be logged in');
         },

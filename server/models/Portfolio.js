@@ -35,6 +35,7 @@ const portfolioSchema = new Schema(
         },
         investment: {
           type: Number,
+          default: 0
         },
         // current price of the crypto
         currentPrice: {

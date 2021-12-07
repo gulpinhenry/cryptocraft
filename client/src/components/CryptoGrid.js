@@ -20,7 +20,6 @@ import Transaction from './Transaction';
 import { useCryptoContext } from '../utils/CryptoContext';
 import { GET_CRYPTOINFO } from '../utils/queries';
 
-
 const columns = [
     { id: 'name', label: 'Name', minWidth: 170 },
     { id: 'ticker', label: 'Ticker', minWidth: 100 },
@@ -39,8 +38,6 @@ export default function CryptoGrid({gridType}) {
     const { currentTicker, handleTickerChange } = useCryptoContext();
     const { loading, data } = useQuery(GET_CRYPTOINFO);
 
-
-    
     function getButton(ticker) {
         return (
             <button>Trade</button>
