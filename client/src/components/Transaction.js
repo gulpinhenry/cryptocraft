@@ -32,6 +32,7 @@ function Transaction({ open, handleOpen, action, price }) {
     const [ptf, setPtf] = React.useState("portfolio1");
 
     const [buyCrypto] = useMutation(BUY_CRYPTO);
+    // sell crypto add the mutation 
 
     // Grabs portfolio data
     const { data } = useQuery(GET_PORTFOLIO, {
@@ -115,6 +116,9 @@ function Transaction({ open, handleOpen, action, price }) {
         });
         
         const cryptoQuantities = [...map.entries()];
+        // check to see if the sell is valid
+
+        // create the mutation
 
         // finish and clean up
 
