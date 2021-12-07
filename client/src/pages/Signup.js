@@ -53,6 +53,7 @@ export default function SignUp() {
             ...formState,
             [name]: value
         })
+        return true;
     }
 
     const handleSubmit = async (event) => {
@@ -65,6 +66,7 @@ export default function SignUp() {
         } catch (e) {
             console.log(e)
         }
+        return true;
     };
 
     const divStyle = {
