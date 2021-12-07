@@ -32,16 +32,22 @@ function Transaction({ open, handleOpen, action, price }) {
     const [ptf, setPtf] = React.useState("portfolio1");
 
     const [buyCrypto] = useMutation(BUY_CRYPTO);
-    
+
     // Grabs portfolio data
     const { data } = useQuery(GET_PORTFOLIO, {
         variables: { name: Auth.getProfile().data.username }
     });
     let curUSDbalance;
+    let curCryptos;
+
     if (data) {
         curUSDbalance = data.getPortfolio.usdBalance;
+        curCryptos = data.getPortfolio.cryptos;
+        console.log(curCryptos)
     }
     //
+
+
 
     // BUY FUNCTIONS
     let total = amount / price;
@@ -74,7 +80,7 @@ function Transaction({ open, handleOpen, action, price }) {
     const handleBuy = async (event) => {
         event.preventDefault();
 
-        if (amount > curUSDbalance){
+        if (amount > curUSDbalance) {
             alert("You don't have enough money!");
             return;
         }
@@ -91,7 +97,62 @@ function Transaction({ open, handleOpen, action, price }) {
         })
 
         handleClose();
+        // window.location.reload(); // change to state so new USD balance renders dynamically
         return mutationResponse;
+    }
+
+    const handleSell = async (event) => {
+        event.preventDefault();
+
+        let map = new Map();
+        curCryptos.forEach(element => {
+            console.log(element)
+            if (map.has(element.ticker)) {
+                map.set(element.ticker, map.get(element.ticker) + element.quantity);
+            } else {
+                map.set(element.ticker, element.quantity);
+            }
+        });
+        
+        const cryptoQuantities = [...map.entries()];
+
+        // finish and clean up
+
+        // let map = new Map();
+        // curCryptos.forEach(element => {
+        //     if (map.has(element.ticker)) {
+        //         map.set(element.ticker, map.get(element.ticker) + element.quantity);
+        //     } else {
+        //         map.set(element.ticker, element.quantity);
+        //     }
+        // });
+
+        // for (let i in map) {
+        //     console.log(i)
+        // }
+
+        // let cryptosObj = {};
+        // for (let i = 0; i < curCryptos.length; i++) {
+        //     if (cryptosObj[curCryptos[i]]) {
+        //         cryptosObj.ticker = curCryptos[i].quantity
+        //     } else {
+        //         cryptosObj[curCryptos[i].ticker] += curCryptos[i].quantity
+        //     }
+        // }
+
+        // var tracker = {};
+        // for (var i = 0; i < array.length; i++) {
+        //     if (tracker[array[i]]) {
+        //         return true
+        //     } else {
+        //         tracker[array[i]] = true;
+        //     }
+        // }
+        // return false
+
+        // if (amount > curUSDbalance) {
+
+        // }
     }
 
     return (
