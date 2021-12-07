@@ -149,41 +149,26 @@ const resolvers = {
         },
         buyCrypto: async (parent, { name, ticker, quantity, investment }, context) => {
             if (context.user) {
-                // const crypto = Portfolio.findOneAndUpdate(
-                //     {name: context.user.username},
-                //     {
-                //         $addToSet: {
-                //             cryptos: { ticker, quantity, investment }
-                //         }
-                //     }
-                // );
-                console.log("hit butCrypto")
-
                 const portfolioUpdate = await Portfolio.findOne(
                     { name: name }
                 )
 
-                console.log("hit portfolioUpdate")
-
                 console.log("usdbalance", portfolioUpdate.usdBalance)
 
-                let newBalance = portfolioUpdate.usdBalance - investment;
+                let newBalance = portfolioUpdate.usdBalance - parseFloat(investment);
 
-                // await Portfolio.findOneAndUpdate(
-                //     { name: name },
-                //     { usdBalance: newBalance },
-                //     { upsert: true, new: true }
-                // );
+                console.log("newbalance", newBalance)
 
-                console.log("hit balanceUpdate")
+                await Portfolio.findOneAndUpdate(
+                    { name: name },
+                    { usdBalance: newBalance },
+                    { upsert: true, new: true }
+                );
 
-                console.log("hit buy cryptop")
-
-                return await Portfolio.findOneAndUpdate( name,
+                return await Portfolio.findOneAndUpdate(
+                    { name: name },
                     {
-                        usdBalance: newBalance ,
                         $addToSet: {
-                            
                             cryptos: { ticker, quantity },
                         }
                     },
