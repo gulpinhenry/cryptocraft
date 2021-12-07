@@ -15,10 +15,12 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Autocomplete from '@mui/material/Autocomplete';
+import Auth from '../utils/auth';
 
 import Transaction from './Transaction';
 import { useCryptoContext } from '../utils/CryptoContext';
 import { GET_CRYPTOINFO, GET_PORTFOLIO, GET_ME } from '../utils/queries';
+
 
 const columns = [
     { id: 'name', label: 'Name', minWidth: 170 },
@@ -81,20 +83,47 @@ export default function CryptoGrid({ gridType }) {
         return { name, ticker, price, btn };
     }
 
+    // Grabs portfolio data
+    const { data } = useQuery(GET_PORTFOLIO, {
+        variables: { name: Auth.getProfile().data.username }
+    });
+    console.log(data)
+    let curCryptos;
+
+    if (data) {
+        curCryptos = data.getPortfolio.cryptos;
+        console.log(data)
+    }
+
+    let map = new Map();
+    curCryptos.forEach(element => {
+        console.log(element)
+        if (map.has(element.ticker)) {
+            map.set(element.ticker, map.get(element.ticker) + element.quantity);
+        } else {
+            map.set(element.ticker, element.quantity);
+        }
+    });
+
+    const cryptoQuantities = [...map.entries()];
+    console.log(cryptoQuantities);
+
     // default seed data
     var rows = [
         createData('Bitcoin', 'BTC', 44000),
         createData('Ethereum', 'ETH', 4080),
     ];
 
-    if (loading) {
+    if (cryptoInfo_loading) {
         console.log('loading crypto grid...')
     } else {
         let temp = [];
 
+
         if (gridType === "all") {
             for (let i = 0; i < data.cryptoData.cryptoInfo.length; i++) {
                 temp[i] = data.cryptoData.cryptoInfo[i].slice();
+
             }
             temp.forEach(element => {
                 element.push(getButton(element[1]));
@@ -130,6 +159,7 @@ export default function CryptoGrid({ gridType }) {
             </div>
 
             <Title>{gridType === "all" ? "Browse Cryptos" : "My Cryptos"}</Title>
+
             <Stack spacing={2} sx={{ width: 300 }}>
                 <Autocomplete
                     id="search-for-crypto"

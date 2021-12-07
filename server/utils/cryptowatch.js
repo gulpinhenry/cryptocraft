@@ -188,19 +188,19 @@ async function cryptoDetails(symbol) {
 
 //Returns a 2-D array with unix time and price at that time  
 //first value is oldest datapoint
-async function unixPrice( pair) {
+async function unixPrice(pair) {
     let query = `${baseUrl}markets/coinbase-pro/${pair}/ohlc${apiKey1}`;
     const response = await axios.get(query); 
 
 
     const candleData = response.data.result;
 
-    var six_hr = candleData[Object.keys(candleData)[9]];
-    let six = six_hr.slice(-28);
+    var hr_candle = candleData[Object.keys(candleData)[5]];
+    let hour = hr_candle.slice(-168);
     var timePrice = [];
 
-    for (let i = 0; i < six.length; i++) {
-       timePrice.push([six[i][0], six[i][4]]);
+    for (let i = 0; i < hour.length; i++) {
+       timePrice.push([hour[i][0], hour[i][4]]);
     }
     return timePrice;
 }
@@ -210,12 +210,13 @@ async function calculateCryptoHistorical(ticker, dummy) {
     const historicalArray = await unixPrice(pair);
     var copy = [...dummy]; 
     var valueHistory = [];
-    var x = 0; 
+    var x = copy[0].quantity; 
 
     console.log(copy);
     console.log(historicalArray);
 
     for (let i = 0; i < historicalArray.length; i++) {
+        console.log(x);
         if (copy[0].time <= historicalArray[i][0] && copy.length > 1) {
             x = copy[0].quantity;
             valueHistory.push(historicalArray[i][1] * x);
@@ -230,7 +231,6 @@ async function calculateCryptoHistorical(ticker, dummy) {
     console.log(valueHistory.length)
     console.log(valueHistory)
     return valueHistory;
-    
 }
 
 
