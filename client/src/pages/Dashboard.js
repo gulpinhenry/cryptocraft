@@ -1,10 +1,11 @@
 import '../styles/dashboard.css';
 
 import * as React from 'react';
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 import { CryptoProvider } from '../utils/CryptoContext';
-import { GET_CRYPTOINFO, GET_CRYPTOCANDLES } from '../utils/queries';
-import { useQuery, useMutation } from '@apollo/client'
+// import { GET_CRYPTOINFO, GET_CRYPTOCANDLES } from '../utils/queries';
+import { useQuery } from '@apollo/client'
+// import { useQuery, useMutation } from '@apollo/client'
 import Auth from '../utils/auth';
 
 
@@ -113,7 +114,7 @@ function DashboardContent() {
 
     const { loading, data } = useQuery(GET_ME);
 
-    if (data) console.log(data);
+    // if (data) console.log(data);
 
 
     return (

@@ -5,15 +5,15 @@ const CryptoContext = createContext();
 export const useCryptoContext = () => useContext(CryptoContext);
 
 export const CryptoProvider = ({ children }) => {
-    const [currentTicker, setCurrentTicker] = useState('btc');
+    const [currentticker, setCurrentTicker] = useState('btc');
 
-  const handleTickerChange = (ticker) => {
+  const handletickerchange = (ticker) => {
     setCurrentTicker(ticker);
 }
 
   return (
     <CryptoContext.Provider
-      value={{ currentTicker, handleTickerChange }}
+      value={{ currentticker, handletickerchange }}
     >
       {children}
     </CryptoContext.Provider>
