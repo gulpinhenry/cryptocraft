@@ -17,10 +17,21 @@ export const GET_PORTFOLIO = gql`
             cryptos {
                 ticker
                 quantity
+                date
             }
         }
     }
 `;
+
+
+export const GET_CRYPTOHISTORICAL = gql`
+    query cryptoHistorical ($pair: String) {
+        cryptoHistorical(pair: $pair) {
+            cryptoInfo
+        }
+    }
+`;
+
 
 export const GET_CRYPTOINFO = gql`
     query cryptoData {

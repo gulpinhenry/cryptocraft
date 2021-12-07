@@ -29,7 +29,7 @@ import Typography from '@mui/material/Typography';
 
 import { mainListItems } from '../components/listItems';
 import CryptoGrid from '../components/CryptoGrid';
-import Graph from '../components/Graph';
+import PortfolioGraph from '../components/PortfolioGraph';
 import InfoTab from '../components/InfoTab';
 import PortfolioTabs from '../components/PortfolioTabs';
 import SecondaryListItems from '../components/listItems';
@@ -192,7 +192,7 @@ function PortfolioContent() {
                                             flexDirection: 'column',
                                         }}
                                     >
-                                        <Graph />
+                                        <PortfolioGraph />
                                     </Paper>
                                 </Grid>
                                 <Grid item xs={12} md={4} lg={3}>

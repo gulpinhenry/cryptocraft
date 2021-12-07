@@ -6,7 +6,7 @@ const { ApolloServer } = require('apollo-server-express');
 const { typeDefs, resolvers } = require('./schemas');
 const { authMiddleware } = require('./utils/auth');
 
-const { calculateCryptoHistorical, unixPrice, cryptoDetails, getNameandTicker, getCandlesData, getAllMarketPrices, coinbaseCurrentPrice, getSingleMarketPrice, getAllMarkets, getMarketDetails, getSingle24HourSummary, getOHLCcandlesticks, cryptoInfo } = require('./utils/cryptowatch');
+// const { calculateCryptoHistorical, unixPrice, cryptoDetails, getNameandTicker, getCandlesData, getAllMarketPrices, coinbaseCurrentPrice, getSingleMarketPrice, getAllMarkets, getMarketDetails, getSingle24HourSummary, getOHLCcandlesticks, cryptoInfo } = require('./utils/cryptowatch');
 
 
 const app = express();
@@ -42,27 +42,27 @@ db.then(() => {
 
 //@@@@@@@@@@@@@@ TESTING @@@@@@@@@@@@@@@@
 
-const dummy = [
-  {
-      "time": 1638273600,
-      "quantity": 2,
-  },
-  {
-      "time": 1638446400,
-      "quantity": 7,
-  },
-  {
-      "time": 1638576000,
-      "quantity": 6,
-  },{
-      "time": 1638792000,
-      "quantity": 5,
-  },
-  {
-      "time": 1638835200,
-      "quantity": 9,
-  }
-]
+// const dummy = [
+//   {
+//       "time": 1638273600,
+//       "quantity": 2,
+//   },
+//   {
+//       "time": 1638446400,
+//       "quantity": 7,
+//   },
+//   {
+//       "time": 1638576000,
+//       "quantity": 6,
+//   },{
+//       "time": 1638792000,
+//       "quantity": 5,
+//   },
+//   {
+//       "time": 1638835200,
+//       "quantity": 9,
+//   }
+// ]
 
 // getAllMarketPrices();
 // coinbaseCurrentPrice();
@@ -79,5 +79,5 @@ const dummy = [
 // cryptoInfo();
 // cryptoDetails('btc');
 // unixPrice( 'btcusd');
-calculateCryptoHistorical('btc', dummy);
+// calculateCryptoHistorical('btc', dummy);
 

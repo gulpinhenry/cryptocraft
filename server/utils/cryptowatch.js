@@ -195,8 +195,8 @@ async function unixPrice( pair) {
 
     const candleData = response.data.result;
 
-    var six_hr = candleData[Object.keys(candleData)[9]];
-    let six = six_hr.slice(-28);
+    var six_hr = candleData[Object.keys(candleData)[5]];
+    let six = six_hr.slice(-168);
     var timePrice = [];
 
     for (let i = 0; i < six.length; i++) {
@@ -205,12 +205,12 @@ async function unixPrice( pair) {
     return timePrice;
 }
 
-async function calculateCryptoHistorical(ticker, dummy) {
+async function calculateCryptoHistorical(ticker, data) {
     const pair = ticker + 'usd';
     const historicalArray = await unixPrice(pair);
-    var copy = [...dummy]; 
+    var copy = [...data]; 
     var valueHistory = [];
-    var x = 0; 
+    var x = copy[0].quantity; 
 
     console.log(copy);
     console.log(historicalArray);

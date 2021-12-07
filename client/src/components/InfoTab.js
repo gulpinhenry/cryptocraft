@@ -46,7 +46,7 @@ export default function InfoTab({ gridType }) {
     if (loading) {
         console.log('loading portfolio data..');
     } else {
-        curUSDbalance = data.getPortfolio.usdBalance;
+        curUSDbalance = data.getPortfolio.usdBalance; /// fails very often here for some reason. Some to do with local memory not finishing this fast enough. 
         // console.log(curUSDbalance);
     }
 

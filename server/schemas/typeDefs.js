@@ -45,6 +45,7 @@ const typeDefs = gql`
         user(username: String!): User
         portfolios(username: String!): [Portfolio]
         getPortfolio(name: String): Portfolio
+        cryptoHistorical(name: String): cryptoData
         cryptos(portfolioId: ID!): [Crypto]
         crypto(portfolioId: ID!, ticker: String!): Crypto
         cryptoData: cryptoData

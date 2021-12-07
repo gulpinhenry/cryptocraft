@@ -4,6 +4,7 @@ const { signToken } = require('../utils/auth');
 const GraphQLJSON = require('graphql-type-json');
 const cryptowatch = require('../utils/cryptowatch');
 
+
 const resolvers = {
     JSON: GraphQLJSON,
     Query: {
@@ -25,6 +26,10 @@ const resolvers = {
                 { name: name }
             )
         },
+        cryptoHistorical: async (parent, args, context) => {
+                let result = await cryptowatch.calculateCryptoHistorical(args.pair);
+                return { cryptoInfo: result }
+            },
         cryptoData: async (parent, args, context) => {
             const user = await User.findOne({ _id: context.user._id }).populate('portfolios').populate({
                 path: 'portfolios',

@@ -48,7 +48,8 @@ const LogIn = (props) => {
         setFormState({
             ...formState,
             [name]: value
-        })
+        });
+        return true;
     }
 
     const handleSubmit = async (event) => {
@@ -66,6 +67,7 @@ const LogIn = (props) => {
             username: '',
             password: ''
         })
+        return true;
     };
 
     const divStyle = {
