@@ -18,11 +18,14 @@ import { sixHourTimeInterval } from '../utils/timeHelpers';
 // }
 
 export default function Graph() {
-    const { currentTicker, handleTickerChange } = useCryptoContext();
+    const { currentticker } = useCryptoContext();
+    // const { currentticker, handletickerchange } = useCryptoContext(); // possibly need handletickerchange
+
+
     const { loading, data } = useQuery(GET_CRYPTOCANDLES, {
-        variables: { pair: currentTicker }
+        variables: { pair: currentticker }
     });
-    let titleLabel = currentTicker.toUpperCase() + " (price over the past week)";
+    let titleLabel = currentticker.toUpperCase() + " (price over the past week)";
 
     // TODO: ADD TOGGLE FOR TIMESCALES
     let info = [];

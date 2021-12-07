@@ -10,11 +10,12 @@ import { useCryptoContext } from '../utils/CryptoContext';
 
 // gridType is either "my" or "all"
 export default function InfoTab({ gridType }) {
-    const { currentTicker, handleTickerChange } = useCryptoContext();
+    const { currentticker } = useCryptoContext();
+    // const { currentticker, handletickerchange } = useCryptoContext(); // possibly need handletickerchange
 
     // CRYPTO DETAILS QUERY
     const { loading: cryptoDetails_loading, data: cryptoDetails_data } = useQuery(GET_CRYPTODETAILS, {
-        variables: { pair: currentTicker }
+        variables: { pair: currentticker }
     });
 
     const { loading: getme_loading, data: getme_data } = useQuery(GET_ME);
@@ -23,17 +24,13 @@ export default function InfoTab({ gridType }) {
 
     if (getme_data) {
         un = getme_data.me.username;
-        console.log(un)
+        // console.log(un)
     }
 
-    // PORTFOLIO LOADING QUERY
-
-    const { loading, data }  = useQuery(GET_PORTFOLIO, {
+    // Grabs portfolio data
+    const { loading, data } = useQuery(GET_PORTFOLIO, {
         variables: { name: un }
     });
-
-    // console.log("portfoliodata", data)
-
 
     // CRYPTO DETAILS LOADING
     let info = 'Loading';
@@ -42,7 +39,7 @@ export default function InfoTab({ gridType }) {
     } else {
         info = cryptoDetails_data.cryptoDetails.cryptoInfo;
     }
-    let url = `https://cryptowat.ch/charts/COINBASE-PRO:${currentTicker}-USD`
+    let url = `https://cryptowat.ch/charts/COINBASE-PRO:${currentticker}-USD`
 
     // PORTFOLIO LOADING
     let curUSDbalance;
@@ -50,7 +47,7 @@ export default function InfoTab({ gridType }) {
         console.log('loading portfolio data..');
     } else {
         curUSDbalance = data.getPortfolio.usdBalance;
-        console.log(curUSDbalance);
+        // console.log(curUSDbalance);
     }
 
 
@@ -61,7 +58,7 @@ export default function InfoTab({ gridType }) {
     return (
         <React.Fragment>
             <Title>{gridType === "all"
-                ? currentTicker.toUpperCase()
+                ? currentticker.toUpperCase()
                 : "My Portfolio"}</Title>
             {
                 gridType === "all"
