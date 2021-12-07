@@ -152,13 +152,13 @@ const resolvers = {
                 const portfolioUpdate = await Portfolio.findOne(
                     { name: name }
                 )
-
+                    console.log("hihihihihih");
                 console.log("usdbalance", portfolioUpdate.usdBalance)
 
-                if (parseFloat(investment) > portfolioUpdate.usdBalance) {
-                    console.log("Overdraft prevented");
-                    return;
-                }
+                // if (parseFloat(investment) > portfolioUpdate.usdBalance) {
+                //     console.log("Overdraft prevented");
+                //     return;
+                // }
 
                 let newBalance = portfolioUpdate.usdBalance - parseFloat(investment);
 
@@ -173,7 +173,7 @@ const resolvers = {
                     { name: name },
                     {
                         $addToSet: {
-                            cryptos: { ticker, quantity },
+                            cryptos: { ticker, quantity, investment },
                         }
                     },
                     { upsert: true, new: true }
@@ -217,7 +217,7 @@ const resolvers = {
                 );
             }
             throw new AuthenticationError('You need to be logged in');
-        }
+        },
     }
 }
 
