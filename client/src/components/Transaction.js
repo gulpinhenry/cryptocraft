@@ -91,6 +91,7 @@ function Transaction({ open, handleOpen, action, price }) {
         })
 
         handleClose();
+        window.location.reload(); // change to state so new USD balance renders dynamically
         return mutationResponse;
     }
 
