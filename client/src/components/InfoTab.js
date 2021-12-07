@@ -3,7 +3,9 @@ import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import Title from './Title';
 import { useQuery } from '@apollo/client';
-import { GET_CRYPTODETAILS } from '../utils/queries';
+import { GET_CRYPTODETAILS, GET_PORTFOLIO } from '../utils/queries';
+import Auth from '../utils/auth';
+
 import { useCryptoContext } from '../utils/CryptoContext';
 
 function preventDefault(event) {
@@ -13,24 +15,51 @@ function preventDefault(event) {
 // gridType is either "my" or "all"
 export default function InfoTab({ gridType }) {
     const { currentTicker, handleTickerChange } = useCryptoContext();
-    const { loading, data } = useQuery(GET_CRYPTODETAILS, {
+    
+    // CRYPTO DETAILS QUERY
+    const { loading: cryptoDetails_loading, data: cryptoDetails_data } = useQuery(GET_CRYPTODETAILS, {
         variables: { pair: currentTicker }
     });
+
+    // PORTFOLIO LOADING QUERY
+    const { loading, data }  = useQuery(GET_PORTFOLIO, {
+        variables: { name: Auth.getProfile().data.username }
+    });
+
+    
+
+    // CRYPTO DETAILS LOADING
     let info = 'Loading';
-    if (loading) {
+    if (cryptoDetails_loading) {
         console.log('loading info tab..');
     } else {
-        info = data.cryptoDetails.cryptoInfo;
+        info = cryptoDetails_data.cryptoDetails.cryptoInfo;
     }
     let url = `https://cryptowat.ch/charts/COINBASE-PRO:${currentTicker}-USD`
+
+    // PORTFOLIO LOADING
+    let curUSDbalance;
+    if (loading) {
+        console.log('loading portfolio data..');
+    } else {
+        curUSDbalance = data.getPortfolio.usdBalance;
+        console.log(curUSDbalance);
+    }
+
+
+
+
+
+
     return (
         <React.Fragment>
             <Title>{gridType == "all"
-                    ? currentTicker.toUpperCase()
+                ? currentTicker.toUpperCase()
                 : "My Portfolio"}</Title>
             {
                 gridType == "all"
                     ?
+                    // Crypto info
                     <div><Typography component="p">
                         Daily Change: {info.dailyChange}%
                     </Typography>
@@ -48,7 +77,13 @@ export default function InfoTab({ gridType }) {
                             52-Wk Low: ${info.yearly_low}
                         </Typography></div>
                     :
-                    <div></div>
+                    // Portfolio info
+                    <div>
+                        <Typography component="h4">
+                            Current USD available:
+                            $ {curUSDbalance}
+                        </Typography>
+                    </div>
             }
             {/* add a chart pie chart hereinstead of the value */}
             <Typography color="text.secondary" sx={{ flex: 1 }}>

@@ -155,9 +155,13 @@ const resolvers = {
 
                 console.log("usdbalance", portfolioUpdate.usdBalance)
 
+                if (parseFloat(investment) > portfolioUpdate.usdBalance) {
+                    console.log("Overdraft prevented");
+                    return;
+                }
+
                 let newBalance = portfolioUpdate.usdBalance - parseFloat(investment);
 
-                console.log("newbalance", newBalance)
 
                 await Portfolio.findOneAndUpdate(
                     { name: name },
