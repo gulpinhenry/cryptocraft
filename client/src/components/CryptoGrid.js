@@ -18,7 +18,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 
 import Transaction from './Transaction';
 import { useCryptoContext } from '../utils/CryptoContext';
-import { GET_CRYPTOINFO } from '../utils/queries';
+import { GET_CRYPTOINFO, GET_PORTFOLIO, GET_ME } from '../utils/queries';
 
 const columns = [
     { id: 'name', label: 'Name', minWidth: 170 },
@@ -28,7 +28,7 @@ const columns = [
 ];
 
 // gridType will either be "my" or "all"
-export default function CryptoGrid({gridType}) {
+export default function CryptoGrid({ gridType }) {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [open, setOpen] = React.useState(false);
@@ -36,6 +36,38 @@ export default function CryptoGrid({gridType}) {
 
     const { currentTicker, handleTickerChange } = useCryptoContext();
     const { loading, data } = useQuery(GET_CRYPTOINFO);
+    const { loading: getme_loading, data: getme_data } = useQuery(GET_ME);
+    
+    let un; //checks username -> profile username
+
+    if (getme_data) {
+        un = getme_data.me.username;
+        console.log(un)
+    }
+    let curCryptos = [];
+    // Grabs portfolio data
+    const { data: getportfolio_data } = useQuery(GET_PORTFOLIO, {
+        variables: { name: un }
+    });
+
+    console.log(getportfolio_data)
+    if (getportfolio_data) {
+        curCryptos = getportfolio_data.getPortfolio.cryptos;
+    }
+
+    let map = new Map();
+    curCryptos.forEach(element => {
+        console.log(element)
+        if (map.has(element.ticker)) {
+            map.set(element.ticker, map.get(element.ticker) + element.quantity);
+        } else {
+            map.set(element.ticker, element.quantity);
+        }
+    });
+
+    const cryptoQuantities = [...map.entries()];
+
+    // work from here
 
     function getButton(ticker) {
         return (
@@ -59,16 +91,15 @@ export default function CryptoGrid({gridType}) {
         console.log('loading crypto grid...')
     } else {
         let temp = [];
-        if(gridType=="all"){
-            for (let i = 0; i < data.cryptoData.cryptoInfo.length; i++){
+        if (gridType == "all") {
+            for (let i = 0; i < data.cryptoData.cryptoInfo.length; i++) {
                 temp[i] = data.cryptoData.cryptoInfo[i].slice();
             }
             temp.forEach(element => {
                 element.push(getButton(element[1]));
             });
         }
-        else
-        {
+        else {
             temp = [
                 ['My Crypto 1', 'BTC', 50000, getButton('btc')],
                 ['My Crypto 2', 'ETH', 50000, getButton('eth')]
@@ -89,16 +120,18 @@ export default function CryptoGrid({gridType}) {
 
 
     
+    
+
 
     return (
         <React.Fragment>
             <div>
                 {open
-                    ? <Transaction open = {open} handleOpen = {handleOpen} action = {"buy"} price = {price}/>
+                    ? <Transaction open={open} handleOpen={handleOpen} action={"buy"} price={price} />
                     : <div></div>
                 }
             </div>
-            <Title>{gridType == "all"? "Browse Cryptos" : "My Cryptos"}</Title>
+            <Title>{gridType == "all" ? "Browse Cryptos" : "My Cryptos"}</Title>
             <Stack spacing={2} sx={{ width: 300 }}>
                 <Autocomplete
                     id="search-for-crypto"
@@ -106,10 +139,10 @@ export default function CryptoGrid({gridType}) {
                     options={rows.map((option) => option[1])}
                     renderInput={(params) => <TextField {...params} label="Search For Crypto" onKeyDown={(e) => {
                         if (e.key === 'Enter') {
-                          const ticker = params.inputProps.value.toLowerCase();
-                          handleTickerChange(ticker);
+                            const ticker = params.inputProps.value.toLowerCase();
+                            handleTickerChange(ticker);
                         }
-                      }}  />}
+                    }} />}
                 />
             </Stack>
             <Paper sx={{ width: '100%', overflow: 'hidden' }}>
