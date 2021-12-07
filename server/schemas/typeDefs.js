@@ -3,6 +3,7 @@ const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
     scalar JSON
+    scalar Date
     type User {
         _id: ID!
         username: String
@@ -26,6 +27,7 @@ const typeDefs = gql`
         quantity: Float
         investment: Float
         currentPrice: Float
+        date: Date
     }
 
     type Auth {

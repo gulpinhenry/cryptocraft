@@ -33,6 +33,7 @@ function Transaction({ open, handleOpen, action, price }) {
     const [ptf, setPtf] = React.useState("portfolio1");
 
     const [buyCrypto] = useMutation(BUY_CRYPTO);
+    // sell crypto add the mutation 
 
     const { loading: getme_loading, data: getme_data } = useQuery(GET_ME);
 
@@ -87,15 +88,25 @@ function Transaction({ open, handleOpen, action, price }) {
         );
     }
 
+    const handleSubmit = (event) => {
+        if(transactionType == "buy"){
+            handleBuy(event);
+        }
+        else{
+            handleSell(event);
+        }
+    }
+
     const handleBuy = async (event) => {
         event.preventDefault();
-
+        console.log("buy");
         if (amount > curUSDbalance) {
             alert("You don't have enough money!");
             return;
         }
 
         // console.log(`buying ${currentticker}`, total)
+        console.log(curCryptos);
         // console.log('handble buy username', Auth.getProfile().data.username)
         const mutationResponse = await buyCrypto({
             variables: {
@@ -105,7 +116,8 @@ function Transaction({ open, handleOpen, action, price }) {
                 investment: amount
             }
         })
-
+        console.log("purchase successful");
+        // maybe give user feedback
         handleClose();
         // window.location.reload(); // change to state so new USD balance renders dynamically
         return mutationResponse;
@@ -113,56 +125,38 @@ function Transaction({ open, handleOpen, action, price }) {
 
     const handleSell = async (event) => {
         event.preventDefault();
-
-        let map = new Map();
+        console.log("sell");
+       
+        // check to see if the sell is valid, traverse through map to see if i have it
+        let sum = 0;
         curCryptos.forEach(element => {
-            console.log(element)
-            if (map.has(element.ticker)) {
-                map.set(element.ticker, map.get(element.ticker) + element.quantity);
-            } else {
-                map.set(element.ticker, element.quantity);
+            if(element.ticker == currentTicker){
+                sum+=element.quantity;
             }
         });
+        if(sum>=total){
+            const mutationResponse = await buyCrypto({
+                variables: {
+                    name: Auth.getProfile().data.username,
+                    ticker: currentTicker,
+                    quantity: (total*-1),
+                    investment: (amount*-1).toString()
+                }
+            })
+            // add feedback of sell successful
+            handleClose();
+            return mutationResponse;
+        }
+        else{
+            alert("Not enough " + currentTicker +"!");
+            return;
+        }
+        // create the mutation
         
-        const cryptoQuantities = [...map.entries()];
+        // window.location.reload(); // change to state so new USD balance renders dynamically
+        // return mutationResponse;
+        
 
-        // finish and clean up
-
-        // let map = new Map();
-        // curCryptos.forEach(element => {
-        //     if (map.has(element.ticker)) {
-        //         map.set(element.ticker, map.get(element.ticker) + element.quantity);
-        //     } else {
-        //         map.set(element.ticker, element.quantity);
-        //     }
-        // });
-
-        // for (let i in map) {
-        //     console.log(i)
-        // }
-
-        // let cryptosObj = {};
-        // for (let i = 0; i < curCryptos.length; i++) {
-        //     if (cryptosObj[curCryptos[i]]) {
-        //         cryptosObj.ticker = curCryptos[i].quantity
-        //     } else {
-        //         cryptosObj[curCryptos[i].ticker] += curCryptos[i].quantity
-        //     }
-        // }
-
-        // var tracker = {};
-        // for (var i = 0; i < array.length; i++) {
-        //     if (tracker[array[i]]) {
-        //         return true
-        //     } else {
-        //         tracker[array[i]] = true;
-        //     }
-        // }
-        // return false
-
-        // if (amount > curUSDbalance) {
-
-        // }
     }
 
     return (
@@ -234,7 +228,7 @@ function Transaction({ open, handleOpen, action, price }) {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleBuy}>{transactionType === "buy" ? "Purchase" : "Sell"}</Button>
+                    <Button onClick={handleSubmit}>{transactionType === "buy" ? "Purchase" : "Sell"}</Button>
                 </DialogActions>
             </Dialog>
         </div>
