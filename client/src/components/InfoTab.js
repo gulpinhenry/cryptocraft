@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import Title from './Title';
@@ -12,6 +12,9 @@ import { useCryptoContext } from '../utils/CryptoContext';
 export default function InfoTab({ gridType }) {
     const { currentticker } = useCryptoContext();
     // const { currentticker, handletickerchange } = useCryptoContext(); // possibly need handletickerchange
+
+
+
 
     // CRYPTO DETAILS QUERY
     const { loading: cryptoDetails_loading, data: cryptoDetails_data } = useQuery(GET_CRYPTODETAILS, {
@@ -34,21 +37,44 @@ export default function InfoTab({ gridType }) {
 
     // CRYPTO DETAILS LOADING
     let info = 'Loading';
-    if (cryptoDetails_loading) {
-        console.log('loading info tab..');
-    } else {
-        info = cryptoDetails_data.cryptoDetails.cryptoInfo;
-    }
-    let url = `https://cryptowat.ch/charts/COINBASE-PRO:${currentticker}-USD`
+    useEffect(() => {
+        if (cryptoDetails_loading) {
+            console.log('loading info tab..');
+        } else {
+            info = cryptoDetails_data.cryptoDetails.cryptoInfo;
+        }
+    
+    }, [cryptoDetails_loading, cryptoDetails_data]);
+
+
+
 
     // PORTFOLIO LOADING
-    let curUSDbalance ="";
-    if (loading) {
-        console.log('loading portfolio data..');
-    } else {
-        curUSDbalance = data.getPortfolio.usdBalance;
-        // console.log(curUSDbalance);
-    }
+    let curUSDbalance = "";
+    // if (loading) {
+    //     console.log('loading portfolio data..');
+    // } else {
+    //     curUSDbalance = data.getPortfolio.usdBalance;
+    //     // console.log(curUSDbalance);
+    // }
+
+    useEffect(() => {
+        if (loading) {
+            console.log('loading portfolio data..');
+        } else {
+            console.log(data);
+            curUSDbalance = data.getPortfolio.usdBalance;
+            // console.log(curUSDbalance);
+        }
+
+    }, [loading, data]);
+
+
+
+
+
+    let url = `https://cryptowat.ch/charts/COINBASE-PRO:${currentticker}-USD`
+
     return (
         <React.Fragment>
             <Title>{gridType === "all"

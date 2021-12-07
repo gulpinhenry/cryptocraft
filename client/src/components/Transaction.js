@@ -118,6 +118,8 @@ function Transaction({ open, handleOpen, action, price }) {
         console.log("purchase successful");
         // maybe give user feedback
         handleClose();
+        // window.location.reload();
+
         return mutationResponse;
     }
 
@@ -143,6 +145,7 @@ function Transaction({ open, handleOpen, action, price }) {
             })
             // add feedback of sell successful
             handleClose();
+            // window.location.reload();
             return mutationResponse;
         }
         else{

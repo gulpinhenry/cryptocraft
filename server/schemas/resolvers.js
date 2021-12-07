@@ -7,41 +7,82 @@ const cryptowatch = require('../utils/cryptowatch');
 const resolvers = {
     JSON: GraphQLJSON,
     Query: {
+        //EXP 
+        // me: async (parent, args, context) => {
+        //     if (context.user) {
+        //         let queryObject = User.findOne({ _id: context.user._id }).populate('portfolios') // looking at the documentation it looks like a Query object is returned
+        //         // console.log(queryObject);
+        //         let promise = queryObject.exec(); // exec() looks to wrap the result of the query in a promise
+        //         let value = await promise; // resolve the promise
+        //         return value; // return the resolved value
+        //     }
+        //     throw new AuthenticationError('You need to be logged in!');
+        // },
+
+        // LAST STABLE
         me: async (parent, args, context) => {
             if (context.user) {
-                return User.findOne({ _id: context.user._id }).populate('portfolios')
+                return await User.findOne({ _id: context.user._id }).populate('portfolios')
             }
             throw new AuthenticationError('You need to be logged in!');
         },
+
         users: async (parent, args, context) => {
 
-            return User.find({}).populate('portfolios').populate({
+            return await User.find({}).populate('portfolios').populate({
                 path: 'portfolios',
                 populate: 'cryptos'
             });
         },
+        
         getPortfolio: async (parent, { name }) => {
-            return Portfolio.findOne(
-                { name: name }
-            )
-        },
-        cryptoData: async (parent, args, context) => {
-            const user = await User.findOne({ _id: context.user._id }).populate('portfolios').populate({
-                path: 'portfolios',
-                populate: 'cryptos'
-            });
-            console.log(" user test:", user)
+            // let portfolio = await Portfolio.findOne(
+            //     { name: name }
+            // ).exec();
+            // console.log(portfolio);
 
-            let arr = cryptowatch.cryptoInfo();
-            console.log(arr);
+            let queryObject = Portfolio.findOne({ name: name }); // looking at the documentation it looks like a Query object is returned
+            // console.log(queryObject);
+            let promise = queryObject.exec(); // exec() looks to wrap the result of the query in a promise
+            let value = await promise; // resolve the promise
+            return value; // return the resolved value
+
+
+            // return portfolio;
+        },
+        
+        // LAST STABLE???
+        // getPortfolio: async (parent, { name }) => {
+        //     let portfolio = await Portfolio.findOne(
+        //         { name: name }
+        //     ).exec();
+            
+        //     console.log(portfolio);
+        //     return portfolio;
+        // },
+        // cryptoData: async (parent, args, context) => {
+        //     const user = await User.findOne({ _id: context.user._id }).populate('portfolios').populate({
+        //         path: 'portfolios',
+        //         populate: 'cryptos'
+        //     });  // why is this even here????????
+        //     // console.log(" user test:", user)
+
+        //     let arr = await cryptowatch.cryptoInfo();
+        //     // console.log(arr);
+        //     return { cryptoInfo: arr };
+        // },
+        cryptoData: async (parent, args, context) => {
+            let arr = await cryptowatch.cryptoInfo();
+            // console.log(arr);
             return { cryptoInfo: arr };
         },
+
         cryptoCandles: async (parent, args, context) => {
             let result = await cryptowatch.getCandlesData(args.pair);
             return { cryptoInfo: result }
         },
         cryptoDetails: async (parent, args, context) => {
-            console.log(args);
+            // console.log("This args", args, "This args end");
             let result = await cryptowatch.cryptoDetails(args.pair);
             return { cryptoInfo: result }
         }
@@ -69,7 +110,7 @@ const resolvers = {
             }
 
             const validPassword = await user.isCorrectPassword(password);
-            console.log(validPassword)
+            // console.log(validPassword)
 
             if (!validPassword) {
                 throw new AuthenticationError('Error signing in');
@@ -147,6 +188,83 @@ const resolvers = {
             // }
             // throw new AuthenticationError('You need to be logged in');
         },
+        // EXP
+        // buyCrypto: async (parent, { name, ticker, quantity, investment }, context) => {
+        //     if (context.user) {
+        //         let queryObject = Portfolio.findOne({ name: name }); // looking at the documentation it looks like a Query object is returned
+        //         // console.log(queryObject);
+        //         let promise = queryObject.exec(); // exec() looks to wrap the result of the query in a promise
+        //         let portfolioUpdate = await promise; // resolve the promise
+        //         //     console.log("hihihihihih");
+        //         // console.log("usdbalance", portfolioUpdate.usdBalance)
+
+        //         // if (parseFloat(investment) > portfolioUpdate.usdBalance) {
+        //         //     console.log("Overdraft prevented");
+        //         //     return;
+        //         // }
+
+        //         let newBalance = portfolioUpdate.usdBalance - parseFloat(investment);
+
+
+        //         await Portfolio.findOneAndUpdate(
+        //             { name: name },
+        //             { usdBalance: newBalance },
+        //             { upsert: true, new: true }
+        //         );
+
+        //         return await Portfolio.findOneAndUpdate(
+        //             { name: name },
+        //             {
+        //                 $addToSet: {
+        //                     cryptos: { ticker, quantity, investment },
+        //                 }
+        //             },
+        //             { upsert: true, new: true }
+        //         );
+
+        //     }
+        //     throw new AuthenticationError('You need to be logged in');
+        // },
+        // sellCrypto: async (parent, { name, ticker, quantity, investment }, context) => {
+        //     if (context.user) {
+        //         let queryObject = Portfolio.findOne({ name: name }); // looking at the documentation it looks like a Query object is returned
+        //         // console.log(queryObject);
+        //         let promise = queryObject.exec(); // exec() looks to wrap the result of the query in a promise
+        //         let portfolioUpdate = await promise; // resolve the promise
+
+        //         // console.log("cryptoquantity", portfolioUpdate.cryptos.quantity)
+
+        //         // ====== Change?
+        //         if (parseFloat(investment) < portfolioUpdate.usdBalance) {
+        //             console.log("Overdraft prevented");
+        //             return;
+        //         }
+        //         // =======
+
+        //         let newBalance = portfolioUpdate.usdBalance + parseFloat(investment);
+
+
+        //         await Portfolio.findOneAndUpdate(
+        //             { name: name },
+        //             { usdBalance: newBalance },
+        //             { upsert: true, new: true }
+        //         );
+
+        //         return await Portfolio.findOneAndUpdate(
+        //             { name: name },
+        //             {
+        //                 $addToSet: {
+        //                     cryptos: { ticker, quantity },
+        //                 }
+        //             },
+        //             { upsert: true, new: true }
+        //         );
+        //     }
+        //     throw new AuthenticationError('You need to be logged in');
+        // },
+
+
+        // last stable
         buyCrypto: async (parent, { name, ticker, quantity, investment }, context) => {
             if (context.user) {
                 const portfolioUpdate = await Portfolio.findOne(
