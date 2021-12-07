@@ -98,6 +98,7 @@ const mdTheme = createTheme();
 
 function DashboardContent() {
     const [open, setOpen] = React.useState(false);
+    const [gridType, setGridType] = React.useState("all");
     const toggleDrawer = () => {
         setOpen(!open);
     };
@@ -105,7 +106,10 @@ function DashboardContent() {
         event.preventDefault();
         Auth.logout();
     }
-
+    const handleGridType = (type) => {
+        console.log(gridType, "changed to", type);
+        setGridType(type);
+    };
 
 
     return (
@@ -200,12 +204,12 @@ function DashboardContent() {
                                             flexDirection: 'column',
                                         }}
                                     >
-                                        <InfoTab />
+                                        <InfoTab gridType={gridType} handleGridType = {handleGridType}/>
                                     </Paper>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <Paper id="dashboard-table-container" sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                                        <CryptoGrid gridType={"all"}/>
+                                        <CryptoGrid gridType={gridType} handleGridType = {handleGridType}/>
                                     </Paper>
                                 </Grid>
                             </Grid>
