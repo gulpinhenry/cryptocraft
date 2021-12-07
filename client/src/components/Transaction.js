@@ -8,16 +8,16 @@ import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import InputLabel from '@mui/material/InputLabel';
+// import FormControl from '@mui/material/FormControl';
+// import FormControlLabel from '@mui/material/FormControlLabel';
+// import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import Switch from '@mui/material/Switch';
+// import Switch from '@mui/material/Switch';
 
 
 import { useQuery } from '@apollo/client'
-import { useState } from 'react';
+// import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { useCryptoContext } from '../utils/CryptoContext';
 
@@ -232,7 +232,7 @@ function Transaction({ open, handleOpen, action, price }) {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleBuy}>{transactionType == "buy" ? "Purchase" : "Sell"}</Button>
+                    <Button onClick={handleBuy}>{transactionType === "buy" ? "Purchase" : "Sell"}</Button>
                 </DialogActions>
             </Dialog>
         </div>
