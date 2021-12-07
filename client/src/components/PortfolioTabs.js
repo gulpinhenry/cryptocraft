@@ -47,7 +47,7 @@ export default function PortfolioTabs({gridType, handleGridType}) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
-    if(newValue == 0)
+    if(newValue === 0)
     {
       handleGridType("my");
     }

@@ -25,7 +25,9 @@ import { GET_PORTFOLIO, GET_ME } from '../utils/queries';
 import { BUY_CRYPTO } from '../utils/mutations';
 
 function Transaction({ open, handleOpen, action, price }) {
-    const { currentTicker, handleTickerChange } = useCryptoContext();
+    const { currentticker } = useCryptoContext();
+    // const { currentticker, handletickerchange } = useCryptoContext(); // possibly need handletickerchange
+
     const [transactionType, setTransactionType] = React.useState(action);
     const [amount, setAmount] = React.useState(0);
     const [ptf, setPtf] = React.useState("portfolio1");
@@ -93,12 +95,12 @@ function Transaction({ open, handleOpen, action, price }) {
             return;
         }
 
-        // console.log(`buying ${currentTicker}`, total)
+        // console.log(`buying ${currentticker}`, total)
         // console.log('handble buy username', Auth.getProfile().data.username)
         const mutationResponse = await buyCrypto({
             variables: {
                 name: un,
-                ticker: currentTicker,
+                ticker: currentticker,
                 quantity: total,
                 investment: amount
             }
@@ -166,7 +168,7 @@ function Transaction({ open, handleOpen, action, price }) {
     return (
         <div>
             <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>Trade {currentTicker}</DialogTitle>
+                <DialogTitle>Trade {currentticker}</DialogTitle>
                 <DialogContent>
 
                     <Box
@@ -226,7 +228,7 @@ function Transaction({ open, handleOpen, action, price }) {
                             onChange={handleAmountChange}
                         />
                         <DialogContentText>
-                            {total} {currentTicker}
+                            {total} {currentticker}
                         </DialogContentText>
                     </Box>
                 </DialogContent>

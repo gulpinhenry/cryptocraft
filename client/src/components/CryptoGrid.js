@@ -11,7 +11,7 @@ import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import Title from './Title';
 import Link from '@mui/material/Link';
-import Button from '@mui/material/Button';
+// import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -34,7 +34,7 @@ export default function CryptoGrid({ gridType }) {
     const [open, setOpen] = React.useState(false);
     const [price, setPrice] = React.useState(0)
 
-    const { currentTicker, handleTickerChange } = useCryptoContext();
+    const { currentticker, handletickerchange } = useCryptoContext();
     const { loading, data } = useQuery(GET_CRYPTOINFO);
 
     function getButton(ticker) {
@@ -106,7 +106,7 @@ export default function CryptoGrid({ gridType }) {
                     renderInput={(params) => <TextField {...params} label="Search For Crypto" onKeyDown={(e) => {
                         if (e.key === 'Enter') {
                             const ticker = params.inputProps.value.toLowerCase();
-                            handleTickerChange(ticker);
+                            handletickerchange(ticker);
                         }
                     }} />}
                 />
@@ -133,9 +133,9 @@ export default function CryptoGrid({ gridType }) {
                                 .map((row, index) => {
                                     return (
                                         <TableRow hover role="checkbox" tabIndex={-1} key={index}
-                                            currentTicker={currentTicker} handleTickerChange={handleTickerChange} onClick={(event) => {
+                                            currentticker={currentticker} handletickerchange={handletickerchange} onClick={(event) => {
                                                 event.preventDefault();
-                                                handleTickerChange(row[1]);
+                                                handletickerchange(row[1]);
                                                 // handles what row is being clicked on, saves ticker to render other components, saves to context
                                             }}>
                                             {columns.map((column, index) => {
@@ -145,7 +145,7 @@ export default function CryptoGrid({ gridType }) {
                                                         <TableCell key={index} align={column.align} onClick={(event) => {
                                                             event.preventDefault();
                                                             event.stopPropagation();
-                                                            handleTickerChange(row[1]);
+                                                            handletickerchange(row[1]);
                                                             console.log(row[1] + " button clicked");
                                                             setPrice(row[2]);
                                                             console.log("price here" + price)
