@@ -83,13 +83,14 @@ export default function SecondaryListItems() {
     return (
         <div>
             <ListSubheader inset>Portfolios</ListSubheader>
-
-            <ListItem button onClick={handleClickOpen}>
-                <ListItemIcon>
-                    <Link href="/portfolio" className="sideLinks"><AssignmentIcon /></Link>
-                </ListItemIcon>
-                <ListItemText primary="Portfolio" />
-            </ListItem>
+            <Link href="/portfolio" className="sideLinks">
+                <ListItem button onClick={handleClickOpen}>
+                    <ListItemIcon>
+                        <AssignmentIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Portfolio" />
+                </ListItem>
+            </Link>
 
             {/* <Dialog open={open} onClose={handleCancel}>
                 <DialogTitle>Add a new Portfolio</DialogTitle>
