@@ -119,7 +119,7 @@ async function getCandlesData(symbol) {
     let ticker = symbol.toLowerCase()
     var sixHr = [];  
     var hour = [];
-    const exchange = 'coinbase';
+    const exchange = 'coinbase-pro';
 
     const candles = await getOHLCcandlesticks(exchange, ticker, sixHr, hour);
     return candles;
@@ -187,8 +187,9 @@ async function cryptoDetails(symbol) {
 
 
 //Returns a 2-D array with unix time and price at that time  
-async function unixPrice(exchange, pair) {
-    let query = `${baseUrl}markets/${exchange}/${pair}/ohlc${apiKey1}`;
+//first value is oldest datapoint
+async function unixPrice( pair) {
+    let query = `${baseUrl}markets/coinbase-pro/${pair}/ohlc${apiKey1}`;
     const response = await axios.get(query); 
 
 
@@ -201,12 +202,37 @@ async function unixPrice(exchange, pair) {
     for (let i = 0; i < six.length; i++) {
        timePrice.push([six[i][0], six[i][4]]);
     }
-    console.log(timePrice)
     return timePrice;
+}
 
+async function calculateCryptoHistorical(ticker, dummy) {
+    const pair = ticker + 'usd';
+    const historicalArray = await unixPrice(pair);
+    var copy = [...dummy]; 
+    var valueHistory = [];
+    var x = 0; 
+
+    console.log(copy);
+    console.log(historicalArray);
+
+    for (let i = 0; i < historicalArray.length; i++) {
+        if (copy[0].time <= historicalArray[i][0] && copy.length > 1) {
+            x = copy[0].quantity;
+            valueHistory.push(historicalArray[i][1] * x);
+            copy.shift();
+        } else if(copy.length == 1) { 
+            x = copy[0].quantity;
+            valueHistory.push(historicalArray[i][1] * x);
+        } else {
+            valueHistory.push(historicalArray[i][1] * x);
+        }
+    }
+    console.log(valueHistory.length)
+    console.log(valueHistory)
+    return valueHistory;
+    
 }
 
 
 
-
-module.exports = { unixPrice, cryptoDetails, cryptoInfo, getNameandTicker, getCandlesData, getAllMarketPrices, getAllMarkets, getMarketDetails, getSingle24HourSummary, getOHLCcandlesticks };
+module.exports = { calculateCryptoHistorical, unixPrice, cryptoDetails, cryptoInfo, getNameandTicker, getCandlesData, getAllMarketPrices, getAllMarkets, getMarketDetails, getSingle24HourSummary, getOHLCcandlesticks };
