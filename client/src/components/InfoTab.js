@@ -24,7 +24,7 @@ export default function InfoTab({ gridType }) {
     // PORTFOLIO LOADING QUERY
     const { loading, data }  = useQuery(GET_PORTFOLIO, {
         variables: { name: Auth.getProfile().data.username }
-    });
+    }, []);
 
     
 
