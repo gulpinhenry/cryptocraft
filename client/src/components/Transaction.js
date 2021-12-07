@@ -137,11 +137,7 @@ function Transaction({ open, handleOpen, action, price }) {
             const mutationResponse = await buyCrypto({
                 variables: {
                     name: un,
-<<<<<<< HEAD
-                    ticker: currentTicker,
-=======
                     ticker: currentticker,
->>>>>>> 420f446bdbd39a0ccb2be3a015576fe0bbc95659
                     quantity: (total*-1),
                     investment: (amount*-1).toString()
                 }
