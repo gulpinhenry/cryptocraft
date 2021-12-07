@@ -24,12 +24,15 @@ import { ADD_PORTFOLIO } from '../utils/mutations';
 
 export const mainListItems = (
     <div>
-        <ListItem button>
-            <ListItemIcon>
-                <Link href="/" className="sideLinks"><DashboardIcon /></Link>
-            </ListItemIcon>
-            <ListItemText primary="Dashboard" />
-        </ListItem>
+        {/* TODO make the href colors of visited not showing */}
+        <Link href="/" className="sideLinks">
+            <ListItem button>
+                <ListItemIcon>
+                    <DashboardIcon />
+                </ListItemIcon>
+                <ListItemText primary="Dashboard" />
+            </ListItem>
+        </Link>
         <ListItem button>
             <ListItemIcon>
                 <BarChartIcon />
