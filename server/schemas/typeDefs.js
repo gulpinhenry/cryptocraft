@@ -9,29 +9,23 @@ const typeDefs = gql`
         firstName: String
         lastName: String
         email: String
-        portfolios: [Portfolio]
+        portfolios: Portfolio
     }
 
     type Portfolio {
         _id: ID!
         name: String
-        cryptos: [Crypto]
         usdBalance: Float
-        cryptoBalance: Float
         historicalBalance: [Float]
-        gain: Float
+        cryptos: [Crypto]
     }
 
     type Crypto {
-        _id: ID!
-        ticker: String!
-        name: String!
+        name: String
+        ticker: String
         quantity: Float
         investment: Float
         currentPrice: Float
-        minutelyPrice: [Float]
-        hourlyPrice: [Float]
-        weeklyPrice: [Float]
     }
 
     type Auth {
@@ -48,7 +42,7 @@ const typeDefs = gql`
         users: [User]
         user(username: String!): User
         portfolios(username: String!): [Portfolio]
-        portfolio(username: String, portfolioId: ID!): Portfolio
+        getPortfolio(name: String): Portfolio
         cryptos(portfolioId: ID!): [Crypto]
         crypto(portfolioId: ID!, ticker: String!): Crypto
         cryptoData: cryptoData
@@ -65,7 +59,7 @@ const typeDefs = gql`
         updateCryptoQuantity(quantity: Float): Crypto
         removePortfolio(portfolioId: ID!): Portfolio
         # 
-        buyCrypto(ticker: String!, quantity: Float!, investment: Float!): Portfolio
+        buyCrypto(name: String!, ticker: String!, quantity: Float!, investment: String!): Portfolio
         sellCrypto(ticker: String!, quantity: Float!): Portfolio
     }
 `;
