@@ -34,6 +34,7 @@ export default function InfoTab({ gridType }) {
             console.log(un, "Truthy \"un\" in InfoTabs.js");
         }
     }
+    //============================================================================= //
 
     // ============================================================================ //
     //                         //   GET_PORTFOLIO   //                              //
@@ -50,10 +51,12 @@ export default function InfoTab({ gridType }) {
         } else if (getPortfolio_data?.getPortfolio?.usdBalance) {
             curUSDbalance = getPortfolio_data.getPortfolio.usdBalance;
             console.log(curUSDbalance, "Truthy \"curUSDbalance\" in InfoTabs.js");
+            // SHOULD HAVE QUIT HERE???
         }
     }
+    //============================================================================= //
 
-    // OLD VERSION OF THE CHECK. KEEP TO REFERENCE IF PIECES ARE NEEDED FOR NOW
+    // OLD VERSION OF THE GET_PORTFOLIO CHECK. KEEP TO REFERENCE IF PIECES ARE NEEDED FOR NOW
     // if (getPortfolio_loading) {
     //     console.log('loading portfolio data..');
     // } else {
@@ -63,9 +66,8 @@ export default function InfoTab({ gridType }) {
     // }
 
     // ============================================================================ //
-    //                       //   GET_CRYPTODEATILS   //                            //
+    //                       //   GET_CRYPTODETAILS   //                            //
     // ============================================================================ //
-    
     let info = {"dailyChange": "Loading...", "weeklyChange": "Loading...", "yearlyChange": "Loading...", "yearly_high": "Loading...", "yearly_low": "Loading..."}; // Init variable for holding. Prevents crashing due to null values if the query is too slow.
     const { loading: cryptoDetails_loading, data: cryptoDetails_data } = useQuery(GET_CRYPTODETAILS, {variables: { pair: currentticker }});
 
@@ -79,8 +81,9 @@ export default function InfoTab({ gridType }) {
             console.log(info, "Truthy \"cryptoDetails_data\" in InfoTabs.js");
         }
     }
+    //============================================================================= //
 
-    // OLD VERSION OF THE CHECK. KEEP TO REFERENCE IF PIECES ARE NEEDED
+    // OLD VERSION OF THE GET_CRYPTODETAILS CHECK. KEEP TO REFERENCE IF PIECES ARE NEEDED
     // useEffect(() => {
     //     if (cryptoDetails_loading) {
     //         console.log('Loading cryptoDetails data in InfoTabs.js...');
@@ -89,21 +92,6 @@ export default function InfoTab({ gridType }) {
     //         console.log(info, "Truthy \"cryptoDetails_data\" in InfoTabs.js");
     //     }
     // });
-
-
-
-
-
-
-    // useEffect(() => {
-    //     if (loading) {
-    //         console.log('loading portfolio data..');
-    //     } else {
-    //         console.log(data);
-    //         curUSDbalance = data.getPortfolio.usdBalance;
-    //         // console.log(curUSDbalance);
-    //     }
-    // }, [loading, data]);
 
 
     // URL for cryptowatch Link. Not used in queries
@@ -143,7 +131,7 @@ export default function InfoTab({ gridType }) {
                         </Typography>
                     </div>
             }
-            {/* add a chart pie chart hereinstead of the value */}
+            {/* add a chart pie chart here instead of the value */}
             <Typography color="text.secondary" sx={{ flex: 1 }}>
                 on {new Date().toDateString()}
             </Typography>
