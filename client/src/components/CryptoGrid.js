@@ -65,7 +65,7 @@ export default function CryptoGrid({ gridType }) {
 
     let map = new Map();
     curCryptos.forEach(element => {
-        // console.log(element)
+
         if (map.has(element.ticker)) {
             map.set(element.ticker, map.get(element.ticker) + element.quantity);
         } else {
