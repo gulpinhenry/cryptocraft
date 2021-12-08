@@ -17,6 +17,7 @@ export const GET_PORTFOLIO = gql`
             cryptos {
                 ticker
                 quantity
+                date
             }
         }
     }

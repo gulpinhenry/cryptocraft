@@ -118,7 +118,7 @@ function Transaction({ open, handleOpen, action, price }) {
         console.log("purchase successful");
         // maybe give user feedback
         handleClose();
-        // window.location.reload(); // change to state so new USD balance renders dynamically
+        window.location.reload(); 
         return mutationResponse;
     }
 
@@ -129,11 +129,11 @@ function Transaction({ open, handleOpen, action, price }) {
         // check to see if the sell is valid, traverse through map to see if i have it
         let sum = 0;
         curCryptos.forEach(element => {
-            if(element.ticker == currentticker){
+            if (element.ticker === currentticker) {
                 sum+=element.quantity;
             }
         });
-        if(sum>=total){
+        if (sum >= total) {
             const mutationResponse = await buyCrypto({
                 variables: {
                     name: un,
@@ -144,18 +144,13 @@ function Transaction({ open, handleOpen, action, price }) {
             })
             // add feedback of sell successful
             handleClose();
+            window.location.reload(); 
             return mutationResponse;
         }
-        else{
+        else {
             alert("Not enough " + currentticker +"!");
             return;
         }
-        // create the mutation
-        
-        // window.location.reload(); // change to state so new USD balance renders dynamically
-        // return mutationResponse;
-        
-
     }
 
     return (

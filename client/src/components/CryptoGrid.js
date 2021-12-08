@@ -53,11 +53,12 @@ export default function CryptoGrid({ gridType }) {
     console.log(getportfolio_data)
     if (getportfolio_data) {
         curCryptos = getportfolio_data.getPortfolio.cryptos;
+        console.log(curCryptos)
     }
 
     let map = new Map();
     curCryptos.forEach(element => {
-        console.log(element)
+        // console.log(element)
         if (map.has(element.ticker)) {
             map.set(element.ticker, map.get(element.ticker) + element.quantity);
         } else {
