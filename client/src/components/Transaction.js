@@ -89,7 +89,7 @@ function Transaction({ open, handleOpen, action, price }) {
     }
 
     const handleSubmit = (event) => {
-        if(transactionType == "buy"){
+        if(transactionType === "buy"){
             handleBuy(event);
         }
         else{
@@ -130,7 +130,7 @@ function Transaction({ open, handleOpen, action, price }) {
         // check to see if the sell is valid, traverse through map to see if i have it
         let sum = 0;
         curCryptos.forEach(element => {
-            if(element.ticker == currentticker){
+            if(element.ticker === currentticker){
                 sum+=element.quantity;
             }
         });
