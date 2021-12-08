@@ -52,17 +52,23 @@ export default function CryptoGrid({ gridType }) {
         un = getme_data.me.username;
         // console.log(un)
     }
-    let curCryptos = [];
+    let curCryptos = [{__typename: 'Crypto', ticker: 'BTC', quantity: 1.23456}, {__typename: 'Crypto', ticker: 'ADA', quantity: 6.54321}]; // dummy placeholder
     // Grabs portfolio data
-    const { data: getportfolio_data } = useQuery(GET_PORTFOLIO, {
+    const {  loading: getportfolio_loading, data: getportfolio_data } = useQuery(GET_PORTFOLIO, {
         variables: { name: un }
     });
 
     console.log(getportfolio_data)
-    if (getportfolio_data) {
-        curCryptos = getportfolio_data.getPortfolio.cryptos;
+
+    if (getportfolio_loading) {
+        console.log('loading CG portfolio data..');
+    } else {
+        if (getportfolio_data?.getPortfolio?.cryptos) {
+            curCryptos = getportfolio_data?.getPortfolio?.cryptos;
+        }
     }
 
+    console.log(curCryptos, "cur cryptos 123");
     let map = new Map();
     curCryptos.forEach(element => {
         // console.log(element)
@@ -106,8 +112,7 @@ export default function CryptoGrid({ gridType }) {
         }
         else {
             for (let i = 0; i < data.cryptoData.cryptoInfo.length; i++) {
-                if(map.has(data.cryptoData.cryptoInfo[i][1]))
-                {
+                if (map.has(data.cryptoData.cryptoInfo[i][1])) {
                     temp[i] = data.cryptoData.cryptoInfo[i].slice();
                 }
             }
@@ -136,7 +141,7 @@ export default function CryptoGrid({ gridType }) {
 
     return (
         <React.Fragment>
-            
+
 
             <Title>{gridType === "all" ? "Browse Cryptos" : "My Cryptos"}</Title>
             <Stack spacing={2} sx={{ width: 300 }}>
@@ -198,7 +203,7 @@ export default function CryptoGrid({ gridType }) {
                                                         </TableCell>
                                                     );
                                                 }
-                                                else if(index === 5 && gridType === "my"){
+                                                else if (index === 5 && gridType === "my") {
                                                     return (
                                                         <TableCell key={index} align={column.align} onClick={(event) => {
                                                             event.preventDefault();

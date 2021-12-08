@@ -11,7 +11,28 @@ import { useCryptoContext } from '../utils/CryptoContext';
 // gridType is either "my" or "all"
 export default function InfoTab({ gridType }) {
     const { currentticker } = useCryptoContext();
-    // const { currentticker, handletickerchange } = useCryptoContext(); // possibly need handletickerchange
+    
+    // ============================================================================ //    
+    //  ORDER OF OPERATIONS MUST GO:  GET_ME => GET_PORTFOLIO => GET_CRYPTODETAILS  //
+    // ============================================================================ //
+
+
+    // ============================================================================ //    
+    //                             //   GET_ME   //                                 //
+    // ============================================================================ //
+
+    let un; //checks username -> profile username
+    const { loading: getme_loading, data: getme_data } = useQuery(GET_ME);
+    if (getme_data) {
+        un = getme_data.me.username;
+        console.log(un, " un via IT")
+    }
+
+    // ============================================================================ //    
+    //                             //   GET_ME   //                                 //
+    // ============================================================================ //
+
+
 
 
 
@@ -21,14 +42,9 @@ export default function InfoTab({ gridType }) {
         variables: { pair: currentticker }
     });
 
-    const { loading: getme_loading, data: getme_data } = useQuery(GET_ME);
 
-    let un; //checks username -> profile username
 
-    if (getme_data) {
-        un = getme_data.me.username;
-        // console.log(un)
-    }
+
 
     // Grabs portfolio data
     const { loading, data } = useQuery(GET_PORTFOLIO, {
@@ -50,24 +66,26 @@ export default function InfoTab({ gridType }) {
 
 
     // PORTFOLIO LOADING
-    let curUSDbalance = "";
-    // if (loading) {
-    //     console.log('loading portfolio data..');
-    // } else {
-    //     curUSDbalance = data.getPortfolio.usdBalance;
-    //     // console.log(curUSDbalance);
-    // }
-
-    useEffect(() => {
-        if (loading) {
-            console.log('loading portfolio data..');
-        } else {
-            console.log(data);
-            curUSDbalance = data.getPortfolio.usdBalance;
+    let curUSDbalance = 1000000;
+    if (loading) {
+        console.log('loading portfolio data..');
+    } else {
+        if (data?.getPortfolio?.usdBalance) {
+            curUSDbalance = data?.getPortfolio?.usdBalance;
             // console.log(curUSDbalance);
         }
+    }
 
-    }, [loading, data]);
+    // useEffect(() => {
+    //     if (loading) {
+    //         console.log('loading portfolio data..');
+    //     } else {
+    //         console.log(data);
+    //         curUSDbalance = data.getPortfolio.usdBalance;
+    //         // console.log(curUSDbalance);
+    //     }
+
+    // }, [loading, data]);
 
 
 

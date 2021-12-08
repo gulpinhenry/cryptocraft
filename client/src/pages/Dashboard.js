@@ -3,6 +3,7 @@ import '../styles/dashboard.css';
 import * as React from 'react';
 // import { useEffect } from 'react';
 import { CryptoProvider } from '../utils/CryptoContext';
+// import { UserProvider } from '../utils/UserContext';
 // import { GET_CRYPTOINFO, GET_CRYPTOCANDLES } from '../utils/queries';
 import { useQuery } from '@apollo/client'
 // import { useQuery, useMutation } from '@apollo/client'
@@ -118,6 +119,7 @@ function DashboardContent() {
 
 
     return (
+        // <UserProvider>
         <CryptoProvider>
             <ThemeProvider theme={mdTheme}>
                 <Box sx={{ display: 'flex' }}>
@@ -224,6 +226,7 @@ function DashboardContent() {
                 </Box>
             </ThemeProvider>
         </CryptoProvider>
+        // </UserProvider>
     );
 }
 
