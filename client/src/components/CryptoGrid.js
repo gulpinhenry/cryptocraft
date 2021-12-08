@@ -21,7 +21,6 @@ import { useCryptoContext } from '../utils/CryptoContext';
 import { GET_ME, GET_PORTFOLIO, GET_CRYPTOINFO } from '../utils/queries';
 
 
-
 // gridType will either be "my" or "all"
 export default function CryptoGrid({ gridType }) {
 
@@ -48,33 +47,63 @@ export default function CryptoGrid({ gridType }) {
     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
 
 
+    // ============================================================================ //
+    //  ORDER OF OPERATIONS MUST GO:  GET_ME => GET_PORTFOLIO => GET_CRYPTODETAILS  //
+    // ============================================================================ //
     const { currentticker, handletickerchange } = useCryptoContext();
-    const { loading, data } = useQuery(GET_CRYPTOINFO);
+
+    // ============================================================================ //
+    //                             //   GET_ME   //                                 //
+    // ============================================================================ //
+    let un = "Loading..."; // Init variable for holding. Prevents crashing due to null values if the query is too slow.
     const { loading: getme_loading, data: getme_data } = useQuery(GET_ME);
 
-    let un; //checks username -> profile username
-
-    if (getme_data) {
-        un = getme_data.me.username;
-        // console.log(un)
-    }
-    let curCryptos = [{__typename: 'Crypto', ticker: 'BTC', quantity: 1.23456}, {__typename: 'Crypto', ticker: 'ADA', quantity: 6.54321}]; // dummy placeholder
-    // Grabs portfolio data
-    const {  loading: getportfolio_loading, data: getportfolio_data } = useQuery(GET_PORTFOLIO, {
-        variables: { name: un }
-    });
-
-    console.log(getportfolio_data)
-
-    if (getportfolio_loading) {
-        console.log('loading CG portfolio data..');
+    if (getme_loading) {
+        console.log('Loading username data in CrypoGrid.js...');
     } else {
-        if (getportfolio_data?.getPortfolio?.cryptos) {
-            curCryptos = getportfolio_data?.getPortfolio?.cryptos;
+        if (!getme_data) {
+            console.log(un, "Falsey \"un\" in CrypoGrid.js. Should never get here."); // Delete this (if) once working to increase performance
+        } else if (getme_data) {
+            un = getme_data.me.username;
+            console.log(un, "Truthy \"un\" in CrypoGrid.js");
         }
     }
+    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
 
-    console.log(curCryptos, "cur cryptos 123");
+    // ============================================================================ //
+    //                         //   GET_PORTFOLIO   //                              //
+    // ============================================================================ //
+
+    // let curCryptos = "Loading..."; // Init variable for holding. Prevents crashing due to null values if the query is too slow.
+    let curCryptos = [{__typename: 'Crypto', ticker: 'BTC', quantity: 9.99999}, {__typename: 'Crypto', ticker: 'ETH', quantity: 9.99999}]; // Init variable for holding. Prevents crashing due to null values if the query is too slow.
+    const { loading: getPortfolio_loading, data: getPortfolio_data } = useQuery(GET_PORTFOLIO, { variables: { name: un } });
+
+    if (getPortfolio_loading) {
+        console.log('Loading portfolio data in CrypoGrid.js...');
+    } else {
+        if (!getPortfolio_data) {
+            console.log(curCryptos, "Falsey \"curCryptos\" in CrypoGrid.js. Should never get here."); // Delete this (if) once working to increase performance
+        } else if (getPortfolio_data?.getPortfolio?.cryptos) {
+            curCryptos = getPortfolio_data.getPortfolio.cryptos;
+            console.log(curCryptos, "Truthy \"curCryptos\" in CrypoGrid.js");
+            // SHOULD HAVE QUIT HERE???
+        }
+    }
+    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
+
+    // ============================================================================ //
+    //                         //   GET_CRYPTOINFO   //                              //
+    // ============================================================================ //
+
+
+    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
+
+
+
+
+
+    const { loading: getCryptoInfo_loading, data: getCryptoInfo_data } = useQuery(GET_CRYPTOINFO);
+
     let map = new Map();
     curCryptos.forEach(element => {
         // console.log(element)
@@ -97,29 +126,29 @@ export default function CryptoGrid({ gridType }) {
         return { name, ticker, price, btn };
     }
 
-    // default seed data
+    // default seed getCryptoInfo_data
     var rows = [
         createData('Bitcoin', 'BTC', 44000),
         createData('Ethereum', 'ETH', 4080),
     ];
 
-    if (loading) {
+    if (getCryptoInfo_loading) {
         console.log('loading crypto grid...')
     } else {
         let temp = [];
 
         if (gridType === "all") {
-            for (let i = 0; i < data.cryptoData.cryptoInfo.length; i++) {
-                temp[i] = data.cryptoData.cryptoInfo[i].slice();
+            for (let i = 0; i < getCryptoInfo_data.cryptoData.cryptoInfo.length; i++) {
+                temp[i] = getCryptoInfo_data.cryptoData.cryptoInfo[i].slice();
             }
             temp.forEach(element => {
                 element.push(getButton(element[1]));
             });
         }
         else {
-            for (let i = 0; i < data.cryptoData.cryptoInfo.length; i++) {
-                if (map.has(data.cryptoData.cryptoInfo[i][1])) {
-                    temp[i] = data.cryptoData.cryptoInfo[i].slice();
+            for (let i = 0; i < getCryptoInfo_data.cryptoData.cryptoInfo.length; i++) {
+                if (map.has(getCryptoInfo_data.cryptoData.cryptoInfo[i][1])) {
+                    temp[i] = getCryptoInfo_data.cryptoData.cryptoInfo[i].slice();
                 }
             }
             temp.forEach(element => {
