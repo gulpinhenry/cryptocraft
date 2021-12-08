@@ -10,11 +10,10 @@ import { useCryptoContext } from '../utils/CryptoContext';
 
 // gridType is either "my" or "all"
 export default function InfoTab({ gridType }) {
-    const { currentticker } = useCryptoContext();
-
     // ============================================================================ //
     //  ORDER OF OPERATIONS MUST GO:  GET_ME => GET_PORTFOLIO => GET_CRYPTODETAILS  //
     // ============================================================================ //
+    const { currentticker } = useCryptoContext();
 
 
     // ============================================================================ //
@@ -34,7 +33,7 @@ export default function InfoTab({ gridType }) {
             console.log(un, "Truthy \"un\" in InfoTabs.js");
         }
     }
-    //============================================================================= //
+    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
 
     // ============================================================================ //
     //                         //   GET_PORTFOLIO   //                              //
@@ -54,7 +53,7 @@ export default function InfoTab({ gridType }) {
             // SHOULD HAVE QUIT HERE???
         }
     }
-    //============================================================================= //
+    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
 
     // OLD VERSION OF THE GET_PORTFOLIO CHECK. KEEP TO REFERENCE IF PIECES ARE NEEDED FOR NOW
     // if (getPortfolio_loading) {
@@ -81,7 +80,7 @@ export default function InfoTab({ gridType }) {
             console.log(info, "Truthy \"cryptoDetails_data\" in InfoTabs.js");
         }
     }
-    //============================================================================= //
+    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
 
     // OLD VERSION OF THE GET_CRYPTODETAILS CHECK. KEEP TO REFERENCE IF PIECES ARE NEEDED
     // useEffect(() => {

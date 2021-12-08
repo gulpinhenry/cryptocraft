@@ -18,12 +18,16 @@ import Autocomplete from '@mui/material/Autocomplete';
 
 import Transaction from './Transaction';
 import { useCryptoContext } from '../utils/CryptoContext';
-import { GET_CRYPTOINFO, GET_PORTFOLIO, GET_ME } from '../utils/queries';
+import { GET_ME, GET_PORTFOLIO, GET_CRYPTOINFO } from '../utils/queries';
 
 
 
 // gridType will either be "my" or "all"
 export default function CryptoGrid({ gridType }) {
+
+    // ============================================================================ //
+    //                       //   Crypto Table   //                                 //
+    // ============================================================================ //
     const columns = gridType === "all" ? [
         { id: 'name', label: 'Name', minWidth: 170 },
         { id: 'ticker', label: 'Ticker', minWidth: 100 },
@@ -41,6 +45,8 @@ export default function CryptoGrid({ gridType }) {
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [open, setOpen] = React.useState(false);
     const [price, setPrice] = React.useState(0)
+    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
+
 
     const { currentticker, handletickerchange } = useCryptoContext();
     const { loading, data } = useQuery(GET_CRYPTOINFO);
