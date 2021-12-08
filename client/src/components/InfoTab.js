@@ -31,9 +31,12 @@ export default function InfoTab({ gridType }) {
         } else if (getme_data) {
             un = getme_data.me.username;
             console.log(un, "Truthy \"un\" in InfoTabs.js");
+            // SHOULD HAVE QUIT HERE???
         }
     }
     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
+
+
 
     // ============================================================================ //
     //                         //   GET_PORTFOLIO   //                              //
@@ -64,6 +67,8 @@ export default function InfoTab({ gridType }) {
     //     }
     // }
 
+
+
     // ============================================================================ //
     //                       //   GET_CRYPTODETAILS   //                            //
     // ============================================================================ //
@@ -78,6 +83,7 @@ export default function InfoTab({ gridType }) {
         } else if (cryptoDetails_data?.cryptoDetails?.cryptoInfo) {
             info = cryptoDetails_data.cryptoDetails.cryptoInfo;
             console.log(info, "Truthy \"cryptoDetails_data\" in InfoTabs.js");
+            // SHOULD HAVE QUIT HERE???
         }
     }
     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //

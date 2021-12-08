@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useQuery } from '@apollo/client'
 
 import TableBody from '@mui/material/TableBody';
@@ -59,48 +59,45 @@ export default function CryptoGrid({ gridType }) {
     const { loading: getme_loading, data: getme_data } = useQuery(GET_ME);
 
     if (getme_loading) {
-        console.log('Loading username data in CrypoGrid.js...');
+        console.log('Loading username data in CryptoGrid.js...');
     } else {
         if (!getme_data) {
-            console.log(un, "Falsey \"un\" in CrypoGrid.js. Should never get here."); // Delete this (if) once working to increase performance
+            console.log(un, "Falsey \"un\" in CryptoGrid.js. Should never get here."); // Delete this (if) once working to increase performance
         } else if (getme_data) {
             un = getme_data.me.username;
-            console.log(un, "Truthy \"un\" in CrypoGrid.js");
-        }
-    }
-    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
-
-    // ============================================================================ //
-    //                         //   GET_PORTFOLIO   //                              //
-    // ============================================================================ //
-
-    // let curCryptos = "Loading..."; // Init variable for holding. Prevents crashing due to null values if the query is too slow.
-    let curCryptos = [{__typename: 'Crypto', ticker: 'BTC', quantity: 9.99999}, {__typename: 'Crypto', ticker: 'ETH', quantity: 9.99999}]; // Init variable for holding. Prevents crashing due to null values if the query is too slow.
-    const { loading: getPortfolio_loading, data: getPortfolio_data } = useQuery(GET_PORTFOLIO, { variables: { name: un } });
-
-    if (getPortfolio_loading) {
-        console.log('Loading portfolio data in CrypoGrid.js...');
-    } else {
-        if (!getPortfolio_data) {
-            console.log(curCryptos, "Falsey \"curCryptos\" in CrypoGrid.js. Should never get here."); // Delete this (if) once working to increase performance
-        } else if (getPortfolio_data?.getPortfolio?.cryptos) {
-            curCryptos = getPortfolio_data.getPortfolio.cryptos;
-            console.log(curCryptos, "Truthy \"curCryptos\" in CrypoGrid.js");
+            console.log(un, "Truthy \"un\" in CryptoGrid.js");
             // SHOULD HAVE QUIT HERE???
         }
     }
     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
 
-    // ============================================================================ //
-    //                         //   GET_CRYPTOINFO   //                              //
-    // ============================================================================ //
 
 
+    // ============================================================================ //
+    //                         //   GET_PORTFOLIO   //                              //
+    // ============================================================================ //
+
+    let curCryptos = [{ __typename: 'Crypto', ticker: 'BTC', quantity: 9.99999 }, { __typename: 'Crypto', ticker: 'ETH', quantity: 9.99999 }]; // Init variable for holding. Prevents crashing due to null values if the query is too slow.
+    const { loading: getPortfolio_loading, data: getPortfolio_data } = useQuery(GET_PORTFOLIO, { variables: { name: un } });
+
+    if (getPortfolio_loading) {
+        console.log('Loading portfolio data in CryptoGrid.js...');
+    } else {
+        if (!getPortfolio_data) {
+            console.log(curCryptos, "Falsey \"curCryptos\" in CryptoGrid.js. Should never get here."); // Delete this (if) once working to increase performance
+        } else if (getPortfolio_data?.getPortfolio?.cryptos) {
+            curCryptos = getPortfolio_data.getPortfolio.cryptos;
+            console.log(curCryptos, "Truthy \"curCryptos\" in CryptoGrid.js");
+            // SHOULD HAVE QUIT HERE???
+        }
+    }
     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
 
 
 
-
+    // ============================================================================ //
+    //                         //   GET_CRYPTOINFO   //                             //
+    // ============================================================================ //
 
     const { loading: getCryptoInfo_loading, data: getCryptoInfo_data } = useQuery(GET_CRYPTOINFO);
 
@@ -162,6 +159,7 @@ export default function CryptoGrid({ gridType }) {
         }
         rows = temp;
     }
+    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
