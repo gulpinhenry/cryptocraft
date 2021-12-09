@@ -1,6 +1,6 @@
 .signin-container{
     background-color: rgb(212, 212, 212);
-    opacity: 90%;
+    /* opacity: 90%; */
     margin-top: -50px;
     width: 90%;
     z-index: 5;
