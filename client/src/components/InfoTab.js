@@ -1,54 +1,107 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import Title from './Title';
 import { useQuery } from '@apollo/client';
-import { GET_CRYPTODETAILS, GET_PORTFOLIO, GET_ME } from '../utils/queries';
+import { GET_ME, GET_PORTFOLIO, GET_CRYPTODETAILS } from '../utils/queries';
 
 import { useCryptoContext } from '../utils/CryptoContext';
 
 
 // gridType is either "my" or "all"
 export default function InfoTab({ gridType }) {
+    // ============================================================================ //
+    //  ORDER OF OPERATIONS MUST GO:  GET_ME => GET_PORTFOLIO => GET_CRYPTODETAILS  //
+    // ============================================================================ //
     const { currentticker } = useCryptoContext();
-    // const { currentticker, handletickerchange } = useCryptoContext(); // possibly need handletickerchange
 
-    // CRYPTO DETAILS QUERY
-    const { loading: cryptoDetails_loading, data: cryptoDetails_data } = useQuery(GET_CRYPTODETAILS, {
-        variables: { pair: currentticker }
-    });
 
+    // ============================================================================ //
+    //                             //   GET_ME   //                                 //
+    // ============================================================================ //
+
+    let un = "Loading..."; // Init variable for holding. Prevents crashing due to null values if the query is too slow.
     const { loading: getme_loading, data: getme_data } = useQuery(GET_ME);
 
-    let un; //checks username -> profile username
-
-    if (getme_data) {
-        un = getme_data.me.username;
-        // console.log(un)
-    }
-
-    // Grabs portfolio data
-    const { loading, data } = useQuery(GET_PORTFOLIO, {
-        variables: { name: un }
-    });
-
-    // CRYPTO DETAILS LOADING
-    let info = 'Loading';
-    if (cryptoDetails_loading) {
-        console.log('loading info tab..');
+    if (getme_loading) {
+        console.log('Loading username data in InfoTabs.js...');
     } else {
-        info = cryptoDetails_data.cryptoDetails.cryptoInfo;
+        if (!getme_data) {
+            console.log(un, "Falsey \"un\" in InfoTabs.js. Should never get here."); // Delete this (if) once working to increase performance
+        } else if (getme_data) {
+            un = getme_data.me.username;
+            console.log(un, "Truthy \"un\" in InfoTabs.js");
+            // SHOULD HAVE QUIT HERE???
+        }
     }
+    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
+
+
+
+    // ============================================================================ //
+    //                         //   GET_PORTFOLIO   //                              //
+    // ============================================================================ //
+
+    let curUSDbalance = "Loading..."; // Init variable for holding. Prevents crashing due to null values if the query is too slow.
+    const { loading: getPortfolio_loading, data: getPortfolio_data } = useQuery(GET_PORTFOLIO, { variables: { name: un } });
+
+    if (getPortfolio_loading) {
+        console.log('Loading portfolio data in InfoTabs.js...');
+    } else {
+        if (!getPortfolio_data) {
+            console.log(curUSDbalance, "Falsey \"curUSDbalance\" in InfoTabs.js. Should never get here."); // Delete this (if) once working to increase performance
+        } else if (getPortfolio_data?.getPortfolio?.usdBalance) {
+            curUSDbalance = getPortfolio_data.getPortfolio.usdBalance;
+            console.log(curUSDbalance, "Truthy \"curUSDbalance\" in InfoTabs.js");
+            // SHOULD HAVE QUIT HERE???
+        }
+    }
+    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
+
+    // OLD VERSION OF THE GET_PORTFOLIO CHECK. KEEP TO REFERENCE IF PIECES ARE NEEDED FOR NOW
+    // if (getPortfolio_loading) {
+    //     console.log('loading portfolio data..');
+    // } else {
+    //     if (getPortfolio_data?.getPortfolio?.usdBalance) {
+    //         curUSDbalance = getPortfolio_data?.getPortfolio?.usdBalance;
+    //     }
+    // }
+
+
+
+    // ============================================================================ //
+    //                       //   GET_CRYPTODETAILS   //                            //
+    // ============================================================================ //
+    let info = {"dailyChange": "Loading...", "weeklyChange": "Loading...", "yearlyChange": "Loading...", "yearly_high": "Loading...", "yearly_low": "Loading..."}; // Init variable for holding. Prevents crashing due to null values if the query is too slow.
+    const { loading: cryptoDetails_loading, data: cryptoDetails_data } = useQuery(GET_CRYPTODETAILS, {variables: { pair: currentticker }});
+
+    if (cryptoDetails_loading) {
+        console.log('Loading cryptoDetails data in InfoTabs.js...');
+    } else {
+        if (!cryptoDetails_data) {
+            console.log(info, "Falsey \"info\" in InfoTabs.js. Should never get here."); // Delete this (if) once working to increase performance
+        } else if (cryptoDetails_data?.cryptoDetails?.cryptoInfo) {
+            info = cryptoDetails_data.cryptoDetails.cryptoInfo;
+            console.log(info, "Truthy \"cryptoDetails_data\" in InfoTabs.js");
+            // SHOULD HAVE QUIT HERE???
+        }
+    }
+    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
+
+    // OLD VERSION OF THE GET_CRYPTODETAILS CHECK. KEEP TO REFERENCE IF PIECES ARE NEEDED
+    // useEffect(() => {
+    //     if (cryptoDetails_loading) {
+    //         console.log('Loading cryptoDetails data in InfoTabs.js...');
+    //     } else {
+    //         info = cryptoDetails_data.cryptoDetails.cryptoInfo;
+    //         console.log(info, "Truthy \"cryptoDetails_data\" in InfoTabs.js");
+    //     }
+    // });
+
+
+    // URL for cryptowatch link. Not used in queries
     let url = `https://cryptowat.ch/charts/COINBASE-PRO:${currentticker}-USD`
 
-    // PORTFOLIO LOADING
-    let curUSDbalance ="";
-    if (loading) {
-        console.log('loading portfolio data..');
-    } else {
-        curUSDbalance = data.getPortfolio.usdBalance;
-        // console.log(curUSDbalance);
-    }
     return (
         <React.Fragment>
             <Title>{gridType === "all"
@@ -78,12 +131,13 @@ export default function InfoTab({ gridType }) {
                     // Portfolio info
                     <div>
                         <Typography component="h4">
-                            Current USD available:
+                            Current Purchasing Power:
+                            <br />
                             $ {curUSDbalance}
                         </Typography>
                     </div>
             }
-            {/* add a chart pie chart hereinstead of the value */}
+            {/* add a chart pie chart here instead of the value */}
             <Typography color="text.secondary" sx={{ flex: 1 }}>
                 on {new Date().toDateString()}
             </Typography>

@@ -24,7 +24,6 @@ import { ADD_PORTFOLIO } from '../utils/mutations';
 
 export const mainListItems = (
     <div>
-        {/* TODO make the href colors of visited not showing */}
         <Link href="/" className="sideLinks">
             <ListItem button>
                 <ListItemIcon>

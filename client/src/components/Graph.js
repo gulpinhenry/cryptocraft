@@ -19,7 +19,6 @@ import { sixHourTimeInterval } from '../utils/timeHelpers';
 
 export default function Graph() {
     const { currentticker } = useCryptoContext();
-    // const { currentticker, handletickerchange } = useCryptoContext(); // possibly need handletickerchange
 
 
     const { loading, data } = useQuery(GET_CRYPTOCANDLES, {
