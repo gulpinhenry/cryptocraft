@@ -3,11 +3,13 @@
     opacity: 90%;
     margin-top: -50px;
     width: 90%;
+    z-index: 5;
 }
 body{
     background-image: url("../images/cryptocraft.jpg");
     background-size: cover;
     background-repeat: no-repeat;
+    z-index: -1;
 }
 
 @media only screen and (min-width: 768px) {
