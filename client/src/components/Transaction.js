@@ -91,7 +91,7 @@ function Transaction({ open, handleOpen, action, price }) {
 
 
     // ============================================================================ //
-    //                         //   GET_PORTFOLIO   //                              //
+    //                            //   BUY_CRYPTO   //                              //
     // ============================================================================ //
     const [buyCrypto] = useMutation(BUY_CRYPTO);
 
