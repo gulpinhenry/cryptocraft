@@ -95,7 +95,6 @@ const resolvers = {
 
             await User.findOneAndUpdate(
                 { username: username },
-                // { _id: id },
                 { portfolios: portfolio },
                 { new: true, runValidators: true }
             )
