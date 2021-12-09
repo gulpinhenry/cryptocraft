@@ -41,9 +41,9 @@ export default function CryptoGrid({ gridType }) {
         { id: 'investment', label: 'Total Value', minWidth: 170 },
         { id: 'buysell', label: 'Buy/Sell', minWidth: 100, align: 'right' }]
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [rowsPerPage, setRowsPerPage] = React.useState(100);
     const [open, setOpen] = React.useState(false);
-    const [price, setPrice] = React.useState(0)
+    const [price, setPrice] = React.useState(Number.MIN_VALUE)
     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
 
 
@@ -77,7 +77,7 @@ export default function CryptoGrid({ gridType }) {
     //                         //   GET_PORTFOLIO   //                              //
     // ============================================================================ //
 
-    let curCryptos = [{ __typename: 'Crypto', ticker: 'BTC', quantity: 9.99999 }, { __typename: 'Crypto', ticker: 'ETH', quantity: 9.99999 }]; // Init variable for holding. Prevents crashing due to null values if the query is too slow.
+    let curCryptos = [{ __typename: 'Crypto', ticker: 'BTC', quantity: 9.99999 }]//, { __typename: 'Crypto', ticker: 'ETH', quantity: 9.99999 }]; // Init variable for holding. Prevents crashing due to null values if the query is too slow.
     const { loading: getPortfolio_loading, data: getPortfolio_data } = useQuery(GET_PORTFOLIO, { variables: { name: un } });
 
     if (getPortfolio_loading) {
@@ -213,7 +213,7 @@ export default function CryptoGrid({ gridType }) {
                                     return (
                                         <TableRow hover role="checkbox" tabIndex={-1} key={index}
                                             currentticker={currentticker} handletickerchange={handletickerchange} onClick={(event) => {
-                                                handleOpen(true);
+                                                // handleOpen(true);
                                                 event.preventDefault();
                                                 handletickerchange(row[1]);
                                                 // handles what row is being clicked on, saves ticker to render other components, saves to context
