@@ -48,7 +48,7 @@ export default function CryptoGrid({ gridType }) {
 
 
     // ============================================================================ //
-    //  ORDER OF OPERATIONS MUST GO:  GET_ME => GET_PORTFOLIO => GET_CRYPTODETAILS  //
+    //  ORDER OF OPERATIONS MUST GO:  GET_ME => GET_PORTFOLIO => GET_CRYPTOINFO  //
     // ============================================================================ //
     const { currentticker, handletickerchange } = useCryptoContext();
 

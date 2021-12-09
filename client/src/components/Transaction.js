@@ -15,49 +15,85 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 // import Switch from '@mui/material/Switch';
 
-
-import { useQuery } from '@apollo/client'
+import { useQuery, useMutation } from '@apollo/client'
 // import { useState } from 'react';
-import { useMutation } from '@apollo/client';
 import { useCryptoContext } from '../utils/CryptoContext';
 
-import { GET_PORTFOLIO, GET_ME } from '../utils/queries';
+import { GET_ME, GET_PORTFOLIO } from '../utils/queries';
 import { BUY_CRYPTO } from '../utils/mutations';
+
+
 
 function Transaction({ open, handleOpen, action, price }) {
     const { currentticker } = useCryptoContext();
-    // const { currentticker, handletickerchange } = useCryptoContext(); // possibly need handletickerchange
 
     const [transactionType, setTransactionType] = React.useState(action);
     const [amount, setAmount] = React.useState(0);
     const [ptf, setPtf] = React.useState("portfolio1");
 
-    const [buyCrypto] = useMutation(BUY_CRYPTO);
-    // sell crypto add the mutation 
+    // ============================================================================ //
+    //  ORDER OF OPERATIONS MUST GO:  GET_ME => GET_PORTFOLIO => BUY_CRYPTO         //
+    // ============================================================================ //
 
+    // ============================================================================ //
+    //                             //   GET_ME   //                                 //
+    // ============================================================================ //
+    let un = "Loading..."; // Init variable for holding. Prevents crashing due to null values if the query is too slow.
     const { loading: getme_loading, data: getme_data } = useQuery(GET_ME);
 
-    let un; //checks username -> profile username
-
-    if (getme_data) {
-        un = getme_data.me.username;
-        // console.log(un)
+    if (getme_loading) {
+        console.log('Loading username data in Transaction.js...');
+    } else {
+        if (!getme_data) {
+            console.log(un, "Falsey \"un\" in Transaction.js. Should never get here."); // Delete this (if) once working to increase performance
+        } else if (getme_data) {
+            un = getme_data.me.username;
+            console.log(un, "Truthy \"un\" in Transaction.js");
+            // SHOULD HAVE QUIT HERE???
+        }
     }
+    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
 
-    // Grabs portfolio data
-    const { data } = useQuery(GET_PORTFOLIO, {
-        variables: { name: un }
-    });
-    let curUSDbalance;
-    let curCryptos;
+    // ============================================================================ //
+    //                         //   GET_PORTFOLIO   //                              //
+    // ============================================================================ //
 
-    if (data) {
-        curUSDbalance = data.getPortfolio.usdBalance;
-        curCryptos = data.getPortfolio.cryptos;
-        // console.log(curCryptos)
+    // let curUSDbalance = "Loading..."; // Init variable for holding. Prevents crashing due to null values if the query is too slow.
+    // let curCryptos = [{ __typename: 'Crypto', ticker: 'BTC', quantity: 9.99999 }, { __typename: 'Crypto', ticker: 'ETH', quantity: 9.99999 }]; // Init variable for holding. Prevents crashing due to null values if the query is too slow.
+    // const { loading: getPortfolio_loading, data: getPortfolio_data } = useQuery(GET_PORTFOLIO, { variables: { name: un } });
+
+    // if (getPortfolio_loading) {
+    //     console.log('Loading portfolio data in Transaction.js...');
+    // } else {
+    //     if (!getPortfolio_data) {
+    //         console.log(curUSDbalance, "Falsey \"curUSDbalance\" in Transaction.js. Should never get here."); // Delete this (if) once working to increase performance
+    //     // } else if (getPortfolio_data?.getPortfolio?.usdBalance && getPortfolio_data?.getPortfolio?.cryptos) {
+    //     } else if (getPortfolio_data) {
+    //         curUSDbalance = getPortfolio_data.getPortfolio.usdBalance;
+    //         curCryptos = getPortfolio_data.getPortfolio.cryptos;
+    //         console.log(curCryptos, "Truthy \"curCryptos\" in Transaction.js");
+    //         console.log(curUSDbalance, "Truthy \"curUSDbalance\" in Transaction.js");
+    //         // SHOULD HAVE QUIT HERE???
+    //     }
+    // }
+    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
+
+    // OLD VERSION OF THE GET_PORTFOLIO CHECK. KEEP TO REFERENCE IF PIECES ARE NEEDED FOR NOW. 
+    // THERE IS BUG WITH THE NEW VERSION WHEN DISPLAYING AMOUNTS IN THE BUY MODAL...................
+    const { loading: getPortfolio_loading, data: getPortfolio_data } = useQuery(GET_PORTFOLIO, { variables: { name: un } });
+    let curUSDbalance = "Loading..."; // Init variable for holding. Prevents crashing due to null values if the query is too slow.
+    let curCryptos = [{ __typename: 'Crypto', ticker: 'BTC', quantity: 9.99999 }, { __typename: 'Crypto', ticker: 'ETH', quantity: 9.99999 }]; // Init variable for holding. Prevents crashing due to null values if the query is too slow.
+    if (getPortfolio_data) {
+        curUSDbalance = getPortfolio_data.getPortfolio.usdBalance;
+        curCryptos = getPortfolio_data.getPortfolio.cryptos;
     }
-    //
+    // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ //
 
+
+    // ============================================================================ //
+    //                         //   GET_PORTFOLIO   //                              //
+    // ============================================================================ //
+    const [buyCrypto] = useMutation(BUY_CRYPTO);
 
 
     // BUY FUNCTIONS
@@ -89,10 +125,10 @@ function Transaction({ open, handleOpen, action, price }) {
     }
 
     const handleSubmit = (event) => {
-        if(transactionType === "buy"){
+        if (transactionType === "buy") {
             handleBuy(event);
         }
-        else{
+        else {
             handleSell(event);
         }
     }
@@ -106,7 +142,7 @@ function Transaction({ open, handleOpen, action, price }) {
         }
 
         console.log(curCryptos);
-        
+
         const mutationResponse = await buyCrypto({
             variables: {
                 name: un,
@@ -118,7 +154,7 @@ function Transaction({ open, handleOpen, action, price }) {
         console.log("purchase successful");
         // maybe give user feedback
         handleClose();
-        // window.location.reload();
+        window.location.reload();
 
         return mutationResponse;
     }
@@ -126,39 +162,39 @@ function Transaction({ open, handleOpen, action, price }) {
     const handleSell = async (event) => {
         event.preventDefault();
         console.log("sell");
-       
+
         // check to see if the sell is valid, traverse through map to see if i have it
         let sum = 0;
         curCryptos.forEach(element => {
-            if(element.ticker === currentticker){
-                sum+=element.quantity;
+            if (element.ticker === currentticker) {
+                sum += element.quantity;
             }
         });
-        if(sum>=total){
+        if (sum >= total) {
             const mutationResponse = await buyCrypto({
                 variables: {
                     name: un,
                     ticker: currentticker,
-                    quantity: (total*-1),
-                    investment: (amount*-1).toString()
+                    quantity: (total * -1),
+                    investment: (amount * -1).toString()
                 }
             })
             // add feedback of sell successful
+            console.log("sell successful");
+            // maybe give user feedback
             handleClose();
-            // window.location.reload();
+            window.location.reload();
             return mutationResponse;
         }
-        else{
-            alert("Not enough " + currentticker +"!");
+        else {
+            alert("You don't have enough " + currentticker + "!");
             return;
         }
         // create the mutation
-        
-        // window.location.reload(); // change to state so new USD balance renders dynamically
-        // return mutationResponse;
-        
 
+        // return mutationResponse
     }
+    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
 
     return (
         <div>
@@ -215,7 +251,7 @@ function Transaction({ open, handleOpen, action, price }) {
                             margin="dense"
                             id="name"
                             label="$"
-                            type="number" //or some number idk, figure out how to replace it when you click onit
+                            type="number" //or some number idk, figure out how to replace it when you click on it
                             fullWidth
                             required={true}
                             defaultValue="0.00"

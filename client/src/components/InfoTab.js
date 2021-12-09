@@ -99,7 +99,7 @@ export default function InfoTab({ gridType }) {
     // });
 
 
-    // URL for cryptowatch Link. Not used in queries
+    // URL for cryptowatch link. Not used in queries
     let url = `https://cryptowat.ch/charts/COINBASE-PRO:${currentticker}-USD`
 
     return (
@@ -131,7 +131,8 @@ export default function InfoTab({ gridType }) {
                     // Portfolio info
                     <div>
                         <Typography component="h4">
-                            Current USD available:
+                            Current Purchasing Power:
+                            <br />
                             $ {curUSDbalance}
                         </Typography>
                     </div>
