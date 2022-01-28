@@ -44,7 +44,6 @@ function Transaction({ open, handleOpen, action, price }) {
         } else if (getme_data) {
             un = getme_data.me.username;
             console.log(un, 'Truthy \'un\' in Transaction.js');
-            // SHOULD HAVE QUIT HERE???
         }
     }
     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
@@ -53,35 +52,25 @@ function Transaction({ open, handleOpen, action, price }) {
     //                         //   GET_PORTFOLIO   //                              //
     // ============================================================================ //
 
-    // let curUSDbalance = 'Loading...'; // Init variable for holding. Prevents crashing due to null values if the query is too slow.
-    // let curCryptos = [{ __typename: 'Crypto', ticker: 'BTC', quantity: 9.99999 }, { __typename: 'Crypto', ticker: 'ETH', quantity: 9.99999 }]; // Init variable for holding. Prevents crashing due to null values if the query is too slow.
-    // const { loading: getPortfolio_loading, data: getPortfolio_data } = useQuery(GET_PORTFOLIO, { variables: { name: un } });
-
-    // if (getPortfolio_loading) {
-    //     console.log('Loading portfolio data in Transaction.js...');
-    // } else {
-    //     if (!getPortfolio_data) {
-    //         console.log(curUSDbalance, 'Falsey \'curUSDbalance\' in Transaction.js. Should never get here.'); // Delete this (if) once working to increase performance
-    //     // } else if (getPortfolio_data?.getPortfolio?.usdBalance && getPortfolio_data?.getPortfolio?.cryptos) {
-    //     } else if (getPortfolio_data) {
-    //         curUSDbalance = getPortfolio_data.getPortfolio.usdBalance;
-    //         curCryptos = getPortfolio_data.getPortfolio.cryptos;
-    //         console.log(curCryptos, 'Truthy \'curCryptos\' in Transaction.js');
-    //         console.log(curUSDbalance, 'Truthy \'curUSDbalance\' in Transaction.js');
-    //         // SHOULD HAVE QUIT HERE???
-    //     }
-    // }
-    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
-
-    // OLD VERSION OF THE GET_PORTFOLIO CHECK. KEEP TO REFERENCE IF PIECES ARE NEEDED FOR NOW. 
-    // THERE IS BUG WITH THE NEW VERSION WHEN DISPLAYING AMOUNTS IN THE BUY MODAL...................
-    const { loading: getPortfolio_loading, data: getPortfolio_data } = useQuery(GET_PORTFOLIO, { variables: { name: un } });
     let curUSDbalance = 'Loading...'; // Init variable for holding. Prevents crashing due to null values if the query is too slow.
     let curCryptos = [{ __typename: 'Crypto', ticker: 'BTC', quantity: 9.99999 }, { __typename: 'Crypto', ticker: 'ETH', quantity: 9.99999 }]; // Init variable for holding. Prevents crashing due to null values if the query is too slow.
-    if (getPortfolio_data) {
-        curUSDbalance = getPortfolio_data.getPortfolio.usdBalance;
-        curCryptos = getPortfolio_data.getPortfolio.cryptos;
+    const { loading: getPortfolio_loading, data: getPortfolio_data } = useQuery(GET_PORTFOLIO, { variables: { name: un } });
+
+    if (getPortfolio_loading) {
+        console.log('Loading portfolio data in Transaction.js...');
+    } else {
+        if (!getPortfolio_data) {
+            console.log(curUSDbalance, 'Falsey \'curUSDbalance\' in Transaction.js. Should never get here.'); // Delete this (if) once working to increase performance
+            // } else if (getPortfolio_data?.getPortfolio?.usdBalance && getPortfolio_data?.getPortfolio?.cryptos) {
+        } else if (getPortfolio_data) {
+            curUSDbalance = getPortfolio_data.getPortfolio.usdBalance;
+            curCryptos = getPortfolio_data.getPortfolio.cryptos;
+            console.log(curCryptos, 'Truthy \'curCryptos\' in Transaction.js');
+            console.log(curUSDbalance, 'Truthy \'curUSDbalance\' in Transaction.js');
+        }
     }
+    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
+
     // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ //
 
 

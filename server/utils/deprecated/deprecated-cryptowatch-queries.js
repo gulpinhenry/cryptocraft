@@ -5,7 +5,7 @@ const baseUrl = 'https://api.cryptowat.ch/';
 const apiKey1 = `?apikey=${process.env.API_KEY1}`; // API credit allowance of 10 per day
 
 
-// GET SINGLE 24-HOUR DATA (May hide this one.....)
+// GET SINGLE 24-HOUR DATA
 async function getSingle24HourSummary(exchange, pair) { // API credit cost 0.005
     const query = `${baseUrl}markets/${exchange}/${pair}/summary${apiKey1}`;
 
@@ -14,7 +14,7 @@ async function getSingle24HourSummary(exchange, pair) { // API credit cost 0.005
 }
 
 
-// GET ALL MARKETS-DETAILS (May hide this one.....)
+// GET ALL MARKETS-DETAILS
 async function getMarketDetails(exchange, pair) { // API credit cost .002
     const query = `${baseUrl}markets/${exchange}/${pair}${apiKey1}`;
 

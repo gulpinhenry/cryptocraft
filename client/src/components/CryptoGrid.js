@@ -66,7 +66,6 @@ export default function CryptoGrid({ gridType }) { // prop validation??? Default
         } else if (getme_data) {
             un = getme_data.me.username;
             console.log(un, 'Truthy \'un\' in CryptoGrid.js');
-            // SHOULD HAVE QUIT HERE???
         }
     }
     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
@@ -88,7 +87,6 @@ export default function CryptoGrid({ gridType }) { // prop validation??? Default
         } else if (getPortfolio_data?.getPortfolio?.cryptos) {
             curCryptos = getPortfolio_data.getPortfolio.cryptos;
             console.log(curCryptos, 'Truthy \'curCryptos\' in CryptoGrid.js');
-            // SHOULD HAVE QUIT HERE???
         }
     }
     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
@@ -110,7 +108,7 @@ export default function CryptoGrid({ gridType }) { // prop validation??? Default
         }
     });
 
-    const cryptoQuantities = [...map.entries()];
+    // const cryptoQuantities = [...map.entries()];
 
     function getButton(ticker) {
         return (

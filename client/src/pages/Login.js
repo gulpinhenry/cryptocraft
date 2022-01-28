@@ -30,8 +30,7 @@ function Copyright(props) {
             <Link color="inherit" target="_blank" href="https://github.com/gulpinhenry/cryptocraft">
                 cryptocraft
             </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
+            {new Date().getFullYear()}.
         </Typography>
     );
 }

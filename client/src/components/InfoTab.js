@@ -30,12 +30,9 @@ export default function InfoTab({ gridType }) {
         } else if (getme_data) {
             un = getme_data.me.username;
             console.log(un, 'Truthy \'un\' in InfoTabs.js');
-            // SHOULD HAVE QUIT HERE???
         }
     }
     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
-
-
 
     // ============================================================================ //
     //                         //   GET_PORTFOLIO   //                              //
@@ -52,21 +49,9 @@ export default function InfoTab({ gridType }) {
         } else if (getPortfolio_data?.getPortfolio?.usdBalance) {
             curUSDbalance = getPortfolio_data.getPortfolio.usdBalance;
             console.log(curUSDbalance, 'Truthy \'curUSDbalance\' in InfoTabs.js');
-            // SHOULD HAVE QUIT HERE???
         }
     }
     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
-
-    // OLD VERSION OF THE GET_PORTFOLIO CHECK. KEEP TO REFERENCE IF PIECES ARE NEEDED FOR NOW
-    // if (getPortfolio_loading) {
-    //     console.log('loading portfolio data..');
-    // } else {
-    //     if (getPortfolio_data?.getPortfolio?.usdBalance) {
-    //         curUSDbalance = getPortfolio_data?.getPortfolio?.usdBalance;
-    //     }
-    // }
-
-
 
     // ============================================================================ //
     //                       //   GET_CRYPTODETAILS   //                            //
@@ -82,28 +67,17 @@ export default function InfoTab({ gridType }) {
         } else if (cryptoDetails_data?.cryptoDetails?.cryptoInfo) {
             info = cryptoDetails_data.cryptoDetails.cryptoInfo;
             console.log(info, 'Truthy \'cryptoDetails_data\' in InfoTabs.js');
-            // SHOULD HAVE QUIT HERE???
         }
     }
     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
-
-    // OLD VERSION OF THE GET_CRYPTODETAILS CHECK. KEEP TO REFERENCE IF PIECES ARE NEEDED
-    // useEffect(() => {
-    //     if (cryptoDetails_loading) {
-    //         console.log('Loading cryptoDetails data in InfoTabs.js...');
-    //     } else {
-    //         info = cryptoDetails_data.cryptoDetails.cryptoInfo;
-    //         console.log(info, 'Truthy \'cryptoDetails_data\' in InfoTabs.js');
-    //     }
-    // });
-
 
     // URL for cryptowatch link. Not used in queries
     const url = `https://cryptowat.ch/charts/COINBASE-PRO:${currentticker}-USD`;
 
     return (
         <React.Fragment>
-            <Title>{gridType === 'all' ? currentticker.toUpperCase() : 'My Portfolio'}
+            <Title>
+                {gridType === 'all' ? currentticker.toUpperCase() : 'My Portfolio'}
             </Title>
             {gridType === 'all'
                 // Crypto info

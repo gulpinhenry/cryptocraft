@@ -12,9 +12,8 @@ import { sixHourTimeInterval } from '../utils/timeHelpers';
 export default function Graph() {
     const { currentticker } = useCryptoContext();
 
-
     const { loading, data } = useQuery(GET_CRYPTOCANDLES, {
-        variables: { pair: currentticker },
+        variables: { pair: currentticker }
     });
     const titleLabel = `${currentticker.toUpperCase()} (price over the past week)`;
 
