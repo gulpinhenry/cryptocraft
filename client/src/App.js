@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink, useQuery } from '@apollo/client';
+import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import Portfolio from './pages/Portfolio';
 import Dashboard from './pages/Dashboard';
@@ -10,7 +10,7 @@ import LogIn from './pages/Login';
 
 
 const httpLink = createHttpLink({
-  uri: '/graphql'
+  uri: '/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -18,9 +18,9 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : ''
-    }
-  }
+      authorization: token ? `Bearer ${token}` : '',
+    },
+  };
 });
 
 const client = new ApolloClient({
@@ -33,7 +33,7 @@ function App() {
   let redirect;
 
   if (isLoggedIn === null && window.location.pathname !== '/signup') {
-    redirect = <Redirect to='/login'/>
+    redirect = <Redirect to="/login" />;
   }
 
   return (
@@ -52,7 +52,7 @@ function App() {
           </Switch>
         </div>
       </Router>
-    </ApolloProvider >
+    </ApolloProvider>
   );
 }
 

@@ -1,14 +1,6 @@
-import '../styles/dashboard.css';
-
 import * as React from 'react';
-// import { useEffect } from 'react';
-import { CryptoProvider } from '../utils/CryptoContext';
-// import { UserProvider } from '../utils/UserContext';
-// import { GET_CRYPTOINFO, GET_CRYPTOCANDLES } from '../utils/queries';
-import { useQuery } from '@apollo/client'
-// import { useQuery, useMutation } from '@apollo/client'
-import Auth from '../utils/auth';
-
+import { useQuery } from '@apollo/client';
+import '../styles/dashboard.css';
 
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import Badge from '@mui/material/Badge';
@@ -29,11 +21,13 @@ import Paper from '@mui/material/Paper';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 
-import { mainListItems } from '../components/listItems';
+import { CryptoProvider } from '../utils/CryptoContext';
+import Auth from '../utils/auth';
+
+import { mainListItems, SecondaryListItems } from '../components/listItems'; // what is secondary items????????
 import CryptoGrid from '../components/CryptoGrid';
 import Graph from '../components/Graph';
 import InfoTab from '../components/InfoTab';
-import SecondaryListItems from '../components/listItems';
 
 import { GET_ME } from '../utils/queries';
 
@@ -100,16 +94,16 @@ const mdTheme = createTheme();
 
 function DashboardContent() {
     const [open, setOpen] = React.useState(false);
-    const [gridType, setGridType] = React.useState("all");
+    const [gridType, setGridType] = React.useState('all');
     const toggleDrawer = () => {
         setOpen(!open);
     };
     const logout = (event) => {
         event.preventDefault();
         Auth.logout();
-    }
+    };
     const handleGridType = (type) => {
-        console.log(gridType, "changed to", type);
+        console.log(gridType, 'changed to', type);
         setGridType(type);
     };
 
@@ -211,12 +205,12 @@ function DashboardContent() {
                                             flexDirection: 'column',
                                         }}
                                     >
-                                        <InfoTab gridType={gridType} handleGridType = {handleGridType}/>
+                                        <InfoTab gridType={gridType} handleGridType={handleGridType} />
                                     </Paper>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <Paper id="dashboard-table-container" sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                                        <CryptoGrid gridType={gridType} handleGridType = {handleGridType}/>
+                                        <CryptoGrid gridType={gridType} handleGridType={handleGridType} />
                                     </Paper>
                                 </Grid>
                             </Grid>

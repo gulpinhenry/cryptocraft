@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useQuery } from '@apollo/client'
+import React from 'react';
+import { useQuery } from '@apollo/client';
 
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -9,41 +9,41 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
-import Title from './Title';
 import Link from '@mui/material/Link';
-// import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Autocomplete from '@mui/material/Autocomplete';
+import Title from './Title';
 
 import Transaction from './Transaction';
 import { useCryptoContext } from '../utils/CryptoContext';
 import { GET_ME, GET_PORTFOLIO, GET_CRYPTOINFO } from '../utils/queries';
 
 
-// gridType will either be "my" or "all"
-export default function CryptoGrid({ gridType }) {
+// gridType will either be 'my' or 'all'
+export default function CryptoGrid({ gridType }) { // prop validation??? Default props??
 
     // ============================================================================ //
     //                       //   Crypto Table   //                                 //
     // ============================================================================ //
-    const columns = gridType === "all" ? [
-        { id: 'name', label: 'Name', minWidth: 170 },
+    const columns = gridType === 'all'
+        ?
+        [{ id: 'name', label: 'Name', minWidth: 170 },
         { id: 'ticker', label: 'Ticker', minWidth: 100 },
         { id: 'price', label: 'Price\u00a0(USD)', minWidth: 170 },
-        { id: 'buysell', label: 'Buy/Sell', minWidth: 100, align: 'right' }
-    ]
+        { id: 'buysell', label: 'Buy/Sell', minWidth: 100, align: 'right' }]
         :
         [{ id: 'name', label: 'Name', minWidth: 170 },
         { id: 'ticker', label: 'Ticker', minWidth: 100 },
         { id: 'price', label: 'Price per Coin\u00a0(USD)', minWidth: 170 },
         { id: 'quantity', label: 'Quantity', minWidth: 170 },
         { id: 'investment', label: 'Total Value', minWidth: 170 },
-        { id: 'buysell', label: 'Buy/Sell', minWidth: 100, align: 'right' }]
+        { id: 'buysell', label: 'Buy/Sell', minWidth: 100, align: 'right' }];
+
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(100);
     const [open, setOpen] = React.useState(false);
-    const [price, setPrice] = React.useState(Number.MIN_VALUE)
+    const [price, setPrice] = React.useState(Number.MIN_VALUE);
     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
 
 
@@ -55,17 +55,17 @@ export default function CryptoGrid({ gridType }) {
     // ============================================================================ //
     //                             //   GET_ME   //                                 //
     // ============================================================================ //
-    let un = "Loading..."; // Init variable for holding. Prevents crashing due to null values if the query is too slow.
+    let un = 'Loading...'; // Init variable for holding. Prevents crashing due to null values if the query is too slow.
     const { loading: getme_loading, data: getme_data } = useQuery(GET_ME);
 
     if (getme_loading) {
         console.log('Loading username data in CryptoGrid.js...');
     } else {
         if (!getme_data) {
-            console.log(un, "Falsey \"un\" in CryptoGrid.js. Should never get here."); // Delete this (if) once working to increase performance
+            console.log(un, 'Falsey \'un\' in CryptoGrid.js. Should never get here.'); // Delete this (if) once working to increase performance
         } else if (getme_data) {
             un = getme_data.me.username;
-            console.log(un, "Truthy \"un\" in CryptoGrid.js");
+            console.log(un, 'Truthy \'un\' in CryptoGrid.js');
             // SHOULD HAVE QUIT HERE???
         }
     }
@@ -77,17 +77,17 @@ export default function CryptoGrid({ gridType }) {
     //                         //   GET_PORTFOLIO   //                              //
     // ============================================================================ //
 
-    let curCryptos = [{ __typename: 'Crypto', ticker: 'BTC', quantity: 9.99999 }]//, { __typename: 'Crypto', ticker: 'ETH', quantity: 9.99999 }]; // Init variable for holding. Prevents crashing due to null values if the query is too slow.
+    let curCryptos = [{ __typename: 'Crypto', ticker: 'BTC', quantity: 9.99999 }]; //, { __typename: 'Crypto', ticker: 'ETH', quantity: 9.99999 }]; // Init variable for holding. Prevents crashing due to null values if the query is too slow.
     const { loading: getPortfolio_loading, data: getPortfolio_data } = useQuery(GET_PORTFOLIO, { variables: { name: un } });
 
     if (getPortfolio_loading) {
         console.log('Loading portfolio data in CryptoGrid.js...');
     } else {
         if (!getPortfolio_data) {
-            console.log(curCryptos, "Falsey \"curCryptos\" in CryptoGrid.js. Should never get here."); // Delete this (if) once working to increase performance
+            console.log(curCryptos, 'Falsey \'curCryptos\' in CryptoGrid.js. Should never get here.'); // Delete this (if) once working to increase performance
         } else if (getPortfolio_data?.getPortfolio?.cryptos) {
             curCryptos = getPortfolio_data.getPortfolio.cryptos;
-            console.log(curCryptos, "Truthy \"curCryptos\" in CryptoGrid.js");
+            console.log(curCryptos, 'Truthy \'curCryptos\' in CryptoGrid.js');
             // SHOULD HAVE QUIT HERE???
         }
     }
@@ -102,8 +102,7 @@ export default function CryptoGrid({ gridType }) {
     const { loading: getCryptoInfo_loading, data: getCryptoInfo_data } = useQuery(GET_CRYPTOINFO);
 
     let map = new Map();
-    curCryptos.forEach(element => {
-
+    curCryptos.forEach((element) => {
         if (map.has(element.ticker)) {
             map.set(element.ticker, map.get(element.ticker) + element.quantity);
         } else {
@@ -115,11 +114,11 @@ export default function CryptoGrid({ gridType }) {
 
     function getButton(ticker) {
         return (
-            <button>Trade</button>
-        )
+            <button type="button">Trade</button>
+        );
     }
     function createData(name, ticker, price) {
-        let btn = getButton(ticker);
+        const btn = getButton(ticker);
         return { name, ticker, price, btn };
     }
 
@@ -130,29 +129,28 @@ export default function CryptoGrid({ gridType }) {
     ];
 
     if (getCryptoInfo_loading) {
-        console.log('loading crypto grid...')
+        // console.log('loading crypto grid...');
     } else {
-        let temp = [];
+        const temp = [];
 
-        if (gridType === "all") {
+        if (gridType === 'all') {
             for (let i = 0; i < getCryptoInfo_data.cryptoData.cryptoInfo.length; i++) {
                 temp[i] = getCryptoInfo_data.cryptoData.cryptoInfo[i].slice();
             }
-            temp.forEach(element => {
+            temp.forEach((element) => {
                 element.push(getButton(element[1]));
             });
-        }
-        else {
+        } else {
             for (let i = 0; i < getCryptoInfo_data.cryptoData.cryptoInfo.length; i++) {
                 if (map.has(getCryptoInfo_data.cryptoData.cryptoInfo[i][1])) {
                     temp[i] = getCryptoInfo_data.cryptoData.cryptoInfo[i].slice();
                 }
             }
-            temp.forEach(element => {
+            temp.forEach((element) => {
                 // quantity
                 element.push(map.get(element[1]));
                 // investment
-                let total = map.get(element[1]) * element[2];
+                const total = map.get(element[1]) * element[2];
                 element.push(total.toFixed(2));
                 element.push(getButton(element[1]));
             });
@@ -174,20 +172,22 @@ export default function CryptoGrid({ gridType }) {
 
     return (
         <React.Fragment>
-
-
-            <Title>{gridType === "all" ? "Browse Cryptos" : "My Cryptos"}</Title>
+            <Title>{gridType === 'all' ? 'Browse Cryptos' : 'My Cryptos'}</Title>
             <Stack spacing={2} sx={{ width: 300 }}>
                 <Autocomplete
                     id="search-for-crypto"
                     freeSolo
                     options={rows.map((option) => option[1])}
-                    renderInput={(params) => <TextField {...params} label="Search For Crypto" onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                            const ticker = params.inputProps.value.toLowerCase();
-                            handletickerchange(ticker);
-                        }
-                    }} />}
+                    renderInput={(params) => <TextField
+                        {...params}
+                        label="Search For Crypto"
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                const ticker = params.inputProps.value.toLowerCase();
+                                handletickerchange(ticker);
+                            }
+                        }}
+                    />}
                 />
             </Stack>
             <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -211,41 +211,54 @@ export default function CryptoGrid({ gridType }) {
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row, index) => {
                                     return (
-                                        <TableRow hover role="checkbox" tabIndex={-1} key={index}
-                                            currentticker={currentticker} handletickerchange={handletickerchange} onClick={(event) => {
+                                        <TableRow
+                                            hover role="checkbox"
+                                            tabIndex={-1}
+                                            key={index}
+                                            currentticker={currentticker}
+                                            handletickerchange={handletickerchange}
+                                            onClick={(event) => {
                                                 // handleOpen(true);
                                                 event.preventDefault();
                                                 handletickerchange(row[1]);
                                                 // handles what row is being clicked on, saves ticker to render other components, saves to context
-                                            }}>
+                                            }}
+                                        >
                                             {columns.map((column, index) => {
                                                 const value = row[index];
-                                                if (index === 3 && gridType === "all") {
+                                                if (index === 3 && gridType === 'all') {
                                                     return (
-                                                        <TableCell key={index} align={column.align} onClick={(event) => {
-                                                            event.preventDefault();
-                                                            event.stopPropagation();
-                                                            handletickerchange(row[1]);
-                                                            console.log(row[1] + " button clicked");
-                                                            setPrice(row[2]);
-                                                            handleOpen(true);
-                                                        }}>
+                                                        <TableCell
+                                                            key={index}
+                                                            align={column.align}
+                                                            onClick={(event) => {
+                                                                event.preventDefault();
+                                                                event.stopPropagation();
+                                                                handletickerchange(row[1]);
+                                                                // console.log(row[1] + " button clicked");
+                                                                setPrice(row[2]);
+                                                                handleOpen(true);
+                                                            }}
+                                                        >
                                                             {column.format && typeof value === 'number'
                                                                 ? column.format(value)
                                                                 : value}
                                                         </TableCell>
                                                     );
-                                                }
-                                                else if (index === 5 && gridType === "my") {
+                                                } else if (index === 5 && gridType === 'my') {
                                                     return (
-                                                        <TableCell key={index} align={column.align} onClick={(event) => {
-                                                            event.preventDefault();
-                                                            event.stopPropagation();
-                                                            handletickerchange(row[1]);
-                                                            console.log(row[1] + " button clicked");
-                                                            setPrice(row[2]);
-                                                            handleOpen(true);
-                                                        }}>
+                                                        <TableCell
+                                                            key={index}
+                                                            align={column.align}
+                                                            onClick={(event) => {
+                                                                event.preventDefault();
+                                                                event.stopPropagation();
+                                                                handletickerchange(row[1]);
+                                                                // console.log(row[1] + " button clicked");
+                                                                setPrice(row[2]);
+                                                                handleOpen(true);
+                                                            }}
+                                                        >
                                                             {column.format && typeof value === 'number'
                                                                 ? column.format(value)
                                                                 : value}
@@ -253,7 +266,10 @@ export default function CryptoGrid({ gridType }) {
                                                     );
                                                 }
                                                 return (
-                                                    <TableCell key={index} align={column.align}>
+                                                    <TableCell
+                                                        key={index}
+                                                        align={column.align}
+                                                    >
                                                         {column.format && typeof value === 'number'
                                                             ? column.format(value)
                                                             : value}
@@ -279,7 +295,7 @@ export default function CryptoGrid({ gridType }) {
             </Paper>
             <div>
                 {open
-                    ? <Transaction open={open} handleOpen={handleOpen} action={"buy"} price={price} />
+                    ? <Transaction open={open} handleOpen={handleOpen} action={'buy'} price={price} />
                     : <div></div>
                 }
             </div>

@@ -24,15 +24,6 @@ export const ADD_USER = gql`
     }
 `;
 
-// export const ADD_PORTFOLIO = gql`
-//     mutation addPortfolio($name: String, $usdBalance: Float!) {
-//         addPortfolio(name: $name, usdBalance: $usdBalance) {
-//             name
-//             usdBalance
-//         }
-//     }
-// `;
-
 export const ADD_PORTFOLIO = gql`
     mutation addPortfolio($name: String, $usdBalance: Float!) {
         addPortfolio(name: $name, usdBalance: $usdBalance) {
@@ -50,7 +41,6 @@ export const UPDATE_BALANCE = gql`
     }
 `;
 
-
 export const BUY_CRYPTO = gql`
     mutation buyCrypto($name: String!, $ticker: String!, $quantity: Float!, $investment: String!) {
         buyCrypto(name: $name, ticker: $ticker, quantity: $quantity, investment: $investment) {
@@ -61,5 +51,3 @@ export const BUY_CRYPTO = gql`
         }
     }
 `;
-
-// sell crypto mutation here

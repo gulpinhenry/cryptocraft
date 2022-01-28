@@ -1,12 +1,5 @@
-import '../styles/dashboard.css';
-
 import * as React from 'react';
-import { CryptoProvider } from '../utils/CryptoContext';
-import { GET_CRYPTOINFO, GET_CRYPTOCANDLES } from '../utils/queries';
-import { UPDATE_BALANCE } from '../utils/mutations'
-import { useQuery, useMutation } from '@apollo/client'
-import Auth from '../utils/auth';
-
+import '../styles/dashboard.css';
 
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import Badge from '@mui/material/Badge';
@@ -27,12 +20,13 @@ import Paper from '@mui/material/Paper';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 
-import { mainListItems } from '../components/listItems';
-import CryptoGrid from '../components/CryptoGrid';
+import { CryptoProvider } from '../utils/CryptoContext';
+import Auth from '../utils/auth';
+
+import { mainListItems, SecondaryListItems } from '../components/listItems';
 import Graph from '../components/Graph';
 import InfoTab from '../components/InfoTab';
 import PortfolioTabs from '../components/PortfolioTabs';
-import SecondaryListItems from '../components/listItems';
 
 function Copyright(props) {
     return (
@@ -97,17 +91,17 @@ const mdTheme = createTheme();
 
 function PortfolioContent() {
     const [open, setOpen] = React.useState(false);
-    const [gridType, setGridType] = React.useState("my");
+    const [gridType, setGridType] = React.useState('my');
     const toggleDrawer = () => {
         setOpen(!open);
     };
     const logout = (event) => {
         event.preventDefault();
         Auth.logout();
-    }
+    };
 
     const handleGridType = (type) => {
-        console.log(gridType, "changed to", type);
+        console.log(gridType, 'changed to', type);
         setGridType(type);
     };
 
@@ -185,7 +179,8 @@ function PortfolioContent() {
                             <Grid container spacing={3}>
                                 {/* Chart */}
                                 <Grid item xs={12} md={8} lg={9}>
-                                    <Paper className="graph-paper"
+                                    <Paper
+                                        className="graph-paper"
                                         sx={{
                                             p: 2,
                                             display: 'flex',
@@ -196,18 +191,19 @@ function PortfolioContent() {
                                     </Paper>
                                 </Grid>
                                 <Grid item xs={12} md={4} lg={3}>
-                                    <Paper className="stats-paper"
+                                    <Paper
+                                        className="stats-paper"
                                         sx={{
                                             p: 2,
                                             display: 'flex',
                                             flexDirection: 'column',
                                         }}
                                     >
-                                        <InfoTab gridType={gridType} handleGridType = {handleGridType}/>
+                                        <InfoTab gridType={gridType} handleGridType={handleGridType} />
                                     </Paper>
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <PortfolioTabs gridType={gridType} handleGridType = {handleGridType} />
+                                    <PortfolioTabs gridType={gridType} handleGridType={handleGridType} />
                                 </Grid>
                             </Grid>
                             <Copyright sx={{ pt: 4 }} />

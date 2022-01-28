@@ -11,7 +11,7 @@ export const UserProvider = ({ children }) => {
 
   const handleuserchange = (username) => {
     setcurrentuser(username);
-  }
+  };
 
   // this.state = {
   //   currentUser: null,
@@ -19,10 +19,9 @@ export const UserProvider = ({ children }) => {
 
   return (
     <UserContext.Provider
-    value={{ currentuser, handleuserchange }}
+      value={{ currentuser, handleuserchange }}
     >
       {children}
     </UserContext.Provider>
   );
 };
-

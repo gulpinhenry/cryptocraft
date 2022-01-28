@@ -1,6 +1,6 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model } = require('mongoose');
 
-// const cryptoSchema = require("./Crypto");
+// const cryptoSchema = require('./Crypto');
 
 // This is a subdocument schema, it won't become its own model but we'll use it as the schema for the User's `portfolio` array in User.js
 const portfolioSchema = new Schema(
@@ -19,7 +19,7 @@ const portfolioSchema = new Schema(
     // used to log the changes in balance from market shifts
     historicalBalance: {
       type: Array,
-      default: []
+      default: [],
     },
     cryptos: [
       {
@@ -44,27 +44,27 @@ const portfolioSchema = new Schema(
         date: {
           type: Date,
           default: Date.now(),
-        }
-      }
+        },
+      },
     ],
   },
   {
     toJSON: {
       virtuals: true,
     },
-  }
+  },
 );
 
 // when we query a portfolio, we can get the get the net gains, we probably dont need it now, but it can be used for later
-portfolioSchema.virtual("gain").get(function () {
+portfolioSchema.virtual('gain').get(function () {
   return this.cryptos.length; //change this
 });
 
 // when we query a portfolio, we'll also get another field called `cryptoBalance` with an aggregate of all cryptos
 // sum of all cryptos in portfolio, excluding usd, total assets is crytoBalance + usdBalance
-portfolioSchema.virtual("cryptoBalance").get(function () {
+portfolioSchema.virtual('cryptoBalance').get(function () {
   return this.cryptos.length; //change this
 });
 
-const Portfolio = model("Portfolio", portfolioSchema);
+const Portfolio = model('Portfolio', portfolioSchema);
 module.exports = Portfolio;

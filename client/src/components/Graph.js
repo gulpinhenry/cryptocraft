@@ -1,11 +1,7 @@
 import * as React from 'react';
-// import { useEffect } from 'react';
-
 import '../styles/Graph.css';
-
 import { Line } from 'react-chartjs-2';
-import Chart from 'chart.js/auto'; // needs to be here in order for the graph to load.
-
+import Chart from 'chart.js/auto'; // needs to be here in order for the graph to load. This gives a false error of an unused variable used.
 import { useQuery } from '@apollo/client';
 import { GET_CRYPTOCANDLES } from '../utils/queries';
 import { useCryptoContext } from '../utils/CryptoContext';
@@ -13,18 +9,14 @@ import { useCryptoContext } from '../utils/CryptoContext';
 import { sixHourTimeInterval } from '../utils/timeHelpers';
 
 
-// function preventDefault(event) {
-//     event.preventDefault();
-// }
-
 export default function Graph() {
     const { currentticker } = useCryptoContext();
 
 
     const { loading, data } = useQuery(GET_CRYPTOCANDLES, {
-        variables: { pair: currentticker }
+        variables: { pair: currentticker },
     });
-    let titleLabel = currentticker.toUpperCase() + " (price over the past week)";
+    const titleLabel = `${currentticker.toUpperCase()} (price over the past week)`;
 
     // TODO: ADD TOGGLE FOR TIMESCALES
     let info = [];
@@ -36,15 +28,15 @@ export default function Graph() {
         // info = data.cryptoCandles.cryptoInfo.last_year;
     }
 
-    // let xLabels = hourTimeInterval(graphDataPoints));
-    let xLabels = sixHourTimeInterval(info);
-    // let xLabels = weekTimeInterval(graphDataPoints);
+    // const xLabels = hourTimeInterval(graphDataPoints));
+    const xLabels = sixHourTimeInterval(info);
+    // const xLabels = weekTimeInterval(graphDataPoints);
 
     return (
         <div className="graph-container">
-            <div className="graph-card" >
+            <div className="graph-card">
                 <Line
-                    datasetIdKey='id'
+                    datasetIdKey="id"
                     data={{
                         labels: xLabels,
                         datasets: [{
@@ -62,11 +54,11 @@ export default function Graph() {
                         plugins: {
                             title: {
                                 display: true,
-                                text: titleLabel
+                                text: titleLabel,
                             },
                             legend: {
                                 display: false,
-                            }
+                            },
                         },
                         scales: {
                             x: {
@@ -77,14 +69,14 @@ export default function Graph() {
                                     display: false,
                                     text: 'Value in USD',
                                     font: {
-                                        size: 11
-                                    }
+                                        size: 11,
+                                    },
                                 },
                                 display: true,
                                 ticks: {
                                     font: {
-                                        size: 10
-                                    }
+                                        size: 10,
+                                    },
                                 },
                             },
                         },
@@ -98,8 +90,6 @@ export default function Graph() {
         </div>
     );
 }
-
-
 
 // https://react-chartjs-2.netlify.app/docs/working-with-datasets
 // https://www.chartjs.org/docs/latest/charts/line.html

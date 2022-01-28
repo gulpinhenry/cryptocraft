@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { useState } from 'react';
+import '../styles/login.css';
 
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -12,11 +14,6 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import '../styles/login.css';
-
-import { useState } from 'react';
-
-
 import { useMutation } from '@apollo/client';
 import { ADD_USER } from '../utils/mutations';
 import Auth from '../utils/auth';
@@ -25,7 +22,7 @@ function Copyright(props) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
             {'Copyright © '}
-            <Link color="inherit" target = "_blank" href="https://github.com/gulpinhenry/cryptocraft">
+            <Link color="inherit" target="_blank" href="https://github.com/gulpinhenry/cryptocraft">
                 cryptocraft
             </Link>{' '}
             {new Date().getFullYear()}
@@ -41,8 +38,8 @@ export default function SignUp() {
         username: '',
         firstName: '',
         lastName: '',
-        password: ''
-    })
+        password: '',
+    });
 
     const [addUser, { error, data }] = useMutation(ADD_USER);
 
@@ -51,20 +48,20 @@ export default function SignUp() {
 
         setFormState({
             ...formState,
-            [name]: value
-        })
+            [name]: value,
+        });
         return true;
-    }
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
             const { data } = await addUser({
-                variables: { ...formState }
-            })
+                variables: { ...formState },
+            });
             Auth.login(data.addUser.token);
         } catch (e) {
-            console.log(e)
+            console.log(e);
         }
         return true;
     };
@@ -73,12 +70,12 @@ export default function SignUp() {
         backgroundColor: 'rgb(202, 102, 122)',
         borderRadius: '3px',
         color: 'white',
-        textAlign: 'center'
-    }
+        textAlign: 'center',
+    };
 
     return (
         <ThemeProvider theme={theme}>
-            <Container className = "signin-container" component="main" maxWidth="xs">
+            <Container className="signin-container" component="main" maxWidth="xs">
                 <CssBaseline />
                 <Box
                     sx={{
