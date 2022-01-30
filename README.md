@@ -138,16 +138,14 @@ const CryptoContext = createContext();
 export const useCryptoContext = () => useContext(CryptoContext);
 
 export const CryptoProvider = ({ children }) => {
-    const [currentticker, setCurrentTicker] = useState('btc');
+  const [currentticker, setCurrentTicker] = useState('btc');
 
   const handletickerchange = (ticker) => {
     setCurrentTicker(ticker);
-}
+  };
 
   return (
-    <CryptoContext.Provider
-      value={{ currentticker, handletickerchange }}
-    >
+    <CryptoContext.Provider value={{ currentticker, handletickerchange }}>
       {children}
     </CryptoContext.Provider>
   );
@@ -187,11 +185,8 @@ export const CryptoProvider = ({ children }) => {
 This application is covered under the MIT license.
 
 ## Known Issues
-- Heroku app cannot be deployed yet, due to AWS/Heroku outage
-- My Cryptos has occasional fetch issues
 - Leaderboard is not yet implemented into deployed app
 - User can only create one portfolio
-
 
 ## Questions
 

@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { useEffect } from 'react';
+import { useQuery } from '@apollo/client';
 import '../styles/dashboard.css';
 
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
@@ -20,13 +22,16 @@ import Paper from '@mui/material/Paper';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 
-import { CryptoProvider } from '../utils/CryptoContext';
 import Auth from '../utils/auth';
+import { GET_ME } from '../graphql/queries';
+import { CryptoProvider } from '../contexts/CryptoContext';
+import { useUserContext } from '../contexts/UserContext';
 
 import { mainListItems, SecondaryListItems } from '../components/listItems';
 import Graph from '../components/Graph';
 import InfoTab from '../components/InfoTab';
 import PortfolioTabs from '../components/PortfolioTabs';
+
 
 function Copyright(props) {
     return (
@@ -98,11 +103,35 @@ function PortfolioContent() {
         event.preventDefault();
         Auth.logout();
     };
-
     const handleGridType = (type) => {
         console.log(gridType, 'changed to', type);
         setGridType(type);
     };
+
+
+    // ============================================================================ //
+    //                             //   GET_ME   //                                 //
+    // ============================================================================ //
+    const { handleuserchange } = useUserContext();
+
+    let un = 'Loading...'; // Init variable for holding. Prevents crashing due to null values if the query is too slow.
+    const { loading: getme_loading, data: getme_data } = useQuery(GET_ME);
+
+    if (getme_loading) {
+        console.log('Loading username data in Dashboard.js...');
+    } else {
+        if (!getme_data) {
+            console.log(un, 'Falsey \'un\' in Dashboard.js. Should never get here.'); // Delete this (if) once working to increase performance
+        } else if (getme_data) {
+            un = getme_data.me.username;
+            console.log(un, 'Truthy \'un\' in Dashboard.js');
+        }
+    }
+    useEffect(() => {
+        handleuserchange(un);
+    }, [handleuserchange, un]);
+    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
+
 
     return (
         <CryptoProvider>
@@ -110,11 +139,7 @@ function PortfolioContent() {
                 <Box sx={{ display: 'flex' }}>
                     <CssBaseline />
                     <AppBar position="absolute" open={open}>
-                        <Toolbar
-                            sx={{
-                                pr: '24px',
-                            }}
-                        >
+                        <Toolbar sx={{ pr: '24px' }}>
                             <IconButton
                                 edge="start"
                                 color="inherit"
@@ -157,9 +182,13 @@ function PortfolioContent() {
                             </IconButton>
                         </Toolbar>
                         <Divider />
-                        <List>{mainListItems}</List>
+                        <List>
+                            {mainListItems}
+                        </List>
                         <Divider />
-                        <List>{SecondaryListItems()}</List>
+                        <List>
+                            {SecondaryListItems()}
+                        </List>
                     </Drawer>
                     <Box
                         component="main"

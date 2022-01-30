@@ -2,9 +2,6 @@ import * as React from 'react';
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 
-// import { UserProvider } from '../utils/UserContext';
-// import { useUserContext } from '../utils/UserContext';
-
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
@@ -17,7 +14,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
-import { LOGIN_USER } from '../utils/mutations';
+import { LOGIN_USER } from '../graphql/mutations';
 import Auth from '../utils/auth';
 
 import '../styles/login.css';
@@ -38,14 +35,6 @@ function Copyright(props) {
 const theme = createTheme();
 
 const LogIn = (props) => {
-    // const { currentuser, handleuserchange } = useUserContext();
-
-    // console.log(currentuser);
-    // console.log(usercontext);
-    // const { setcurrentuser } = useCryptoContext();
-    // console.log(setcurrentuser, "TEST2");
-
-
     const [formState, setFormState] = useState({
         username: '',
         password: '',
@@ -88,7 +77,6 @@ const LogIn = (props) => {
     };
 
     return (
-        // <UserProvider>
         <ThemeProvider theme={theme}>
             <Container className="signin-container" component="main" maxWidth="xs">
                 <CssBaseline />
@@ -154,7 +142,6 @@ const LogIn = (props) => {
                 <Copyright sx={{ mt: 8, mb: 4 }} />
             </Container>
         </ThemeProvider>
-        // </UserProvider>
     );
 };
 

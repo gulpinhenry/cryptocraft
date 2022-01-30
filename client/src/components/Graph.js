@@ -3,8 +3,8 @@ import '../styles/Graph.css';
 import { Line } from 'react-chartjs-2';
 import Chart from 'chart.js/auto'; // needs to be here in order for the graph to load. This gives a false error of an unused variable used.
 import { useQuery } from '@apollo/client';
-import { GET_CRYPTOCANDLES } from '../utils/queries';
-import { useCryptoContext } from '../utils/CryptoContext';
+import { GET_CRYPTOCANDLES } from '../graphql/queries';
+import { useCryptoContext } from '../contexts/CryptoContext';
 // import { hourTimeInterval, sixHourTimeInterval, dayTimeInterval, weekTimeInterval } from '../utils/timeHelpers';
 import { sixHourTimeInterval } from '../utils/timeHelpers';
 

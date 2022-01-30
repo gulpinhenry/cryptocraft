@@ -12,9 +12,7 @@ export const CryptoProvider = ({ children }) => { //'children' is missing in pro
   };
 
   return (
-    <CryptoContext.Provider
-      value={{ currentticker, handletickerchange }} //The object passed as the value prop to the Context provider (at line 16) changes every render. To fix this consider wrapping it in a useMemo hook  react/jsx-no-constructed-context-values
-    >
+    <CryptoContext.Provider value={{ currentticker, handletickerchange }}>
       {children}
     </CryptoContext.Provider>
   );

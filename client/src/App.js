@@ -8,6 +8,7 @@ import Error from './pages/Error';
 import SignUp from './pages/Signup';
 import LogIn from './pages/Login';
 
+import { UserProvider } from './contexts/UserContext';
 
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -38,20 +39,22 @@ function App() {
 
   return (
     <ApolloProvider client={client}>
-      <Router>
-        <div>
-          {redirect}
-          <Switch>
-            <Route exact path="/" component={Dashboard} />
-            <Route exact path="/login" component={LogIn} />
-            <Route exact path="/signup" component={SignUp} />
-            {/* TODO change routing */}
-            <Route exact path="/portfolio" component={Portfolio} />
-            <Route exact path="/me" component={Dashboard} />
-            <Route component={Error} />
-          </Switch>
-        </div>
-      </Router>
+      <UserProvider>
+        <Router>
+          <div>
+            {redirect}
+            <Switch>
+              <Route exact path="/" component={Dashboard} />
+              <Route exact path="/login" component={LogIn} />
+              <Route exact path="/signup" component={SignUp} />
+              {/* TODO change routing */}
+              <Route exact path="/portfolio" component={Portfolio} />
+              <Route exact path="/me" component={Dashboard} />
+              <Route component={Error} />
+            </Switch>
+          </div>
+        </Router>
+      </UserProvider>
     </ApolloProvider>
   );
 }

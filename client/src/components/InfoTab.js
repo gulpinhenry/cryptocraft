@@ -3,9 +3,10 @@ import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { useQuery } from '@apollo/client';
 import Title from './Title';
-import { GET_ME, GET_PORTFOLIO, GET_CRYPTODETAILS } from '../utils/queries';
+import { GET_PORTFOLIO, GET_CRYPTODETAILS } from '../graphql/queries';
 
-import { useCryptoContext } from '../utils/CryptoContext';
+import { useCryptoContext } from '../contexts/CryptoContext';
+import { useUserContext } from '../contexts/UserContext';
 
 // gridType is either 'my' or 'all'
 export default function InfoTab({ gridType }) {
@@ -13,33 +14,13 @@ export default function InfoTab({ gridType }) {
     //  ORDER OF OPERATIONS MUST GO:  GET_ME => GET_PORTFOLIO => GET_CRYPTODETAILS  //
     // ============================================================================ //
     const { currentticker } = useCryptoContext();
-
-
-    // ============================================================================ //
-    //                             //   GET_ME   //                                 //
-    // ============================================================================ //
-
-    let un = 'Loading...'; // Init variable for holding. Prevents crashing due to null values if the query is too slow.
-    const { loading: getme_loading, data: getme_data } = useQuery(GET_ME);
-
-    if (getme_loading) {
-        console.log('Loading username data in InfoTabs.js...');
-    } else {
-        if (!getme_data) {
-            console.log(un, 'Falsey \'un\' in InfoTabs.js. Should never get here.'); // Delete this (if) once working to increase performance
-        } else if (getme_data) {
-            un = getme_data.me.username;
-            console.log(un, 'Truthy \'un\' in InfoTabs.js');
-        }
-    }
-    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
+    const { currentuser } = useUserContext(); // "GET_ME"
 
     // ============================================================================ //
     //                         //   GET_PORTFOLIO   //                              //
     // ============================================================================ //
-
     let curUSDbalance = 'Loading...'; // Init variable for holding. Prevents crashing due to null values if the query is too slow.
-    const { loading: getPortfolio_loading, data: getPortfolio_data } = useQuery(GET_PORTFOLIO, { variables: { name: un } });
+    const { loading: getPortfolio_loading, data: getPortfolio_data } = useQuery(GET_PORTFOLIO, { variables: { name: currentuser } });
 
     if (getPortfolio_loading) {
         console.log('Loading portfolio data in InfoTabs.js...');
@@ -110,7 +91,7 @@ export default function InfoTab({ gridType }) {
                 </div>}
             {/* add a chart pie chart here instead of the value */}
             <Typography color="text.secondary" sx={{ flex: 1 }}>
-                on {new Date().toDateString()}
+                on {new Date().toDateString()}.
             </Typography>
             <div>
                 {/* https://www.coinbase.com/price/bitcoin, format to make href like this */}

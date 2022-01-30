@@ -16,8 +16,10 @@ import Autocomplete from '@mui/material/Autocomplete';
 import Title from './Title';
 
 import Transaction from './Transaction';
-import { useCryptoContext } from '../utils/CryptoContext';
-import { GET_ME, GET_PORTFOLIO, GET_CRYPTOINFO } from '../utils/queries';
+import { useCryptoContext } from '../contexts/CryptoContext';
+import { useUserContext } from '../contexts/UserContext';
+
+import { GET_PORTFOLIO, GET_CRYPTOINFO } from '../graphql/queries';
 
 
 // gridType will either be 'my' or 'all'
@@ -51,33 +53,14 @@ export default function CryptoGrid({ gridType }) { // prop validation??? Default
     //  ORDER OF OPERATIONS MUST GO:  GET_ME => GET_PORTFOLIO => GET_CRYPTOINFO  //
     // ============================================================================ //
     const { currentticker, handletickerchange } = useCryptoContext();
-
-    // ============================================================================ //
-    //                             //   GET_ME   //                                 //
-    // ============================================================================ //
-    let un = 'Loading...'; // Init variable for holding. Prevents crashing due to null values if the query is too slow.
-    const { loading: getme_loading, data: getme_data } = useQuery(GET_ME);
-
-    if (getme_loading) {
-        console.log('Loading username data in CryptoGrid.js...');
-    } else {
-        if (!getme_data) {
-            console.log(un, 'Falsey \'un\' in CryptoGrid.js. Should never get here.'); // Delete this (if) once working to increase performance
-        } else if (getme_data) {
-            un = getme_data.me.username;
-            console.log(un, 'Truthy \'un\' in CryptoGrid.js');
-        }
-    }
-    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
-
+    const { currentuser } = useUserContext(); // "GET_ME"
 
 
     // ============================================================================ //
     //                         //   GET_PORTFOLIO   //                              //
     // ============================================================================ //
-
     let curCryptos = [{ __typename: 'Crypto', ticker: 'BTC', quantity: 9.99999 }]; //, { __typename: 'Crypto', ticker: 'ETH', quantity: 9.99999 }]; // Init variable for holding. Prevents crashing due to null values if the query is too slow.
-    const { loading: getPortfolio_loading, data: getPortfolio_data } = useQuery(GET_PORTFOLIO, { variables: { name: un } });
+    const { loading: getPortfolio_loading, data: getPortfolio_data } = useQuery(GET_PORTFOLIO, { variables: { name: currentuser } });
 
     if (getPortfolio_loading) {
         console.log('Loading portfolio data in CryptoGrid.js...');
@@ -90,7 +73,6 @@ export default function CryptoGrid({ gridType }) { // prop validation??? Default
         }
     }
     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
-
 
 
     // ============================================================================ //

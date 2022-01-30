@@ -12,16 +12,15 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 
 import { useQuery, useMutation } from '@apollo/client';
-import { useCryptoContext } from '../utils/CryptoContext';
+import { useCryptoContext } from '../contexts/CryptoContext';
+import { useUserContext } from '../contexts/UserContext';
 
-import { GET_ME, GET_PORTFOLIO } from '../utils/queries';
-import { BUY_CRYPTO } from '../utils/mutations';
+import { GET_PORTFOLIO } from '../graphql/queries';
+import { BUY_CRYPTO } from '../graphql/mutations';
 
 
 
 function Transaction({ open, handleOpen, action, price }) {
-    const { currentticker } = useCryptoContext();
-
     const [transactionType, setTransactionType] = React.useState(action);
     const [amount, setAmount] = React.useState(0);
     const [ptf, setPtf] = React.useState('portfolio1');
@@ -29,32 +28,15 @@ function Transaction({ open, handleOpen, action, price }) {
     // ============================================================================ //
     //  ORDER OF OPERATIONS MUST GO:  GET_ME => GET_PORTFOLIO => BUY_CRYPTO         //
     // ============================================================================ //
-
-    // ============================================================================ //
-    //                             //   GET_ME   //                                 //
-    // ============================================================================ //
-    let un = 'Loading...'; // Init variable for holding. Prevents crashing due to null values if the query is too slow.
-    const { loading: getme_loading, data: getme_data } = useQuery(GET_ME);
-
-    if (getme_loading) {
-        console.log('Loading username data in Transaction.js...');
-    } else {
-        if (!getme_data) {
-            console.log(un, 'Falsey \'un\' in Transaction.js. Should never get here.'); // Delete this (if) once working to increase performance
-        } else if (getme_data) {
-            un = getme_data.me.username;
-            console.log(un, 'Truthy \'un\' in Transaction.js');
-        }
-    }
-    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
+    const { currentticker } = useCryptoContext();
+    const { currentuser } = useUserContext();
 
     // ============================================================================ //
     //                         //   GET_PORTFOLIO   //                              //
     // ============================================================================ //
-
     let curUSDbalance = 'Loading...'; // Init variable for holding. Prevents crashing due to null values if the query is too slow.
     let curCryptos = [{ __typename: 'Crypto', ticker: 'BTC', quantity: 9.99999 }, { __typename: 'Crypto', ticker: 'ETH', quantity: 9.99999 }]; // Init variable for holding. Prevents crashing due to null values if the query is too slow.
-    const { loading: getPortfolio_loading, data: getPortfolio_data } = useQuery(GET_PORTFOLIO, { variables: { name: un } });
+    const { loading: getPortfolio_loading, data: getPortfolio_data } = useQuery(GET_PORTFOLIO, { variables: { name: currentuser } });
 
     if (getPortfolio_loading) {
         console.log('Loading portfolio data in Transaction.js...');
@@ -120,7 +102,8 @@ function Transaction({ open, handleOpen, action, price }) {
 
         const mutationResponse = await buyCrypto({
             variables: {
-                name: un,
+                name: currentuser,
+                // name: un,  ^^^^^^^^^^^^^^^^^^^^^^
                 ticker: currentticker,
                 quantity: total,
                 investment: amount,
@@ -148,7 +131,8 @@ function Transaction({ open, handleOpen, action, price }) {
         if (sum >= total) {
             const mutationResponse = await buyCrypto({
                 variables: {
-                    name: un,
+                    name: currentuser,
+                    // name: un,  ^^^^^^^^^^^^^^^^^^^^^^
                     ticker: currentticker,
                     quantity: (total * -1),
                     investment: (amount * -1).toString(),
