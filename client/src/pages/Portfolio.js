@@ -27,7 +27,7 @@ import { GET_ME } from '../graphql/queries';
 import { CryptoProvider } from '../contexts/CryptoContext';
 import { useUserContext } from '../contexts/UserContext';
 
-import { mainListItems, SecondaryListItems } from '../components/listItems';
+import { mainListItems, secondaryListItems } from '../components/ListItems';
 import Graph from '../components/Graph';
 import InfoTab from '../components/InfoTab';
 import PortfolioTabs from '../components/PortfolioTabs';
@@ -187,7 +187,7 @@ function PortfolioContent() {
                         </List>
                         <Divider />
                         <List>
-                            {SecondaryListItems()}
+                            {secondaryListItems()}
                         </List>
                     </Drawer>
                     <Box

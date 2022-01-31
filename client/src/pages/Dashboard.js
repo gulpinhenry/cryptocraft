@@ -27,7 +27,7 @@ import Auth from '../utils/auth';
 import { CryptoProvider } from '../contexts/CryptoContext';
 import { useUserContext } from '../contexts/UserContext';
 
-import { mainListItems, SecondaryListItems } from '../components/listItems'; // what is secondary items????????
+import { mainListItems, secondaryListItems } from '../components/ListItems';
 import CryptoGrid from '../components/CryptoGrid';
 import Graph from '../components/Graph';
 import InfoTab from '../components/InfoTab';
@@ -187,7 +187,7 @@ function DashboardContent() {
                         </List>
                         <Divider />
                         <List>
-                            {SecondaryListItems()}
+                            {secondaryListItems()}
                         </List>
                     </Drawer>
                     <Box

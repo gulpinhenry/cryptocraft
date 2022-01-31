@@ -29,7 +29,7 @@ function Transaction({ open, handleOpen, action, price }) {
     //  ORDER OF OPERATIONS MUST GO:  GET_ME => GET_PORTFOLIO => BUY_CRYPTO         //
     // ============================================================================ //
     const { currentticker } = useCryptoContext();
-    const { currentuser } = useUserContext();
+    const { currentuser } = useUserContext(); // "GET_ME"
 
     // ============================================================================ //
     //                         //   GET_PORTFOLIO   //                              //
@@ -103,7 +103,6 @@ function Transaction({ open, handleOpen, action, price }) {
         const mutationResponse = await buyCrypto({
             variables: {
                 name: currentuser,
-                // name: un,  ^^^^^^^^^^^^^^^^^^^^^^
                 ticker: currentticker,
                 quantity: total,
                 investment: amount,
@@ -132,7 +131,6 @@ function Transaction({ open, handleOpen, action, price }) {
             const mutationResponse = await buyCrypto({
                 variables: {
                     name: currentuser,
-                    // name: un,  ^^^^^^^^^^^^^^^^^^^^^^
                     ticker: currentticker,
                     quantity: (total * -1),
                     investment: (amount * -1).toString(),
