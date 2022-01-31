@@ -1,14 +1,7 @@
-import '../styles/dashboard.css';
-
 import * as React from 'react';
-// import { useEffect } from 'react';
-import { CryptoProvider } from '../utils/CryptoContext';
-// import { UserProvider } from '../utils/UserContext';
-// import { GET_CRYPTOINFO, GET_CRYPTOCANDLES } from '../utils/queries';
-import { useQuery } from '@apollo/client'
-// import { useQuery, useMutation } from '@apollo/client'
-import Auth from '../utils/auth';
-
+import { useEffect } from 'react';
+import { useQuery } from '@apollo/client';
+import '../styles/dashboard.css';
 
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import Badge from '@mui/material/Badge';
@@ -29,13 +22,16 @@ import Paper from '@mui/material/Paper';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 
-import { mainListItems } from '../components/listItems';
+import { GET_ME } from '../graphql/queries';
+import Auth from '../utils/auth';
+import { CryptoProvider } from '../contexts/CryptoContext';
+import { useUserContext } from '../contexts/UserContext';
+
+import { mainListItems, SecondaryListItems } from '../components/listItems'; // what is secondary items????????
 import CryptoGrid from '../components/CryptoGrid';
 import Graph from '../components/Graph';
 import InfoTab from '../components/InfoTab';
-import SecondaryListItems from '../components/listItems';
 
-import { GET_ME } from '../utils/queries';
 
 function Copyright(props) {
     return (
@@ -45,8 +41,7 @@ function Copyright(props) {
             <Link color="inherit" target="_blank" href="https://github.com/gulpinhenry/cryptocraft">
                 cryptocraft
             </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
+            {new Date().getFullYear()}.
         </Typography>
     );
 }
@@ -100,36 +95,51 @@ const mdTheme = createTheme();
 
 function DashboardContent() {
     const [open, setOpen] = React.useState(false);
-    const [gridType, setGridType] = React.useState("all");
+    const [gridType, setGridType] = React.useState('all');
     const toggleDrawer = () => {
         setOpen(!open);
     };
     const logout = (event) => {
         event.preventDefault();
         Auth.logout();
-    }
+    };
     const handleGridType = (type) => {
-        console.log(gridType, "changed to", type);
+        console.log(gridType, 'changed to', type);
         setGridType(type);
     };
 
-    const { loading, data } = useQuery(GET_ME);
 
-    // if (data) console.log(data);
+    // ============================================================================ //
+    //                             //   GET_ME   //                                 //
+    // ============================================================================ //
+    const { handleuserchange } = useUserContext();
+
+    let un = 'Loading...'; // Init variable for holding. Prevents crashing due to null values if the query is too slow.
+    const { loading: getme_loading, data: getme_data } = useQuery(GET_ME);
+
+    if (getme_loading) {
+        console.log('Loading username data in Dashboard.js...');
+    } else {
+        if (!getme_data) {
+            console.log(un, 'Falsey \'un\' in Dashboard.js. Should never get here.'); // Delete this (if) once working to increase performance
+        } else if (getme_data) {
+            un = getme_data.me.username;
+            console.log(un, 'Truthy \'un\' in Dashboard.js');
+        }
+    }
+    useEffect(() => {
+        handleuserchange(un);
+    }, [handleuserchange, un]);
+    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
 
 
     return (
-        // <UserProvider>
         <CryptoProvider>
             <ThemeProvider theme={mdTheme}>
                 <Box sx={{ display: 'flex' }}>
                     <CssBaseline />
                     <AppBar position="absolute" open={open}>
-                        <Toolbar
-                            sx={{
-                                pr: '24px',
-                            }}
-                        >
+                        <Toolbar sx={{ pr: '24px' }}>
                             <IconButton
                                 edge="start"
                                 color="inherit"
@@ -172,9 +182,13 @@ function DashboardContent() {
                             </IconButton>
                         </Toolbar>
                         <Divider />
-                        <List>{mainListItems}</List>
+                        <List>
+                            {mainListItems}
+                        </List>
                         <Divider />
-                        <List>{SecondaryListItems()}</List>
+                        <List>
+                            {SecondaryListItems()}
+                        </List>
                     </Drawer>
                     <Box
                         component="main"
@@ -193,7 +207,8 @@ function DashboardContent() {
                             <Grid container spacing={3}>
                                 {/* Chart */}
                                 <Grid item xs={12} md={8} lg={9}>
-                                    <Paper className="graph-paper"
+                                    <Paper
+                                        className="graph-paper"
                                         sx={{
                                             p: 2,
                                             display: 'flex',
@@ -204,19 +219,20 @@ function DashboardContent() {
                                     </Paper>
                                 </Grid>
                                 <Grid item xs={12} md={4} lg={3}>
-                                    <Paper className="stats-paper"
+                                    <Paper
+                                        className="stats-paper"
                                         sx={{
                                             p: 2,
                                             display: 'flex',
                                             flexDirection: 'column',
                                         }}
                                     >
-                                        <InfoTab gridType={gridType} handleGridType = {handleGridType}/>
+                                        <InfoTab gridType={gridType} handleGridType={handleGridType} />
                                     </Paper>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <Paper id="dashboard-table-container" sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                                        <CryptoGrid gridType={gridType} handleGridType = {handleGridType}/>
+                                        <CryptoGrid gridType={gridType} handleGridType={handleGridType} />
                                     </Paper>
                                 </Grid>
                             </Grid>
@@ -226,7 +242,6 @@ function DashboardContent() {
                 </Box>
             </ThemeProvider>
         </CryptoProvider>
-        // </UserProvider>
     );
 }
 

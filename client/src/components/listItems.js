@@ -4,23 +4,23 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import PeopleIcon from '@mui/icons-material/People';
+// import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+// import PeopleIcon from '@mui/icons-material/People';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import Link from '@mui/material/Link'
+// import Button from '@mui/material/Button';
+// import TextField from '@mui/material/TextField';
+// import Dialog from '@mui/material/Dialog';
+// import DialogActions from '@mui/material/DialogActions';
+// import DialogContent from '@mui/material/DialogContent';
+// import DialogContentText from '@mui/material/DialogContentText';
+// import DialogTitle from '@mui/material/DialogTitle';
+import Link from '@mui/material/Link';
 
-import { useState } from 'react';
-import { useMutation } from '@apollo/client';
-import { ADD_PORTFOLIO } from '../utils/mutations';
+// import { useState } from 'react';
+// import { useMutation } from '@apollo/client';
+// import { ADD_PORTFOLIO } from '../utils/mutations';
 
 export const mainListItems = (
     <div>
@@ -42,7 +42,7 @@ export const mainListItems = (
 );
 
 // map portfolios here
-export default function SecondaryListItems() {
+export function SecondaryListItems() {
     // const [open, setOpen] = useState(false)
     // const [formState, setFormState] = useState({ name: '' });
 
@@ -59,7 +59,7 @@ export default function SecondaryListItems() {
 
     const handleClickOpen = () => {
 
-    }
+    };
 
     // const handleCancel = () => {
     //     setOpen(false);
@@ -120,6 +120,5 @@ export default function SecondaryListItems() {
                 </DialogActions>
             </Dialog> */}
         </div>
-    )
-
+    );
 }

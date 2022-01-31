@@ -1,12 +1,25 @@
 const { AuthenticationError } = require('apollo-server-express');
 const GraphQLJSON = require('graphql-type-json');
-const { User, Portfolio } = require('../models');
+const { User, Portfolio, Crypto } = require('../models');
 const { signToken } = require('../utils/auth');
 const cryptowatch = require('../utils/cryptowatch');
 
 const resolvers = {
     JSON: GraphQLJSON,
     Query: {
+        //EXP 
+        // me: async (parent, args, context) => {
+        //     if (context.user) {
+        //         let queryObject = User.findOne({ _id: context.user._id }).populate('portfolios') // looking at the documentation it looks like a Query object is returned
+        //         // console.log(queryObject);
+        //         let promise = queryObject.exec(); // exec() looks to wrap the result of the query in a promise
+        //         let value = await promise; // resolve the promise
+        //         return value; // return the resolved value
+        //     }
+        //     throw new AuthenticationError('You need to be logged in!');
+        // },
+
+        // LAST STABLE
         me: async (parent, args, context) => {
             if (context.user) {
                 return await User.findOne({ _id: context.user._id }).populate('portfolios');
@@ -29,6 +42,26 @@ const resolvers = {
             return value; // return the resolved value
         },
 
+        // LAST STABLE???
+        // getPortfolio: async (parent, { name }) => {
+        //     let portfolio = await Portfolio.findOne(
+        //         { name: name }
+        //     ).exec();
+
+        //     console.log(portfolio);
+        //     return portfolio;
+        // },
+        // cryptoData: async (parent, args, context) => {
+        //     const user = await User.findOne({ _id: context.user._id }).populate('portfolios').populate({
+        //         path: 'portfolios',
+        //         populate: 'cryptos'
+        //     });  // why is this even here????????
+        //     // console.log(' user test:', user)
+
+        //     let arr = await cryptowatch.cryptoInfo();
+        //     // console.log(arr);
+        //     return { cryptoInfo: arr };
+        // },
         cryptoData: async (parent, args, context) => {
             const arr = await cryptowatch.cryptoInfo();
             return { cryptoInfo: arr };
@@ -38,7 +71,6 @@ const resolvers = {
             const result = await cryptowatch.getCandlesData(args.pair);
             return { cryptoInfo: result };
         },
-
         cryptoDetails: async (parent, args, context) => {
             const result = await cryptowatch.cryptoDetails(args.pair);
             return { cryptoInfo: result };
@@ -58,7 +90,6 @@ const resolvers = {
 
             return { token, user };
         },
-
         login: async (parent, { username, password }) => {
             const user = await User.findOne({ username });
 
@@ -76,9 +107,10 @@ const resolvers = {
 
             return { token, user };
         },
-
         addPortfolio: async (parent, { name, usdBalance }, context) => {
+            // addPortfolio: async (parent, { name, usdBalance }) => {
             if (context.user) {
+                // try {
                 const portfolio = await Portfolio.create({
                     name,
                     usdBalance,
@@ -92,7 +124,6 @@ const resolvers = {
             }
             throw new AuthenticationError('You need to be logged in');
         },
-
         removePortfolio: async (parent, { portfolioId }, context) => {
             if (context.user) {
                 const portfolio = await Portfolio.findOneAndDelete({
@@ -108,7 +139,6 @@ const resolvers = {
             }
             throw new AuthenticationError('You need to be logged in');
         },
-
         updateBalance: async (parent, { name, deltaBalance }, context) => {
             //     console.log('hello');
             // // if (context.user) {
@@ -141,12 +171,94 @@ const resolvers = {
             // }
             // throw new AuthenticationError('You need to be logged in');
         },
+        // EXP
+        // buyCrypto: async (parent, { name, ticker, quantity, investment }, context) => {
+        //     if (context.user) {
+        //         let queryObject = Portfolio.findOne({ name: name }); // looking at the documentation it looks like a Query object is returned
+        //         // console.log(queryObject);
+        //         let promise = queryObject.exec(); // exec() looks to wrap the result of the query in a promise
+        //         let portfolioUpdate = await promise; // resolve the promise
+        //         //     console.log('hihihihihih');
+        //         // console.log('usdbalance', portfolioUpdate.usdBalance)
 
+        //         // if (parseFloat(investment) > portfolioUpdate.usdBalance) {
+        //         //     console.log('Overdraft prevented');
+        //         //     return;
+        //         // }
+
+        //         let newBalance = portfolioUpdate.usdBalance - parseFloat(investment);
+
+
+        //         await Portfolio.findOneAndUpdate(
+        //             { name: name },
+        //             { usdBalance: newBalance },
+        //             { upsert: true, new: true }
+        //         );
+
+        //         return await Portfolio.findOneAndUpdate(
+        //             { name: name },
+        //             {
+        //                 $addToSet: {
+        //                     cryptos: { ticker, quantity, investment },
+        //                 }
+        //             },
+        //             { upsert: true, new: true }
+        //         );
+
+        //     }
+        //     throw new AuthenticationError('You need to be logged in');
+        // },
+        // sellCrypto: async (parent, { name, ticker, quantity, investment }, context) => {
+        //     if (context.user) {
+        //         let queryObject = Portfolio.findOne({ name: name }); // looking at the documentation it looks like a Query object is returned
+        //         // console.log(queryObject);
+        //         let promise = queryObject.exec(); // exec() looks to wrap the result of the query in a promise
+        //         let portfolioUpdate = await promise; // resolve the promise
+
+        //         // console.log('cryptoquantity', portfolioUpdate.cryptos.quantity)
+
+        //         // ====== Change?
+        //         if (parseFloat(investment) < portfolioUpdate.usdBalance) {
+        //             console.log('Overdraft prevented');
+        //             return;
+        //         }
+        //         // =======
+
+        //         let newBalance = portfolioUpdate.usdBalance + parseFloat(investment);
+
+
+        //         await Portfolio.findOneAndUpdate(
+        //             { name: name },
+        //             { usdBalance: newBalance },
+        //             { upsert: true, new: true }
+        //         );
+
+        //         return await Portfolio.findOneAndUpdate(
+        //             { name: name },
+        //             {
+        //                 $addToSet: {
+        //                     cryptos: { ticker, quantity },
+        //                 }
+        //             },
+        //             { upsert: true, new: true }
+        //         );
+        //     }
+        //     throw new AuthenticationError('You need to be logged in');
+        // },
+
+
+        // last stable
         buyCrypto: async (parent, { name, ticker, quantity, investment }, context) => {
             if (context.user) {
                 const portfolioUpdate = await Portfolio.findOne(
                     { name: name },
                 );
+                // console.log('usdbalance', portfolioUpdate.usdBalance)
+
+                // if (parseFloat(investment) > portfolioUpdate.usdBalance) {
+                //     console.log('Overdraft prevented');
+                //     return;
+                // }
 
                 const newBalance = portfolioUpdate.usdBalance - parseFloat(investment);
 
@@ -168,7 +280,6 @@ const resolvers = {
             }
             throw new AuthenticationError('You need to be logged in');
         },
-
         sellCrypto: async (parent, { name, ticker, quantity, investment }, context) => {
             if (context.user) {
                 const portfolioUpdate = await Portfolio.findOne(
