@@ -22,8 +22,12 @@ import Link from '@mui/material/Link';
 // import { useMutation } from '@apollo/client';
 // import { ADD_PORTFOLIO } from '../utils/mutations';
 
+
+// NOTE!!: mainListItems is for the Dashboard side link, secondaryListItems is for the Portfolio side link.
+
 export const mainListItems = (
     <div>
+        {/* dashboard button  */}
         <Link href="/" className="sideLinks">
             <ListItem button>
                 <ListItemIcon>
@@ -32,6 +36,7 @@ export const mainListItems = (
                 <ListItemText primary="Dashboard" />
             </ListItem>
         </Link>
+        {/* leaderboard button  */}
         <ListItem button>
             <ListItemIcon>
                 <BarChartIcon />
@@ -42,7 +47,7 @@ export const mainListItems = (
 );
 
 // map portfolios here
-export function SecondaryListItems() {
+export function secondaryListItems() {
     // const [open, setOpen] = useState(false)
     // const [formState, setFormState] = useState({ name: '' });
 
@@ -85,6 +90,7 @@ export function SecondaryListItems() {
     return (
         <div>
             <ListSubheader inset>Portfolios</ListSubheader>
+            {/* portfolio button  */}
             <Link href="/portfolio" className="sideLinks">
                 <ListItem button onClick={handleClickOpen}>
                     <ListItemIcon>

@@ -5,7 +5,6 @@ const baseUrl = 'https://api.cryptowat.ch/';
 const apiKey1 = `?apikey=${process.env.API_KEY1}`; // API credit allowance of 10 per day
 
 
-
 //Get all tickers using getAllMarkets and filtering the data response
 async function getAllMarkets() { // API credit cost .003
     const query = `${baseUrl}markets${apiKey1}`;
@@ -57,7 +56,6 @@ async function getAllMarketPrices() { // API credit cost 0.005
 
 //GET SINGLE OHLC CANDLESTICKS FOR
 async function getOHLCcandlesticks(exchange, ticker, one, six) { // API credit cost 0.015
-    // const pair = ticker + 'usd';
     const pair = `${ticker}usd`;
     const query = `${baseUrl}markets/${exchange}/${pair}/ohlc${apiKey1}`;
 
@@ -197,7 +195,6 @@ async function unixPrice(pair) {
 }
 
 async function calculateCryptoHistorical(ticker, dummy) {
-    // const pair = ticker + 'usd';
     const pair = `${ticker}usd`;
     const historicalArray = await unixPrice(pair);
     var copy = [...dummy];
