@@ -19,6 +19,7 @@
   - [License](#license)
   - [Questions](#questions)
   
+## UPDATE: Since creating this project, the Coinbase API has been rate limited, preventing the application from updating it's data as intended.
 
 ## Description
 <img src="./client/src/images/cryptocraft.jpg" align="right"
