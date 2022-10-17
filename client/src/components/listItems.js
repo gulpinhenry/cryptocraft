@@ -37,12 +37,12 @@ export const mainListItems = (
             </ListItem>
         </Link>
         {/* leaderboard button  */}
-        <ListItem button>
+        {/* <ListItem button>
             <ListItemIcon>
                 <BarChartIcon />
             </ListItemIcon>
             <ListItemText primary="Leaderboard" />
-        </ListItem>
+        </ListItem> */}
     </div>
 );
 

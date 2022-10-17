@@ -27,7 +27,7 @@ import Auth from '../utils/auth';
 import { CryptoProvider } from '../contexts/CryptoContext';
 import { useUserContext } from '../contexts/UserContext';
 
-import { mainListItems, secondaryListItems } from '../components/ListItems';
+import { mainListItems, secondaryListItems } from '../components/listItems';
 import CryptoGrid from '../components/CryptoGrid';
 import Graph from '../components/Graph';
 import InfoTab from '../components/InfoTab';

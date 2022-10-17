@@ -27,7 +27,7 @@ import { GET_ME } from '../graphql/queries';
 import { CryptoProvider } from '../contexts/CryptoContext';
 import { useUserContext } from '../contexts/UserContext';
 
-import { mainListItems, secondaryListItems } from '../components/ListItems';
+import { mainListItems, secondaryListItems } from '../components/listItems';
 import Graph from '../components/Graph';
 import InfoTab from '../components/InfoTab';
 import PortfolioTabs from '../components/PortfolioTabs';

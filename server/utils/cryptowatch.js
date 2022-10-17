@@ -22,6 +22,7 @@ async function getAllMarkets() { // API credit cost .003
             ticker_arr.push(ticker);
         }
     }
+    // console.log(ticker_arr);
     return ticker_arr;
 }
 
@@ -126,6 +127,7 @@ async function getNameandTicker() {
         const new_object = (({ name, symbol }) => ({ name, symbol }))(object);
         final_arr.push(new_object);
     }
+    // console.log(final_arr);
     return final_arr;
 }
 
@@ -134,13 +136,20 @@ async function getNameandTicker() {
 async function cryptoInfo() {
     var object = await getNameandTicker();
     var array = await getAllMarketPrices();
+    // var fin = [];
 
-    // console.log(array);
 
-    for (let i = 0; i < array.length; i++) {
+    for (let i = 0; i < 150; i++) {
+        // console.log(array);
         array[i].unshift(object[i].name);
+        // var temp = [];
+        // temp.push(object[i].name);
+        // temp = temp.concat(array[i]);
+        // fin.push(temp);
+        // console.log("hello");
+        // return array;
     }
-    // console.log(array);
+    // console.log("imhere");
     return array;
 }
 

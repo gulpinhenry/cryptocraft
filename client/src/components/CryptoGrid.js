@@ -113,27 +113,33 @@ export default function CryptoGrid({ gridType }) { // prop validation??? Default
     } else {
         const temp = [];
 
-        if (gridType === 'all') {
-            for (let i = 0; i < getCryptoInfo_data.cryptoData.cryptoInfo.length; i++) {
-                temp[i] = getCryptoInfo_data.cryptoData.cryptoInfo[i].slice();
-            }
-            temp.forEach((element) => {
-                element.push(getButton(element[1]));
-            });
-        } else {
-            for (let i = 0; i < getCryptoInfo_data.cryptoData.cryptoInfo.length; i++) {
-                if (map.has(getCryptoInfo_data.cryptoData.cryptoInfo[i][1])) {
+        if (gridType === "all") {
+            if (getCryptoInfo_data) {
+                for (let i = 0; i < getCryptoInfo_data.cryptoData.cryptoInfo.length; i++) {
                     temp[i] = getCryptoInfo_data.cryptoData.cryptoInfo[i].slice();
                 }
+                temp.forEach(element => {
+                    element.push(getButton(element[1]));
+                });
             }
-            temp.forEach((element) => {
-                // quantity
-                element.push(map.get(element[1]));
-                // investment
-                const total = map.get(element[1]) * element[2];
-                element.push(total.toFixed(2));
-                element.push(getButton(element[1]));
-            });
+            
+        }
+        else {
+            if (getCryptoInfo_data) {
+                for (let i = 0; i < getCryptoInfo_data.cryptoData.cryptoInfo.length; i++) {
+                    if (map.has(getCryptoInfo_data.cryptoData.cryptoInfo[i][1])) {
+                        temp[i] = getCryptoInfo_data.cryptoData.cryptoInfo[i].slice();
+                    }
+                }
+                temp.forEach(element => {
+                    // quantity
+                    element.push(map.get(element[1]));
+                    // investment
+                    const total = map.get(element[1]) * element[2];
+                    element.push(total.toFixed(2));
+                    element.push(getButton(element[1]));
+                });
+            }
         }
         rows = temp;
     }
