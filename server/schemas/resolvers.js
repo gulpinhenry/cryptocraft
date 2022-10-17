@@ -31,7 +31,7 @@ const resolvers = {
 
         cryptoData: async (parent, args, context) => {
             const arr = await cryptowatch.cryptoInfo();
-            console.log("hihihih")
+            // console.log("hihihih")
             console.log(arr);
             return { cryptoInfo: arr };
         },

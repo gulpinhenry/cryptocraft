@@ -4,6 +4,7 @@ require('dotenv').config();
 const baseUrl = 'https://api.cryptowat.ch/';
 const apiKey1 = `?apikey=${process.env.API_KEY1}`; // API credit allowance of 10 per day
 
+const coinmap = new Map();
 
 //Get all tickers using getAllMarkets and filtering the data response
 async function getAllMarkets() { // API credit cost .003
@@ -124,9 +125,11 @@ async function getNameandTicker() {
 
     for (let i = 0; i < result.length; i++) {
         const object = result[i];
+        coinmap.set(object.symbol.toUpperCase(), object.name);
         const new_object = (({ name, symbol }) => ({ name, symbol }))(object);
         final_arr.push(new_object);
     }
+    console.log(coinmap);
     // console.log(final_arr);
     return final_arr;
 }
@@ -136,20 +139,15 @@ async function getNameandTicker() {
 async function cryptoInfo() {
     var object = await getNameandTicker();
     var array = await getAllMarketPrices();
-    // var fin = [];
 
 
-    for (let i = 0; i < 150; i++) {
-        // console.log(array);
-        array[i].unshift(object[i].name);
-        // var temp = [];
-        // temp.push(object[i].name);
-        // temp = temp.concat(array[i]);
-        // fin.push(temp);
-        // console.log("hello");
-        // return array;
+    for (let i = 0; i < array.length; i++) {
+        
+        if (coinmap.has(array[i][0]))
+            array[i].unshift(coinmap.get(array[i][0]));
+        else
+            array[i].unshift("n/a");
     }
-    // console.log("imhere");
     return array;
 }
 
