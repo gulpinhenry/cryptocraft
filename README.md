@@ -1,4 +1,5 @@
 # Cryptocraft
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
@@ -18,34 +19,34 @@
   - [Authors](#authors)
   - [License](#license)
   - [Questions](#questions)
-  
-## UPDATE: Since creating this project, the Coinbase API has been rate limited, preventing the application from updating it's data as intended.
+
 
 ## Description
-<img src="./client/src/images/cryptocraft.jpg" align="right"
-     alt="Cryptocraft cover photo" height="178">
-     
+
+`<img src="./client/src/images/cryptocraft.jpg" align="right"
+     alt="Cryptocraft cover photo" height="178">`
+
 ### “Risk Free Cryptoverse Exploration”
 
 Cryptocraft is an cryptocurrency trading simulator designed to allow users to explore and experiment with crypto. In this MERN stack application, users can practice crypto-trading with virtual money, and gain insight on how the crypto-market works without losing real money. You can either trade by yourself, or enter a small competition with other users for the largest returns.
 
 #### Inspiration
+
 In high school there was a national competition for this club called DECA, which was the stock market game. Every team had 100k in virtual money to put into the market, and the team with the highest return value would win.
 
 #### Solution
+
 With crypto being an emerging market, we want users to obtain more knowledge of the trends in the market, only without the financial risk. Just like the video game Minecraft, our project is motivated by the creativity of the user, combined with practicality and logic in order to survive mobs and in this case, the fluctuations in the market.
 
-
-
-
 **[Click this link to go to Cryptocraft!](https://crypto-craft.herokuapp.com/)**
- <br />
-
+ `<br />`
 
 ## Features
 
 **Displaying Coin Data**
+
 * Queries data using GraphQL from database and fetches information from Crypto Watch API to render data. Graph is rendered with Chart.js, and context is used to pass around the current ticker.
+
 <p align="center">
   <a href="https://crypto-craft.herokuapp.com/">
     <img src="./client/src/images/graphdemo.PNG"
@@ -55,8 +56,10 @@ With crypto being an emerging market, we want users to obtain more knowledge of 
  <br />
 
 **Buy and Sell Coins**
+
 * Users can browse different prices and statistics of cryptos listed on the Crypto Watch API
-and choose to trade the currency. A dialog rendered by React State appears and allows the user to give further details on their transaction.
+  and choose to trade the currency. A dialog rendered by React State appears and allows the user to give further details on their transaction.
+
 <p align="center">
   <a href="https://crypto-craft.herokuapp.com/">
     <img src="./client/src/images/buysell.gif"
@@ -65,9 +68,8 @@ and choose to trade the currency. A dialog rendered by React State appears and a
 </p>
  <br />
 
-
-
 ## Prerequisites
+
 Any modern internet browser will do!
 
 ## Built With
@@ -97,7 +99,6 @@ Any modern internet browser will do!
 * [Node.js](https://nodejs.org/en/)
 * [React](https://reactjs.org/)
 
-
 ## Technologies Used
 
 * [Microsoft Visual Studio Code](https://code.visualstudio.com/)
@@ -115,7 +116,9 @@ Any modern internet browser will do!
 ## Important Code Snippets
 
 **Example Resolver from GraphQL**
+
 * Implementation of querying data of the current user. First checks the context for authentication purposes using JWT. If the token is valid. The parameters of that user, including their portfolios are returned. If not, the query throws and authentication error.
+
 ```
 Query: {
         me: async (parent, args, context) => {
@@ -125,10 +128,12 @@ Query: {
             throw new AuthenticationError('You need to be logged in!');
         },
 }
-``` 
+```
+
 <br />
 
 **Using React Context**
+
 * The cryptoContext is passed through the dashboard, portfolio, and its components. It's used to prevent prop drilling into the many components within the dashboards, as it keeps track of the current crypto being queried in order to display data in all of these components. The state is updated by an onClick function when the user clicks a different crpyto in the table of available cryptos.
 
 ```
@@ -151,7 +156,8 @@ export const CryptoProvider = ({ children }) => {
     </CryptoContext.Provider>
   );
 };
-``` 
+```
+
 <br />
 
 ## Deployed Link
@@ -160,41 +166,45 @@ export const CryptoProvider = ({ children }) => {
 
 ## Authors
 
-**Alexander Gibson** 
+**Alexander Gibson**
 
-- [Link to Alex's Github](https://github.com/argibson02)
-- [Link to Alex's LinkedIn](www.linkedin.com/in/alexander-gibson-1b0bb6105)
+- [Link to Alex&#39;s Github](https://github.com/argibson02)
+- [Link to Alex&#39;s LinkedIn](www.linkedin.com/in/alexander-gibson-1b0bb6105)
 
 **Daniel Vo**
 
-- [Link to Daniel's Github](https://github.com/danielvo1)
-- [Link to Daniel's LinkedIn](https://www.linkedin.com/in/daniel-vo-57b00521b/)
+- [Link to Daniel&#39;s Github](https://github.com/danielvo1)
+- [Link to Daniel&#39;s LinkedIn](https://www.linkedin.com/in/daniel-vo-57b00521b/)
 
 **Gabriel Lantin**
 
-- [Link to Gabriel's Github](https://github.com/mushymane)
-- [Link to Gabriel's LinkedIn](https://www.linkedin.com/in/luigilantin/)
+- [Link to Gabriel&#39;s Github](https://github.com/mushymane)
+- [Link to Gabriel&#39;s LinkedIn](https://www.linkedin.com/in/luigilantin/)
 
 **Henry Kam**
 
-- [Link to Henry's Github](https://github.com/gulpinhenry)
-- [Link to Henry's LinkedIn](https://www.linkedin.com/in/kamhenry/)
-
+- [Link to Henry&#39;s Github](https://github.com/gulpinhenry)
+- [Link to Henry&#39;s LinkedIn](https://www.linkedin.com/in/kamhenry/)
 
 ## License
 
 This application is covered under the MIT license.
 
 ## Known Issues
+
+This week-long project was created with Agile Methodologies, utilizing a Jira-esque board, while conducting sprints and holding standups. Given the short time frame of the project, we recognize that this project remains largely unfinished, and the code still needs improvement.
+
 - Leaderboard is not yet implemented into deployed app
+- Improve code readability
 - User can only create one portfolio
 
 ## Questions
 
 For any questions, please reach out by creating an issue.
-<br />
-<br />
-<br />
+`<br />`
+`<br />`
+`<br />`
+
 <p align="center">
   <a href="https://crypto-craft.herokuapp.com/">
     <img src="./client/src/images/btc.gif"
