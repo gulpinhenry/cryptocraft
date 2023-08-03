@@ -64,19 +64,19 @@ db.then(() => {
 //   }
 // ]
 
-getAllMarketPrices();
-// coinbaseCurrentPrice();
-getAllMarkets();
-// getSingleMarketPrice("coinbase-pro", "btcusd");
-// getSingleMarketPrice("binance", "btcbusd");
 // getAllMarketPrices();
-// getMarketDetails("binance", "btcbusd");
-// getAll24HourSummary();
-// getSingle24HourSummary();
-// getOHLCcandlesticks("binance", "btcbusd", [], []);
-// getCandlesData('btcusd');
-getNameandTicker();
-cryptoInfo();
+// // coinbaseCurrentPrice();
+// getAllMarkets();
+// // getSingleMarketPrice("coinbase-pro", "btcusd");
+// // getSingleMarketPrice("binance", "btcbusd");
+// // getAllMarketPrices();
+// // getMarketDetails("binance", "btcbusd");
+// // getAll24HourSummary();
+// // getSingle24HourSummary();
+// // getOHLCcandlesticks("binance", "btcbusd", [], []);
+// // getCandlesData('btcusd');
+// getNameandTicker();
+// cryptoInfo();
 // cryptoDetails('btc');
 // unixPrice( 'btcusd');
 // calculateCryptoHistorical('btc', dummy);
