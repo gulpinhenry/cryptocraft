@@ -6,7 +6,7 @@ const db = require('./config/connection');
 const { typeDefs, resolvers } = require('./schemas');
 const { authMiddleware } = require('./utils/auth');
 
-// const { calculateCryptoHistorical, unixPrice, cryptoDetails, getNameandTicker, getCandlesData, getAllMarketPrices, coinbaseCurrentPrice, getSingleMarketPrice, getAllMarkets, getMarketDetails, getSingle24HourSummary, getOHLCcandlesticks, cryptoInfo } = require('./utils/cryptowatch');
+const { calculateCryptoHistorical, unixPrice, cryptoDetails, getNameandTicker, getCandlesData, getAllMarketPrices, getAllMarkets, cryptoInfo } = require('./utils/cryptowatch');
 
 
 const app = express();
@@ -64,9 +64,9 @@ db.then(() => {
 //   }
 // ]
 
-// getAllMarketPrices();
+getAllMarketPrices();
 // coinbaseCurrentPrice();
-// getAllMarkets();
+getAllMarkets();
 // getSingleMarketPrice("coinbase-pro", "btcusd");
 // getSingleMarketPrice("binance", "btcbusd");
 // getAllMarketPrices();
@@ -75,8 +75,8 @@ db.then(() => {
 // getSingle24HourSummary();
 // getOHLCcandlesticks("binance", "btcbusd", [], []);
 // getCandlesData('btcusd');
-// getNameandTicker();
-// cryptoInfo();
+getNameandTicker();
+cryptoInfo();
 // cryptoDetails('btc');
 // unixPrice( 'btcusd');
 // calculateCryptoHistorical('btc', dummy);

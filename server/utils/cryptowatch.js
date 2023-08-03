@@ -4,6 +4,7 @@ require('dotenv').config();
 const baseUrl = 'https://api.cryptowat.ch/';
 const apiKey1 = `?apikey=${process.env.API_KEY1}`; // API credit allowance of 10 per day
 
+
 const coinmap = new Map();
 
 //Get all tickers using getAllMarkets and filtering the data response
@@ -31,7 +32,8 @@ async function getAllMarkets() { // API credit cost .003
 // Returns a list of tickers, with the associate values using
 // market prices api call
 async function getAllMarketPrices() { // API credit cost 0.005
-    const query = `${baseUrl}markets/prices${apiKey1}`;
+    // const query = `${baseUrl}markets/prices${apiKey1}`;
+    const query = `${baseUrl}markets/prices`;
 
     const response = await axios.get(query);
 
@@ -48,9 +50,7 @@ async function getAllMarketPrices() { // API credit cost 0.005
     const entries = Object.entries(marketPrices);
     var final = [];
     for (let i = 0; i < entries.length; i++) {
-        if (entries[i][0].slice(-3) === 'usd') {
-            final.push([entries[i][0].slice(0, -3).substring(20).toUpperCase(), entries[i][1]]);
-        }
+        final.push([entries[i][0].substring(20).toUpperCase(), entries[i][1]]);
     }
     return final;
 }
